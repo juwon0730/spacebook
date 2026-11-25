@@ -507,6 +507,29 @@ button.calit:hover,button.calit:focus-visible{background:rgba(255,255,255,.05)}
 .thcard canvas{width:100%;height:auto;border-radius:10px;display:block;margin-bottom:4px}
 .thcard.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
 .thn{font-weight:700;font-size:14px}.thck{font-size:11px;font-weight:500;color:var(--gold);margin-left:4px}
+#spaceCardSub{word-break:keep-all;text-wrap:balance}
+.islide p{word-break:keep-all}
+@media (max-width:640px){
+  #spaceCardSub{font-size:13px;max-width:calc(100% - 96px)}
+  #home .between.sec{flex-wrap:nowrap!important;gap:8px}
+  #home .between.sec h2{font-size:17px;white-space:nowrap;flex:none}
+  #home .between.sec>.row{gap:6px!important;flex-wrap:nowrap}
+  #home .between.sec .ibtn{width:36px;min-width:36px;height:36px;min-height:36px}
+  #home .between.sec .ibtn svg{width:16px;height:16px}
+  #addBook{height:36px!important;min-height:36px!important;padding:0 12px!important;font-size:13px;white-space:nowrap}
+  #addBook svg{width:14px;height:14px}
+  .ivp{min-height:0;justify-content:flex-start;padding-top:12px}
+  .iart svg{max-width:280px}
+  .islide{gap:10px}
+  .islide p{font-size:15px;line-height:1.65}
+  .inav{margin-top:28px}
+}
+@media (max-width:360px){#home .between.sec .ibtn{width:32px;min-width:32px;height:32px;min-height:32px}#addBook{padding:0 10px!important}}
+.setsec .li{gap:12px}
+.setsec .li>span:first-child{white-space:nowrap;flex:none}
+.setsec .li>span.muted{text-align:right;word-break:keep-all;min-width:0}
+@media (max-width:640px){.setsec .li>span.muted{font-size:12px}}
+.setfoot #resetBtn{margin-left:auto;white-space:nowrap}
 </style>
 </head>
 <body>
@@ -702,7 +725,7 @@ button.calit:hover,button.calit:focus-visible{background:rgba(255,255,255,.05)}
       <button type="button" class="li" id="backupBtn"><span>전체 백업</span><span class="muted small">모든 책과 노트를 파일로 받기</span></button>
       <button type="button" class="li" id="restoreBtn"><span>백업 업로드</span><span class="muted small">백업 파일로 되살리기</span></button><input type="file" id="restoreFile" accept="application/json,.json" hidden>
       <button type="button" class="li" id="trashBtn"><span>휴지통</span><span class="muted small">삭제한 책 되살리기</span></button>
-      <button type="button" class="li" id="wipeBtn" hidden><span style="color:#E8746A">내 계정의 기록 모두 삭제</span><span class="muted small">클라우드와 이 기기에서 지워요</span></button>
+      <button type="button" class="li" id="wipeBtn" hidden><span style="color:#E8746A">내 기록 모두 삭제</span><span class="muted small">클라우드·기기에서 삭제</span></button>
     </div></div>
     <div class="setsec"><h3>사용법</h3><div class="list">
       <button type="button" class="li" id="helpBtn"><span>처음 화면으로 돌아가기</span><span class="muted small">안내 다시 보기</span></button>
@@ -742,7 +765,8 @@ function packed(){const st=JSON.parse(JSON.stringify(S));delete st._loadedAt;st.
 function localSave(){try{localStorage.setItem(LK,JSON.stringify(packed()))}catch(e){}}
 let saveT=null;
 function save(){
-  if(mode==='db'&&DB){clearTimeout(saveT);saveT=setTimeout(async()=>{try{const ts=Date.now();S._loadedAt=ts;await DB.doc(dbBase+'/main4').set({state:packed(),updatedAt:ts});$('saveState').textContent=FB_USER?'구글 계정에 저장됨 · 기기끼리 연동돼요':'내 계정에 저장됨';}catch(e){$('saveState').textContent=e&&e.code==='quota_exceeded'?'저장 공간이 가득 찼어요':'저장하지 못했어요. 이 기기에 남겨둘게요';localSave();}},400);}
+  if(PREVIEW)return;
+  if(mode==='db'&&DB){clearTimeout(saveT);saveT=setTimeout(async()=>{if(PREVIEW)return;try{const ts=Date.now();S._loadedAt=ts;await DB.doc(dbBase+'/main4').set({state:packed(),updatedAt:ts});$('saveState').textContent=FB_USER?'구글 계정에 저장됨 · 기기끼리 연동돼요':'내 계정에 저장됨';}catch(e){$('saveState').textContent=e&&e.code==='quota_exceeded'?'저장 공간이 가득 찼어요':'저장하지 못했어요. 이 기기에 남겨둘게요';localSave();}},400);}
   else{localSave();$('saveState').textContent='이 브라우저에 저장됨';}
 }
 const bsT={};
@@ -753,7 +777,7 @@ async function writeBoard(bid){
   try{localStorage.setItem('rb4-'+bid,JSON.stringify(b));if(bid===BID)setBStatus(mode==='db'?'이 기기에만 저장됨':'저장됨');}catch(e){if(bid===BID)setBStatus('저장하지 못했어요');}
 }
 function storeBoard(bid,now){
-  if(!BOARDS[bid])return;clearTimeout(bsT[bid]);if(bid===BID)setBStatus('저장 중…');
+  if(PREVIEW||!BOARDS[bid])return;clearTimeout(bsT[bid]);if(bid===BID)setBStatus('저장 중…');
   if(now){delete bsT[bid];writeBoard(bid);return;}
   bsT[bid]=setTimeout(()=>{delete bsT[bid];writeBoard(bid);},350);
 }
@@ -767,7 +791,7 @@ async function loadBoard(bid){
 }
 function dropBoard(bid){delete BOARDS[bid];try{localStorage.removeItem('rb4-'+bid);}catch(e){}if(mode==='db'&&DB)DB.doc(dbBase+'/b_'+bid).delete().catch(()=>{});}
 /* ---------- 버전 · 업데이트 알림 ---------- */
-const APP_VERSION='1.1',APP_DATE='2026.11.25';
+const APP_VERSION='1.2',APP_DATE='2026.11.25';
 let upLater=0,upChecked=0;
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
 async function checkUpdate(manual){
@@ -1091,7 +1115,10 @@ $('svg2d').addEventListener('keydown',e=>{const g=e.target.closest&&e.target.clo
 let T=null,view='3d',raf=0;
 const PV='attribute float size;attribute float phase;attribute float alpha;attribute vec3 tint;uniform float time;uniform float pr;uniform float tw;varying float vA;varying vec3 vC;void main(){vec4 mv=modelViewMatrix*vec4(position,1.0);gl_PointSize=size*pr*(240.0/-mv.z);gl_Position=projectionMatrix*mv;vA=alpha*(1.0-tw*0.5+tw*0.5*sin(time*1.3+phase));vC=tint;}';
 const PF='varying float vA;varying vec3 vC;void main(){float d=length(gl_PointCoord-0.5);float a=smoothstep(0.5,0.0,d);a=a*a;gl_FragColor=vec4(vC,a*vA);}';
-function softTex(stops){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),gr=g.createRadialGradient(64,64,0,64,64,64);stops.forEach(s=>gr.addColorStop(s[0],s[1]));g.fillStyle=gr;g.fillRect(0,0,128,128);return new THREE.CanvasTexture(c);}
+function parseCol(c){let m=String(c).match(/rgba?\(([^)]+)\)/);if(m){const v=m[1].split(',').map(Number);return [v[0],v[1],v[2],v.length>3?v[3]:1];}c=String(c).replace('#','');return [parseInt(c.slice(0,2),16),parseInt(c.slice(2,4),16),parseInt(c.slice(4,6),16),1];}
+function pixTex(size,fn){const c=document.createElement('canvas');c.width=c.height=size;const g=c.getContext('2d'),im=g.createImageData(size,size),d=im.data;for(let y=0;y<size;y++)for(let x=0;x<size;x++){const v=fn(x+.5,y+.5),k=(y*size+x)*4;d[k]=v[0];d[k+1]=v[1];d[k+2]=v[2];d[k+3]=Math.round(v[3]*255);}g.putImageData(im,0,0);return c;}
+function stopAt(st,t){t=Math.max(0,Math.min(1,t));for(let i=1;i<st.length;i++){if(t<=st[i][0]){const a=st[i-1],b=st[i],u=(t-a[0])/((b[0]-a[0])||1);return [0,1,2,3].map(j=>a[1][j]+(b[1][j]-a[1][j])*u);}}return st[st.length-1][1];}
+function softTex(stops){const st=stops.map(s=>[s[0],parseCol(s[1])]);return new THREE.CanvasTexture(pixTex(128,(x,y)=>stopAt(st,Math.hypot(x-64,y-64)/64)));}
 function pointsObj(list,tw){
   const n=list.length,pos=new Float32Array(n*3),size=new Float32Array(n),ph=new Float32Array(n),al=new Float32Array(n),tint=new Float32Array(n*3);
   list.forEach((p,i)=>{pos.set(p.p,i*3);size[i]=p.size;ph[i]=p.phase;al[i]=p.alpha;tint.set(p.c,i*3);});
@@ -1156,7 +1183,7 @@ function init3D(){
     return new THREE.CanvasTexture(c);})();
   const halo=softTex([[0,'rgba(255,255,255,0.35)'],[0.5,'rgba(255,255,255,0.08)'],[1,'rgba(255,255,255,0)']]);
   const diamond=(()=>{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');g.shadowColor='rgba(242,213,138,0.9)';g.shadowBlur=14;const lg=g.createLinearGradient(0,14,0,114);lg.addColorStop(0,'#FFF4CF');lg.addColorStop(1,'#E2B450');g.fillStyle=lg;g.beginPath();g.moveTo(64,14);g.lineTo(100,64);g.lineTo(64,114);g.lineTo(28,64);g.closePath();g.fill();g.shadowBlur=0;g.strokeStyle='rgba(255,255,255,0.85)';g.lineWidth=2.5;g.stroke();g.strokeStyle='rgba(255,255,255,0.35)';g.lineWidth=1.5;g.beginPath();g.moveTo(28,64);g.lineTo(100,64);g.moveTo(64,14);g.lineTo(64,114);g.stroke();return new THREE.CanvasTexture(c);})();
-  const starTex=(()=>{const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');const gr=g.createRadialGradient(64,64,0,64,64,64);gr.addColorStop(0,'rgba(255,248,230,0.35)');gr.addColorStop(1,'rgba(255,248,230,0)');g.fillStyle=gr;g.fillRect(0,0,128,128);
+  const starTex=(()=>{const c=pixTex(128,(x,y)=>{const t=Math.min(1,Math.hypot(x-64,y-64)/64);return [255,248,230,0.35*(1-t)];});const g=c.getContext('2d');
     g.beginPath();for(let q=0;q<10;q++){const a=-Math.PI/2+q*Math.PI/5,rr=q%2?17:42;const x=64+Math.cos(a)*rr,y=66+Math.sin(a)*rr;q?g.lineTo(x,y):g.moveTo(x,y);}g.closePath();
     g.shadowColor='rgba(255,240,205,0.9)';g.shadowBlur=10;const fg=g.createRadialGradient(64,64,0,64,64,42);fg.addColorStop(0,'#FFFFFF');fg.addColorStop(1,'#EBDDBA');g.fillStyle=fg;g.lineJoin='round';g.strokeStyle='#FFF6E0';g.lineWidth=3;g.fill();g.stroke();return new THREE.CanvasTexture(c);})();
   T={star:starTex,diamond,spike:spk,halo,renderer,scene,cam,grp,back,glow:softTex([[0,'rgba(255,255,255,1)'],[0.12,'rgba(255,255,255,0.8)'],[0.35,'rgba(255,255,255,0.18)'],[1,'rgba(255,255,255,0)']]),
@@ -1174,7 +1201,7 @@ function init3D(){
 function disposeGroup(g){while(g.children.length){const c=g.children.pop();if(c.geometry)c.geometry.dispose();if(c.material&&c.material!==T.coreMatB&&c.material!==T.coreMatW)c.material.dispose();}}
 function build3D(){
   if(!T)return;
-  if(!T.planetTex){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');const gr=g.createRadialGradient(46,42,4,64,64,62);gr.addColorStop(0,'#FFFFFF');gr.addColorStop(0.35,'#C8C8C8');gr.addColorStop(0.85,'#3A3A3A');gr.addColorStop(1,'rgba(20,20,20,0)');g.fillStyle=gr;g.beginPath();g.arc(64,64,62,0,Math.PI*2);g.fill();T.planetTex=new THREE.CanvasTexture(c);}
+  if(!T.planetTex){const st=[[0,[255,255,255,1]],[0.35,[200,200,200,1]],[0.85,[58,58,58,1]],[1,[20,20,20,1]]];T.planetTex=new THREE.CanvasTexture(pixTex(128,(x,y)=>{const r=Math.hypot(x-64,y-64);if(r>62)return [0,0,0,0];const v=stopAt(st,Math.hypot(x-46,y-42)/84);v[3]=r>60?(62-r)/2:1;return v;}));}
   const G=graph(),P=layout(G,3,POS3).map(p=>[p[0]*1.1,p[1]*1.1,p[2]*1.1]),grp=T.grp;
   T.sig=[];T.sigPts=null;disposeGroup(grp);const lab=$('labels3d');lab.innerHTML='';T.nodes=[];T.lines=[];T.sel=null;$('hint').style.visibility='visible';
   const idx={};G.nodes.forEach((n,i)=>idx[n.id]=i);
@@ -1455,7 +1482,7 @@ function showSlide(i){ISL=Math.max(0,Math.min(3,i));document.querySelectorAll('#
   document.querySelectorAll('#iDots button').forEach((d,k)=>{d.classList.toggle('on',k===ISL);d.setAttribute('aria-current',k===ISL?'step':'false');});
   $('introCount').textContent=(ISL+1)+' / 4';$('iPrev').style.visibility=ISL?'visible':'hidden';$('iNext').style.visibility=ISL<3?'visible':'hidden';$('introSkip').style.visibility=ISL<3?'visible':'hidden';
   if(ISL===3)setTimeout(()=>{if(!$('intro').hidden&&!S.ux.name)$('introName').focus();},250);}
-function openIntro(){$('introName').value=S.ux.name||'';$('introErr').hidden=true;$('introStart').textContent='시작하기';$('introSample').hidden=!!(S.ux.onboarded&&S.books.length&&!S.sample);go('intro',null,true);showSlide(0);}
+function openIntro(){$('introName').value=S.ux.name||'';$('introErr').hidden=true;$('introStart').textContent='시작하기';$('introSample').hidden=false;go('intro',null,true);showSlide(0);}
 $('iPrev').onclick=()=>showSlide(ISL-1);$('iNext').onclick=()=>showSlide(ISL+1);
 document.querySelectorAll('#iDots button').forEach((d,k)=>d.onclick=()=>showSlide(k));
 $('introSkip').onclick=()=>showSlide(3);
@@ -1470,7 +1497,10 @@ $('introStart').onclick=()=>{
   if(S.sample||!S.planets.length){if(S.sample)startMine();save();PS_FROM='intro';go('psetup',null,true);return;}
   save();go('home',null,true);if(first)toast('<b>'+esc(n)+'님, 반가워요.</b> 첫 책을 추가해보세요.');
 };
-$('introSample').onclick=()=>{const n=norm($('introName').value).slice(0,12);if(n)S.ux.name=n;S.ux.onboarded=true;loadSample();save();go('home',null,true);toast('예시 책장이에요. <b>책을 눌러 노트를 열어보세요.</b>');};
+$('introSample').onclick=()=>{const n=norm($('introName').value).slice(0,12);if(n)S.ux.name=n;S.ux.onboarded=true;startPreview();go('home',null,true);toast('예시 책장이에요. 둘러봐도 <b>내 기록은 그대로</b>예요.',4500);};
+let PREVIEW=null;
+function startPreview(){if(!PREVIEW){flushBoards();PREVIEW={S:JSON.parse(JSON.stringify(packed()))};}loadSample();}
+function exitPreview(){if(!PREVIEW)return;const keep=PREVIEW.S;PREVIEW=null;S=normalize(keep);Object.keys(BOARDS).forEach(k=>{if(!S.books.some(b=>b.id===k)&&!(S.trash||[]).some(t=>t.book.id===k))delete BOARDS[k];});BOARDS_READY=false;clearPos();sync();save();if(!S.planets.length){PS_FROM='home';go('psetup',null,true);}else go('home',null,true);}
 
 /* ---------- 책장 ---------- */
 const who=()=>S.ux.name||'나';
@@ -1478,9 +1508,9 @@ function renderHome(){
   document.title='스페이스 북';
   $('homeTitle').textContent=who()+'의 독서노트';
   const un=S.books.filter(b=>planetOf(b).id==='_none').length;
-  $('bannerBox').innerHTML=S.sample?'<div class="banner"><span>지금은 <b class="serif">예시 책장</b>을 보고 있어요</span><button type="button" class="link" id="mineBtn">내 책장 시작하기</button></div>':(un?'<div class="banner"><span>행성이 정해지지 않은 책이 <b>'+un+'권</b> 있어요</span><button type="button" class="link" id="assignBtn">행성 정하기</button></div>':'');
+  $('bannerBox').innerHTML=S.sample?'<div class="banner"><span>지금은 <b class="serif">예시 책장</b>을 보고 있어요</span><button type="button" class="link" id="mineBtn">'+(PREVIEW&&PREVIEW.S.books&&PREVIEW.S.books.length?'내 책장으로 돌아가기':'내 책장 시작하기')+'</button></div>':(un?'<div class="banner"><span>행성이 정해지지 않은 책이 <b>'+un+'권</b> 있어요</span><button type="button" class="link" id="assignBtn">행성 정하기</button></div>':'');
   if($('assignBtn'))$('assignBtn').onclick=openAssign;
-  if($('mineBtn'))$('mineBtn').onclick=()=>{startMine();save();PS_FROM='home';go('psetup',null,true);};
+  if($('mineBtn'))$('mineBtn').onclick=()=>{if(PREVIEW){exitPreview();return;}startMine();save();PS_FROM='home';go('psetup',null,true);};
   const born=Object.keys(S.born).length,kw=allWords().length;
   $('spaceCardTitle').textContent='스페이스 보기';
   $('spaceCardSub').textContent=kw?('별 '+kw+'개가 행성 '+planetsUsed().length+'개 사이에서 빛나고 있어요'):'노트에 ★ 키워드로 단어를 적으면 여기에 나타나요';
@@ -1553,7 +1583,7 @@ function drawAB(){$('abStatus').innerHTML=Object.entries(STATUS).map(([k,l])=>'<
 $('abStatus').addEventListener('click',e=>{const c=e.target.closest('[data-ab]');if(c){AB=c.dataset.ab;drawAB();}});
 function drawPick(){$('planetPick').innerHTML=S.planets.map(p=>'<button type="button" class="chip pchip'+(PICK===p.id?' on':'')+'" data-pick="'+p.id+'" aria-pressed="'+(PICK===p.id)+'" style="--pc:'+p.color+'"><i></i>'+esc(p.name)+'</button>').join('')+'<button type="button" class="chip dash'+(PICK==='new'?' on':'')+'" data-pick="new" aria-pressed="'+(PICK==='new')+'">+ 새 행성</button>';$('newPlanet').hidden=PICK!=='new';}
 $('planetPick').addEventListener('click',e=>{const c=e.target.closest('[data-pick]');if(!c)return;PICK=c.dataset.pick;drawPick();if(PICK==='new')$('newPlanet').focus();});
-function openAddBook(){if(S.sample){startMine();save();}if(!S.planets.length){PS_FROM='home';go('psetup',null,true);return;}$('abStep').hidden=S.books.length>0;AB='reading';drawAB();PICK=(S.ux.lastPlanet&&S.planets.some(p=>p.id===S.ux.lastPlanet))?S.ux.lastPlanet:(S.planets[0]?S.planets[0].id:'new');$('newPlanet').value='';drawPick();$('bookTitle').value='';$('bookAuthor').value='';$('bookErr').hidden=true;const ex=[...S.books].sort((a,b)=>(a.created||a.at)-(b.created||b.at));$('existBox').hidden=!ex.length;$('existList').innerHTML=ex.map(b=>'<button type="button" class="chip book" data-exist="'+b.id+'">'+esc(b.title)+'</button>').join('');go('addbook');setTimeout(()=>$('bookTitle').focus(),60);}
+function openAddBook(){if(S.sample){if(PREVIEW){exitPreview();if(!S.planets.length)return;}else{startMine();save();}}if(!S.planets.length){PS_FROM='home';go('psetup',null,true);return;}$('abStep').hidden=S.books.length>0;AB='reading';drawAB();PICK=(S.ux.lastPlanet&&S.planets.some(p=>p.id===S.ux.lastPlanet))?S.ux.lastPlanet:(S.planets[0]?S.planets[0].id:'new');$('newPlanet').value='';drawPick();$('bookTitle').value='';$('bookAuthor').value='';$('bookErr').hidden=true;const ex=[...S.books].sort((a,b)=>(a.created||a.at)-(b.created||b.at));$('existBox').hidden=!ex.length;$('existList').innerHTML=ex.map(b=>'<button type="button" class="chip book" data-exist="'+b.id+'">'+esc(b.title)+'</button>').join('');go('addbook');setTimeout(()=>$('bookTitle').focus(),60);}
 $('bookTitle').addEventListener('input',()=>$('bookErr').hidden=true);
 $('bookLater').onclick=()=>{go('home',null,true);toast('책은 언제든 책장의 <b>‘책 추가’</b>로 꽂을 수 있어요.',4000);};
 $('existList').addEventListener('click',e=>{const b=e.target.closest('[data-exist]');if(b){stack.pop();openBoard(b.dataset.exist);}});
@@ -2049,7 +2079,7 @@ async function restoreFrom(file){
     BOARDS_READY=false;clearPos();checkBirths();save();closeWS();go('home',null,true);toast('백업에서 책 '+S.books.length+'권을 되살렸어요.',4500);};
 }
 let lastSync=Date.now();
-document.addEventListener('visibilitychange',async()=>{if(document.visibilityState!=='visible'||mode!=='db'||!DB||Date.now()-lastSync<15000)return;lastSync=Date.now();
+document.addEventListener('visibilitychange',async()=>{if(PREVIEW||document.visibilityState!=='visible'||mode!=='db'||!DB||Date.now()-lastSync<15000)return;lastSync=Date.now();
   if(editId||Object.keys(bsT).length)return;
   try{const sn=await DB.doc(dbBase+'/main4').get();if(!sn.exists||!sn.data().state)return;const remote=sn.data().updatedAt||0;if(remote<=(S._loadedAt||0))return;
     S=normalize(JSON.parse(JSON.stringify(sn.data().state)));S._loadedAt=remote;Object.keys(BOARDS).forEach(k=>delete BOARDS[k]);BOARDS_READY=false;clearPos();sync();
