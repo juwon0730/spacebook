@@ -536,6 +536,37 @@ button.calit:hover,button.calit:focus-visible{background:rgba(255,255,255,.05)}
   #intro .inav{margin-bottom:auto}
   #intro .islide h1,#intro .islide p{text-align:center}
 }
+/* ---- 1.3 모바일 다듬기 ---- */
+.bemp{word-break:keep-all;text-wrap:balance}
+.tplrow{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:12px;pointer-events:auto}
+.tplbtns{display:flex;gap:6px;flex-wrap:nowrap;justify-content:center}
+.tplbtns .chip{white-space:nowrap}
+@media (max-width:360px){.tplbtns .chip{padding:0 10px;font-size:13px}}
+.dph{position:absolute;left:14px;bottom:13px;font-size:13px;color:var(--muted);opacity:.75;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(100% - 28px)}
+.dinp.dempty{color:transparent}.dinp.dempty:focus{color:var(--ink)}
+.colf{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important;padding:10px!important}
+.colsel .f{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.colf .dinp{min-height:40px;padding:6px 30px 6px 12px;font-size:14px;background-position:right 10px center}
+@media (max-width:640px){.colf{grid-template-columns:repeat(3,minmax(0,1fr))!important}.colf .dinp{font-size:13px!important;padding-left:10px}}
+.colmeta{word-break:keep-all;line-height:1.5}
+.colopen{flex:none;white-space:nowrap;font-size:12px;min-height:32px;padding:0 12px}
+.islide p{text-wrap:balance}
+#shelf .spine .ss{display:none}
+#shelf .spine .face{justify-content:center;gap:10px;padding-top:10px}
+#shelf .spine .face::before{top:12px}
+#shelf .spine .st{white-space:normal;max-height:calc(var(--h) - 46px);line-height:1.12;font-weight:700}
+#svg2d.lod .bl{display:none}
+.it.lnk.txt{outline:1px solid rgba(169,200,245,.5);outline-offset:4px;border-radius:6px}
+#shelf .spine .face{justify-content:space-between!important;padding:24px 0 8px!important;gap:0!important}
+#shelf .spine .st{max-height:calc(var(--h) - 84px)!important}
+@media (max-width:360px){
+  #home .between.sec{gap:6px}
+  #home .between.sec h2{font-size:16px}
+  #home .between.sec>.row{gap:4px!important}
+  #home .between.sec .ibtn{width:30px!important;min-width:30px!important;height:30px!important;min-height:30px!important}
+  #home .between.sec .ibtn svg{width:14px;height:14px}
+  #addBook{padding:0 8px!important;font-size:12px!important;height:30px!important;min-height:30px!important}
+}
 </style>
 </head>
 <body>
@@ -543,10 +574,10 @@ button.calit:hover,button.calit:focus-visible{background:rgba(255,255,255,.05)}
 <main class="wrap" id="intro" hidden>
   <div class="between"><span class="brand" style="margin:0">🪐 스페이스 북 <span class="muted small" id="introCount" style="margin-left:8px;letter-spacing:0">1 / 4</span></span><button type="button" class="link dim" id="introSkip">건너뛰기</button></div>
   <div class="ivp" id="ivp" aria-live="polite">
-    <section class="islide" data-i="0"><div class="iart"><svg viewBox="0 0 340 190" aria-hidden="true"><circle cx="30" cy="20" r="1.2" fill="#4A5675"/><circle cx="310" cy="26" r="1.4" fill="#4A5675"/><circle cx="290" cy="170" r="1" fill="#4A5675"/><circle cx="40" cy="160" r="1.3" fill="#4A5675"/><rect x="60" y="22" width="220" height="150" rx="10" fill="#141D31" stroke="#3B4766"/><text x="80" y="52" font-family="Gowun Batang, serif" font-size="15" font-weight="700" fill="#EDE6D3">능력은 자란다</text><path d="M78 60q30 -4 60 0t52 0" fill="none" stroke="#F2D58A" stroke-width="2.5" stroke-linecap="round"/><rect x="80" y="74" width="90" height="5" rx="2.5" fill="#3B4766"/><rect x="80" y="86" width="74" height="5" rx="2.5" fill="#3B4766"/><g transform="rotate(-4 220 95)"><rect x="186" y="70" width="70" height="56" fill="#F6E27A"/><rect x="194" y="84" width="48" height="4" rx="2" fill="#B9A64A"/><rect x="194" y="94" width="38" height="4" rx="2" fill="#B9A64A"/></g><g transform="rotate(3 120 135)"><rect x="82" y="108" width="66" height="50" fill="#F4B6C2"/><rect x="90" y="122" width="44" height="4" rx="2" fill="#B88690"/></g><path d="M170 150q20 -16 46 -6" fill="none" stroke="#8FB3F0" stroke-width="2.5" stroke-linecap="round"/></svg></div><h1>책마다 나만의<br>노트가 생겨요</h1><p class="muted">책을 읽고 기억하고 싶은 것을 마음껏 적어보세요.<br>글을 쓰고, 포스트잇을 붙이고, 그림도 그릴 수 있어요.</p></section>
-    <section class="islide" data-i="1" hidden><div class="iart"><svg viewBox="0 0 340 190" aria-hidden="true"><circle cx="30" cy="20" r="1.2" fill="#4A5675"/><circle cx="310" cy="26" r="1.4" fill="#4A5675"/><circle cx="290" cy="170" r="1" fill="#4A5675"/><circle cx="40" cy="160" r="1.3" fill="#4A5675"/><circle cx="90" cy="88" r="24" fill="#9AD6A8"/><ellipse cx="90" cy="88" rx="40" ry="10" fill="none" stroke="#9AD6A8" stroke-width="2" transform="rotate(-15 90 88)"/><text x="90" y="138" text-anchor="middle" font-family="Gowun Batang, serif" font-size="14" font-weight="700" fill="#9AD6A8">자기계발</text><circle cx="250" cy="80" r="20" fill="#8FB3F0"/><ellipse cx="250" cy="80" rx="34" ry="9" fill="none" stroke="#8FB3F0" stroke-width="2" transform="rotate(-15 250 80)"/><text x="250" y="124" text-anchor="middle" font-family="Gowun Batang, serif" font-size="14" font-weight="700" fill="#8FB3F0">교육</text><circle cx="58" cy="132" r="4" fill="#F2D58A"/><circle cx="124" cy="126" r="4" fill="#F2D58A"/><circle cx="278" cy="118" r="4" fill="#F2D58A"/><rect x="146" y="150" width="14" height="28" rx="2" fill="#5B2333"/><rect x="162" y="146" width="14" height="32" rx="2" fill="#1F3A5F"/><rect x="178" y="150" width="14" height="28" rx="2" fill="#2E4A3A"/></svg></div><h1>좋아하는 분야로<br>행성을 만들어요</h1><p class="muted">‘자기계발’, ‘교육’처럼 더 알고 싶은 분야가 하나의 행성이 돼요.<br>읽은 책을 어울리는 행성에 넣어주세요.</p></section>
-    <section class="islide" data-i="2" hidden><div class="iart"><svg viewBox="0 0 340 190" aria-hidden="true"><circle cx="30" cy="20" r="1.2" fill="#4A5675"/><circle cx="310" cy="26" r="1.4" fill="#4A5675"/><circle cx="290" cy="170" r="1" fill="#4A5675"/><circle cx="40" cy="160" r="1.3" fill="#4A5675"/><rect x="34" y="40" width="96" height="120" rx="8" fill="#141D31" stroke="#3B4766"/><text x="82" y="62" text-anchor="middle" font-family="Gowun Batang, serif" font-size="12" font-weight="700" fill="#EDE6D3">마인드셋</text><rect x="210" y="40" width="96" height="120" rx="8" fill="#141D31" stroke="#3B4766"/><text x="258" y="62" text-anchor="middle" font-family="Gowun Batang, serif" font-size="12" font-weight="700" fill="#EDE6D3">그릿</text><rect x="48" y="104" width="68" height="28" rx="14" fill="rgba(242,213,138,.15)" stroke="#F2D58A" stroke-width="1.5"/><text x="82" y="123" text-anchor="middle" font-family="Gowun Batang, serif" font-size="13" font-weight="700" fill="#F2D58A">★ 성장</text><rect x="224" y="104" width="68" height="28" rx="14" fill="rgba(242,213,138,.15)" stroke="#F2D58A" stroke-width="1.5"/><text x="258" y="123" text-anchor="middle" font-family="Gowun Batang, serif" font-size="13" font-weight="700" fill="#F2D58A">★ 성장</text><path class="drawn" d="M116 118Q170 70 224 118" fill="none" stroke="#FFF3D1" stroke-width="2" stroke-linecap="round"/><polygon points="170.0,77.0 172.6,84.4 180.5,84.6 174.3,89.4 176.5,96.9 170.0,92.5 163.5,96.9 165.7,89.4 159.5,84.6 167.4,84.4" fill="#FBF8F0"/></svg></div><h1>중요한 단어에<br>★를 붙여요</h1><p class="muted">노트에서 꼭 기억하고 싶은 단어에 ★를 붙여요.<br>다른 책에서도 같은 단어에 ★를 붙이면, 두 책이 별로 이어져요.</p></section>
-    <section class="islide" data-i="3" hidden><div class="iart"><svg viewBox="0 0 340 190" aria-hidden="true"><circle cx="30" cy="20" r="1.2" fill="#4A5675"/><circle cx="310" cy="26" r="1.4" fill="#4A5675"/><circle cx="290" cy="170" r="1" fill="#4A5675"/><circle cx="40" cy="160" r="1.3" fill="#4A5675"/><ellipse cx="170" cy="95" rx="150" ry="60" fill="#2E4A8F" opacity=".18"/><ellipse cx="190" cy="100" rx="90" ry="40" fill="#5B3A96" opacity=".16"/><line x1="70" y1="70" x2="130" y2="50" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="130" y1="50" x2="190" y2="90" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="190" y1="90" x2="250" y2="60" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="190" y1="90" x2="160" y2="140" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="250" y1="60" x2="280" y2="120" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="160" y1="140" x2="100" y2="130" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="100" y1="130" x2="70" y2="70" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="190" y1="90" x2="280" y2="120" stroke="#C9D6F2" stroke-opacity=".35"/><circle cx="70" cy="70" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="70.0,64.0 71.4,68.1 75.7,68.1 72.3,70.7 73.5,74.9 70.0,72.4 66.5,74.9 67.7,70.7 64.3,68.1 68.6,68.1" fill="#FBF8F0"/><circle cx="130" cy="50" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="130.0,44.0 131.4,48.1 135.7,48.1 132.3,50.7 133.5,54.9 130.0,52.4 126.5,54.9 127.7,50.7 124.3,48.1 128.6,48.1" fill="#FBF8F0"/><circle cx="190" cy="90" r="14" fill="#F4EEDF" opacity=".12"/><polygon points="190.0,81.0 192.1,87.1 198.6,87.2 193.4,91.1 195.3,97.3 190.0,93.6 184.7,97.3 186.6,91.1 181.4,87.2 187.9,87.1" fill="#FBF8F0"/><circle cx="250" cy="60" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="250.0,54.0 251.4,58.1 255.7,58.1 252.3,60.7 253.5,64.9 250.0,62.4 246.5,64.9 247.7,60.7 244.3,58.1 248.6,58.1" fill="#FBF8F0"/><circle cx="280" cy="120" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="280.0,114.0 281.4,118.1 285.7,118.1 282.3,120.7 283.5,124.9 280.0,122.4 276.5,124.9 277.7,120.7 274.3,118.1 278.6,118.1" fill="#FBF8F0"/><circle cx="160" cy="140" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="160.0,134.0 161.4,138.1 165.7,138.1 162.3,140.7 163.5,144.9 160.0,142.4 156.5,144.9 157.7,140.7 154.3,138.1 158.6,138.1" fill="#FBF8F0"/><circle cx="100" cy="130" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="100.0,124.0 101.4,128.1 105.7,128.1 102.3,130.7 103.5,134.9 100.0,132.4 96.5,134.9 97.7,130.7 94.3,128.1 98.6,128.1" fill="#FBF8F0"/><circle cx="45" cy="110" r="10" fill="#9AD6A8"/><ellipse cx="45" cy="110" rx="17" ry="4.5" fill="none" stroke="#9AD6A8" stroke-width="1.5" transform="rotate(-15 45 110)"/><circle cx="300" cy="40" r="9" fill="#8FB3F0"/><ellipse cx="300" cy="40" rx="15" ry="4" fill="none" stroke="#8FB3F0" stroke-width="1.5" transform="rotate(-15 300 40)"/></svg></div><h1>스페이스에서 내 생각을<br>한눈에 봐요</h1><p class="muted">‘스페이스’에 가면 책과 단어가 별처럼 이어진<br>나만의 은하를 볼 수 있어요.</p>
+    <section class="islide" data-i="0"><div class="iart"><svg viewBox="0 0 340 190" aria-hidden="true"><circle cx="30" cy="20" r="1.2" fill="#4A5675"/><circle cx="310" cy="26" r="1.4" fill="#4A5675"/><circle cx="290" cy="170" r="1" fill="#4A5675"/><circle cx="40" cy="160" r="1.3" fill="#4A5675"/><rect x="60" y="22" width="220" height="150" rx="10" fill="#141D31" stroke="#3B4766"/><text x="80" y="52" font-family="Gowun Batang, serif" font-size="15" font-weight="700" fill="#EDE6D3">능력은 자란다</text><path d="M78 60q30 -4 60 0t52 0" fill="none" stroke="#F2D58A" stroke-width="2.5" stroke-linecap="round"/><rect x="80" y="74" width="90" height="5" rx="2.5" fill="#3B4766"/><rect x="80" y="86" width="74" height="5" rx="2.5" fill="#3B4766"/><g transform="rotate(-4 220 95)"><rect x="186" y="70" width="70" height="56" fill="#F6E27A"/><rect x="194" y="84" width="48" height="4" rx="2" fill="#B9A64A"/><rect x="194" y="94" width="38" height="4" rx="2" fill="#B9A64A"/></g><g transform="rotate(3 120 135)"><rect x="82" y="108" width="66" height="50" fill="#F4B6C2"/><rect x="90" y="122" width="44" height="4" rx="2" fill="#B88690"/></g><path d="M170 150q20 -16 46 -6" fill="none" stroke="#8FB3F0" stroke-width="2.5" stroke-linecap="round"/></svg></div><h1>책마다 나만의<br>노트가 생겨요</h1><p class="muted">기억하고 싶은 것을 마음껏 적어보세요.<br>글, 포스트잇, 그림 모두 좋아요.</p></section>
+    <section class="islide" data-i="1" hidden><div class="iart"><svg viewBox="0 0 340 190" aria-hidden="true"><circle cx="30" cy="20" r="1.2" fill="#4A5675"/><circle cx="310" cy="26" r="1.4" fill="#4A5675"/><circle cx="290" cy="170" r="1" fill="#4A5675"/><circle cx="40" cy="160" r="1.3" fill="#4A5675"/><circle cx="90" cy="88" r="24" fill="#9AD6A8"/><ellipse cx="90" cy="88" rx="40" ry="10" fill="none" stroke="#9AD6A8" stroke-width="2" transform="rotate(-15 90 88)"/><text x="90" y="138" text-anchor="middle" font-family="Gowun Batang, serif" font-size="14" font-weight="700" fill="#9AD6A8">자기계발</text><circle cx="250" cy="80" r="20" fill="#8FB3F0"/><ellipse cx="250" cy="80" rx="34" ry="9" fill="none" stroke="#8FB3F0" stroke-width="2" transform="rotate(-15 250 80)"/><text x="250" y="124" text-anchor="middle" font-family="Gowun Batang, serif" font-size="14" font-weight="700" fill="#8FB3F0">교육</text><circle cx="58" cy="132" r="4" fill="#F2D58A"/><circle cx="124" cy="126" r="4" fill="#F2D58A"/><circle cx="278" cy="118" r="4" fill="#F2D58A"/><rect x="146" y="150" width="14" height="28" rx="2" fill="#5B2333"/><rect x="162" y="146" width="14" height="32" rx="2" fill="#1F3A5F"/><rect x="178" y="150" width="14" height="28" rx="2" fill="#2E4A3A"/></svg></div><h1>좋아하는 분야로<br>행성을 만들어요</h1><p class="muted">더 알고 싶은 분야가 행성이 돼요.<br>읽은 책을 어울리는 행성에 넣어주세요.</p></section>
+    <section class="islide" data-i="2" hidden><div class="iart"><svg viewBox="0 0 340 190" aria-hidden="true"><circle cx="30" cy="20" r="1.2" fill="#4A5675"/><circle cx="310" cy="26" r="1.4" fill="#4A5675"/><circle cx="290" cy="170" r="1" fill="#4A5675"/><circle cx="40" cy="160" r="1.3" fill="#4A5675"/><rect x="34" y="40" width="96" height="120" rx="8" fill="#141D31" stroke="#3B4766"/><text x="82" y="62" text-anchor="middle" font-family="Gowun Batang, serif" font-size="12" font-weight="700" fill="#EDE6D3">마인드셋</text><rect x="210" y="40" width="96" height="120" rx="8" fill="#141D31" stroke="#3B4766"/><text x="258" y="62" text-anchor="middle" font-family="Gowun Batang, serif" font-size="12" font-weight="700" fill="#EDE6D3">그릿</text><rect x="48" y="104" width="68" height="28" rx="14" fill="rgba(242,213,138,.15)" stroke="#F2D58A" stroke-width="1.5"/><text x="82" y="123" text-anchor="middle" font-family="Gowun Batang, serif" font-size="13" font-weight="700" fill="#F2D58A">★ 성장</text><rect x="224" y="104" width="68" height="28" rx="14" fill="rgba(242,213,138,.15)" stroke="#F2D58A" stroke-width="1.5"/><text x="258" y="123" text-anchor="middle" font-family="Gowun Batang, serif" font-size="13" font-weight="700" fill="#F2D58A">★ 성장</text><path class="drawn" d="M116 118Q170 70 224 118" fill="none" stroke="#FFF3D1" stroke-width="2" stroke-linecap="round"/><polygon points="170.0,77.0 172.6,84.4 180.5,84.6 174.3,89.4 176.5,96.9 170.0,92.5 163.5,96.9 165.7,89.4 159.5,84.6 167.4,84.4" fill="#FBF8F0"/></svg></div><h1>중요한 단어에<br>★를 붙여요</h1><p class="muted">꼭 기억하고 싶은 단어에 ★를 붙여요.<br>같은 ★ 단어가 있는 책끼리 별로 이어져요.</p></section>
+    <section class="islide" data-i="3" hidden><div class="iart"><svg viewBox="0 0 340 190" aria-hidden="true"><circle cx="30" cy="20" r="1.2" fill="#4A5675"/><circle cx="310" cy="26" r="1.4" fill="#4A5675"/><circle cx="290" cy="170" r="1" fill="#4A5675"/><circle cx="40" cy="160" r="1.3" fill="#4A5675"/><ellipse cx="170" cy="95" rx="150" ry="60" fill="#2E4A8F" opacity=".18"/><ellipse cx="190" cy="100" rx="90" ry="40" fill="#5B3A96" opacity=".16"/><line x1="70" y1="70" x2="130" y2="50" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="130" y1="50" x2="190" y2="90" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="190" y1="90" x2="250" y2="60" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="190" y1="90" x2="160" y2="140" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="250" y1="60" x2="280" y2="120" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="160" y1="140" x2="100" y2="130" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="100" y1="130" x2="70" y2="70" stroke="#C9D6F2" stroke-opacity=".35"/><line x1="190" y1="90" x2="280" y2="120" stroke="#C9D6F2" stroke-opacity=".35"/><circle cx="70" cy="70" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="70.0,64.0 71.4,68.1 75.7,68.1 72.3,70.7 73.5,74.9 70.0,72.4 66.5,74.9 67.7,70.7 64.3,68.1 68.6,68.1" fill="#FBF8F0"/><circle cx="130" cy="50" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="130.0,44.0 131.4,48.1 135.7,48.1 132.3,50.7 133.5,54.9 130.0,52.4 126.5,54.9 127.7,50.7 124.3,48.1 128.6,48.1" fill="#FBF8F0"/><circle cx="190" cy="90" r="14" fill="#F4EEDF" opacity=".12"/><polygon points="190.0,81.0 192.1,87.1 198.6,87.2 193.4,91.1 195.3,97.3 190.0,93.6 184.7,97.3 186.6,91.1 181.4,87.2 187.9,87.1" fill="#FBF8F0"/><circle cx="250" cy="60" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="250.0,54.0 251.4,58.1 255.7,58.1 252.3,60.7 253.5,64.9 250.0,62.4 246.5,64.9 247.7,60.7 244.3,58.1 248.6,58.1" fill="#FBF8F0"/><circle cx="280" cy="120" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="280.0,114.0 281.4,118.1 285.7,118.1 282.3,120.7 283.5,124.9 280.0,122.4 276.5,124.9 277.7,120.7 274.3,118.1 278.6,118.1" fill="#FBF8F0"/><circle cx="160" cy="140" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="160.0,134.0 161.4,138.1 165.7,138.1 162.3,140.7 163.5,144.9 160.0,142.4 156.5,144.9 157.7,140.7 154.3,138.1 158.6,138.1" fill="#FBF8F0"/><circle cx="100" cy="130" r="9" fill="#F4EEDF" opacity=".12"/><polygon points="100.0,124.0 101.4,128.1 105.7,128.1 102.3,130.7 103.5,134.9 100.0,132.4 96.5,134.9 97.7,130.7 94.3,128.1 98.6,128.1" fill="#FBF8F0"/><circle cx="45" cy="110" r="10" fill="#9AD6A8"/><ellipse cx="45" cy="110" rx="17" ry="4.5" fill="none" stroke="#9AD6A8" stroke-width="1.5" transform="rotate(-15 45 110)"/><circle cx="300" cy="40" r="9" fill="#8FB3F0"/><ellipse cx="300" cy="40" rx="15" ry="4" fill="none" stroke="#8FB3F0" stroke-width="1.5" transform="rotate(-15 300 40)"/></svg></div><h1>스페이스에서 내 생각을<br>한눈에 봐요</h1><p class="muted">책과 단어가 별처럼 이어진<br>나만의 은하를 스페이스에서 만나요.</p>
       <div class="sec" id="introForm"><label class="f" for="introName">어떻게 불러드릴까요?</label><input type="text" id="introName" maxlength="12" placeholder="이름이나 별명" autocomplete="off"><div class="err" id="introErr" hidden></div>
       <div class="stack" style="margin-top:16px"><button type="button" class="btn block" id="introStart">시작하기</button><button type="button" class="link" id="introSample" style="align-self:center">예시로 먼저 둘러보기</button></div></div></section>
   </div>
@@ -604,7 +635,7 @@ button.calit:hover,button.calit:focus-visible{background:rgba(255,255,255,.05)}
     <div class="bworld" id="bworld"><svg class="bsvg" id="bsvg" aria-hidden="true"></svg></div>
     <textarea id="ed" class="ed" hidden spellcheck="false" aria-label="내용 입력"></textarea>
     <div class="kwsug" id="kwSug" hidden></div>
-    <div class="bempty" id="bempty" hidden><p class="serif" style="font-size:20px">자유롭게 기록해보세요</p><p class="muted small">아래 도구로 글을 쓰고, 포스트잇을 붙이고, 그림을 그려요.<br>중요한 단어는 <b class="gold">★ 키워드</b> 도구로 적어두세요. 스페이스에 나타나요.</p><div class="row tplrow"><span class="muted small">템플릿으로 시작하기</span><button type="button" class="chip" data-tpl2="read">독서 노트</button><button type="button" class="chip" data-tpl2="quest">질문 노트</button><button type="button" class="chip" data-tpl2="act">실천 노트</button></div></div>
+    <div class="bempty" id="bempty" hidden><p class="serif" style="font-size:20px">자유롭게 기록해보세요</p><p class="muted small bemp">도구를 골라 글, 포스트잇, 그림을 남겨요.<br>중요한 단어는 <b class="gold">★ 키워드</b>로 적어두세요.</p><div class="tplrow"><span class="muted small">템플릿으로 시작하기</span><div class="tplbtns"><button type="button" class="chip" data-tpl2="read">독서 노트</button><button type="button" class="chip" data-tpl2="quest">질문 노트</button><button type="button" class="chip" data-tpl2="act">실천 노트</button></div></div></div>
   </div>
   <div class="btop">
     <button type="button" class="icon" id="bBack" aria-label="책장으로" style="margin:0"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
@@ -783,7 +814,7 @@ async function writeBoard(bid){
   try{localStorage.setItem('rb4-'+bid,JSON.stringify(b));if(bid===BID)setBStatus(mode==='db'?'이 기기에만 저장됨':'저장됨');}catch(e){if(bid===BID)setBStatus('저장하지 못했어요');}
 }
 function storeBoard(bid,now){
-  if(PREVIEW||!BOARDS[bid])return;clearTimeout(bsT[bid]);if(bid===BID)setBStatus('저장 중…');
+  if(PREVIEW||!BOARDS[bid]||BOARDS[bid]._fail)return;clearTimeout(bsT[bid]);if(bid===BID)setBStatus('저장 중…');
   if(now){delete bsT[bid];writeBoard(bid);return;}
   bsT[bid]=setTimeout(()=>{delete bsT[bid];writeBoard(bid);},350);
 }
@@ -791,13 +822,13 @@ function flushBoards(){Object.keys(bsT).forEach(bid=>storeBoard(bid,true));}
 addEventListener('pagehide',flushBoards);document.addEventListener('visibilitychange',()=>{if(document.hidden)flushBoards();});
 async function loadBoard(bid){
   if(BOARDS[bid])return BOARDS[bid];let b=null;
-  if(mode==='db'&&DB){try{const sn=await DB.doc(dbBase+'/b_'+bid).get();if(sn.exists&&sn.data().board)b=JSON.parse(JSON.stringify(sn.data().board));}catch(e){}}
+  if(mode==='db'&&DB){try{const sn=await DB.doc(dbBase+'/b_'+bid).get();if(sn.exists&&sn.data().board)b=JSON.parse(JSON.stringify(sn.data().board));}catch(e){return {items:[],view:null,_fail:true};}}
   if(!b){try{b=JSON.parse(localStorage.getItem('rb4-'+bid)||'null');}catch(e){}}
   b=b&&Array.isArray(b.items)?b:{items:[],view:null};BOARDS[bid]=b;return b;
 }
-function dropBoard(bid){delete BOARDS[bid];try{localStorage.removeItem('rb4-'+bid);}catch(e){}if(mode==='db'&&DB)DB.doc(dbBase+'/b_'+bid).delete().catch(()=>{});}
+function dropBoard(bid){delete BOARDS[bid];if(PREVIEW)return;try{localStorage.removeItem('rb4-'+bid);}catch(e){}if(mode==='db'&&DB)DB.doc(dbBase+'/b_'+bid).delete().catch(()=>{});}
 /* ---------- 버전 · 업데이트 알림 ---------- */
-const APP_VERSION='1.2',APP_DATE='2026.11.25';
+const APP_VERSION='1.3',APP_DATE='2026.11.26';
 let upLater=0,upChecked=0;
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
 async function checkUpdate(manual){
@@ -831,7 +862,7 @@ async function fbSignIn(){
 $('gLogin').onclick=()=>fbSignIn();
 $('localUse').onclick=()=>{try{sessionStorage.setItem('sb-local','1');}catch(e){}location.reload();};
 $('logoutBtn').onclick=async()=>{if(!FB_USER)return;try{await firebase.auth().signOut();}catch(e){}clearLocalData();location.reload();};
-$('wipeBtn').onclick=async e=>{if(!FB_USER||!armed(e.currentTarget,'한 번 더 누르면 클라우드의 내 기록이 모두 지워져요'))return;
+$('wipeBtn').onclick=async e=>{if(PREVIEW){toast('예시를 보는 중에는 쓸 수 없어요.');return;}if(!FB_USER||!armed(e.currentTarget,'한 번 더 누르면 클라우드의 내 기록이 모두 지워져요'))return;
   try{const ids=[...S.books.map(b=>b.id),...(S.trash||[]).map(t=>t.book.id)];for(const id of ids)await DB.doc(dbBase+'/b_'+id).delete();await DB.doc(dbBase+'/main4').delete();}catch(err){toast('일부를 지우지 못했어요. 다시 시도해주세요.');return;}
   try{await firebase.auth().signOut();}catch(_){}clearLocalData();location.reload();};
 async function initStore(){
@@ -894,7 +925,7 @@ function checkBirths(){
 function startMine(){S.books.forEach(b=>dropBoard(b.id));const ux=S.ux;S=blank();S.ux=ux;clearPos();sync();}
 function kwsOf(board){return board.items.filter(i=>i.type==='kw'&&norm(i.text)).map(i=>norm(i.text).slice(0,20));}
 function loadSample(){
-  S.books.forEach(b=>dropBoard(b.id));
+  if(!PREVIEW)S.books.forEach(b=>dropBoard(b.id));
   const ux=S.ux;S=blank();S.ux=ux;S.sample=true;S.planets=DEF_PLANETS();clearPos();
   const day=86400000,now=Date.now();let k=0;
   const C={y:'#F6E27A',p:'#F4B6C2',b:'#A9C8F5',g:'#B8E3B0',v:'#CDB8F2'};
@@ -1067,7 +1098,7 @@ function draw2D(keepView){
     if(!movedAny)break;}
   let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;N.forEach(a=>{x0=Math.min(x0,a.x-a.bw/2);x1=Math.max(x1,a.x+a.bw/2);y0=Math.min(y0,a.y+a.oy-a.bh/2);y1=Math.max(y1,a.y+a.oy+a.bh/2);});
   const fit=Math.min((W-40)/(x1-x0),(H-60)/(y1-y0));
-  if(!keepView||!V2){const k=Math.max(0.82,Math.min(1.25,fit));V2={k,x:W/2-(x0+x1)/2*k,y:H/2-(y0+y1)/2*k-6};}
+  if(!keepView||!V2){const k=Math.max(0.3,Math.min(1.25,fit));V2={k,x:W/2-(x0+x1)/2*k,y:H/2-(y0+y1)/2*k-6};}
   V2.fit=fit;V2.b=[x0,y0,x1,y1];
   svg.setAttribute('viewBox','0 0 '+W+' '+H);
   let h='<defs><radialGradient id="gG"><stop offset="0" stop-color="#F2D58A" stop-opacity=".5"/><stop offset="1" stop-color="#F2D58A" stop-opacity="0"/></radialGradient><radialGradient id="gW"><stop offset="0" stop-color="#EDE6D3" stop-opacity=".45"/><stop offset="1" stop-color="#EDE6D3" stop-opacity="0"/></radialGradient>';
@@ -1093,13 +1124,13 @@ function draw2D(keepView){
     if(kind==='planet'){const k=n.id.replace(/[^a-z0-9]/gi,'_');
       g+='<circle cx="'+x+'" cy="'+y+'" r="'+(r*3.4)+'" fill="url(#ph'+k+')"/><circle cx="'+x+'" cy="'+y+'" r="'+r+'" fill="url(#pb'+k+')"/><ellipse cx="'+x+'" cy="'+y+'" rx="'+(r*1.75)+'" ry="'+(r*0.45)+'" fill="none" stroke="'+n.color+'" stroke-opacity=".75" stroke-width="1.6" transform="rotate(-16 '+x+' '+y+')"/>';
       g+='<text x="'+x+'" y="'+(a.y-r-12).toFixed(1)+'" text-anchor="middle" font-family="Gowun Batang, serif" font-size="22" font-weight="700" fill="'+n.color+'" paint-order="stroke" stroke="#0F1626" stroke-width="4">'+esc(n.name)+'</text></g>';}
-    else if(kind==='book'){const bc=(book(n.ref)&&planetOf(book(n.ref)).color)||'#F2D58A';g+='<circle cx="'+x+'" cy="'+y+'" r="'+(r*1.15)+'" fill="'+bc+'" stroke="#0F1626" stroke-width="1.5"/><text x="'+x+'" y="'+(a.y+r+15).toFixed(1)+'" text-anchor="middle" font-family="Gowun Batang, serif" font-size="12" fill="'+bc+'" fill-opacity=".85" paint-order="stroke" stroke="#0F1626" stroke-width="3">'+esc(n.name)+'</text></g>';}
+    else if(kind==='book'){const bc=(book(n.ref)&&planetOf(book(n.ref)).color)||'#F2D58A';g+='<circle cx="'+x+'" cy="'+y+'" r="'+(r*1.15)+'" fill="'+bc+'" stroke="#0F1626" stroke-width="1.5"/><text x="'+x+'" y="'+(a.y+r+15).toFixed(1)+'" class="bl" text-anchor="middle" font-family="Gowun Batang, serif" font-size="12" fill="'+bc+'" fill-opacity=".85" paint-order="stroke" stroke="#0F1626" stroke-width="3">'+esc(n.name)+'</text></g>';}
     else{const tc=starTint(n.ref),br=!tc,fs=Math.round((br?16:14)+Math.min(n.w,10)*0.4),col=tc||'#FFF6DA';g+='<circle cx="'+x+'" cy="'+y+'" r="'+(r*(br?3.2:2.4))+'" fill="url(#'+(br?'gG':'gW')+')" opacity="'+(br?1:.45)+'"/><polygon points="'+starPts(a.x,a.y,r*(br?1.75:1.35),r*(br?0.7:0.55))+'" fill="'+col+'" stroke="'+col+'" stroke-width="1" stroke-linejoin="round"/><text x="'+x+'" y="'+(a.y+r*1.6+fs+2).toFixed(1)+'" text-anchor="middle" font-family="Gowun Batang, serif" font-size="'+fs+'" font-weight="700" fill="'+(br?'#FFF6DA':col)+'" paint-order="stroke" stroke="#0F1626" stroke-width="3">'+esc(n.name)+'</text></g>';}
     h+=g;}));
   h+='</g>';
-  svg.innerHTML=h;
+  svg.innerHTML=h;svg.classList.toggle('lod',V2.k<0.7);
 }
-function apply2D(){const g=$('g2d');if(g&&V2)g.setAttribute('transform','translate('+V2.x.toFixed(1)+' '+V2.y.toFixed(1)+') scale('+V2.k.toFixed(3)+')');}
+function apply2D(){const g=$('g2d');if(V2)$('svg2d').classList.toggle('lod',V2.k<0.7);if(g&&V2)g.setAttribute('transform','translate('+V2.x.toFixed(1)+' '+V2.y.toFixed(1)+') scale('+V2.k.toFixed(3)+')');}
 function zoom2D(f,cx,cy){if(!V2)return;const W=$('sky').clientWidth,H=$('sky').clientHeight;cx=cx==null?W/2:cx;cy=cy==null?H/2:cy;const k=Math.max(0.35,Math.min(2.5,V2.k*f));V2.x=cx-(cx-V2.x)*k/V2.k;V2.y=cy-(cy-V2.y)*k/V2.k;V2.k=k;apply2D();}
 function fit2D(){if(!V2)return;const W=$('sky').clientWidth,H=$('sky').clientHeight,[x0,y0,x1,y1]=V2.b,k=Math.min(2.5,V2.fit);V2={...V2,k,x:W/2-(x0+x1)/2*k,y:H/2-(y0+y1)/2*k-6};apply2D();}
 (function(){const sv=$('svg2d');
@@ -1194,13 +1225,13 @@ function init3D(){
     g.shadowColor='rgba(255,240,205,0.9)';g.shadowBlur=10;const fg=g.createRadialGradient(64,64,0,64,64,42);fg.addColorStop(0,'#FFFFFF');fg.addColorStop(1,'#EBDDBA');g.fillStyle=fg;g.lineJoin='round';g.strokeStyle='#FFF6E0';g.lineWidth=3;g.fill();g.stroke();return new THREE.CanvasTexture(c);})();
   T={star:starTex,diamond,spike:spk,halo,renderer,scene,cam,grp,back,glow:softTex([[0,'rgba(255,255,255,1)'],[0.12,'rgba(255,255,255,0.8)'],[0.35,'rgba(255,255,255,0.18)'],[1,'rgba(255,255,255,0)']]),
      nodes:[],lines:[],dust:null,rx:1.2,ry:0,vx:0,vy:0,target:null,dist:18,tdist:18,base:18,sel:null,drag:false,auto:true,t0:performance.now()};
-  const el=renderer.domElement,ptrs=new Map();let moved=false,pinch0=0,d0=18,lx=0,ly=0;
-  el.addEventListener('pointerdown',e=>{try{el.setPointerCapture(e.pointerId);}catch(_){}ptrs.set(e.pointerId,[e.clientX,e.clientY]);moved=false;T.drag=true;lx=e.clientX;ly=e.clientY;if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch0=Math.hypot(a[0]-b[0],a[1]-b[1]);d0=T.tdist;}});
+  const el=renderer.domElement,ptrs=new Map();let moved=false,pinch0=0,pinchEnd=0,d0=18,lx=0,ly=0;
+  el.addEventListener('pointerdown',e=>{try{el.setPointerCapture(e.pointerId);}catch(_){}ptrs.set(e.pointerId,[e.clientX,e.clientY]);moved=false;T.drag=true;lx=e.clientX;ly=e.clientY;if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch0=Math.hypot(a[0]-b[0],a[1]-b[1]);d0=T.tdist;T.vx=0;T.vy=0;T.auto=false;pinchEnd=0;}});
   el.addEventListener('pointermove',e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,[e.clientX,e.clientY]);
     if(ptrs.size===2){const [a,b]=[...ptrs.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(pinch0)T.tdist=Math.max(7,Math.min(T.maxD||45,d0*pinch0/d));moved=true;return;}
-    const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;if(Math.abs(dx)+Math.abs(dy)>1.5){moved=true;T.auto=false;T.target=null;}
+    const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;if(e.pointerType!=='mouse'&&performance.now()-pinchEnd<350){T.vx=0;T.vy=0;return;}if(Math.abs(dx)+Math.abs(dy)>1.5){moved=true;T.auto=false;T.target=null;}
     T.vy=dx*0.006;T.vx=dy*0.006;T.ry+=T.vy;T.rx+=T.vx;});
-  const up=e=>{if(ptrs.size===1&&!moved)pick3D(e);ptrs.delete(e.pointerId);if(ptrs.size<2)pinch0=0;if(!ptrs.size)T.drag=false;};
+  const up=e=>{if(ptrs.size===1&&!moved)pick3D(e);ptrs.delete(e.pointerId);if(ptrs.size<2&&pinch0){pinch0=0;pinchEnd=performance.now();T.vx=0;T.vy=0;const r=[...ptrs.values()][0];if(r){lx=r[0];ly=r[1];}}if(!ptrs.size)T.drag=false;};
   el.addEventListener('pointerup',up);el.addEventListener('pointercancel',e=>{ptrs.delete(e.pointerId);if(!ptrs.size)T.drag=false;});
   el.addEventListener('wheel',e=>{e.preventDefault();T.tdist=Math.max(7,Math.min(T.maxD||45,T.tdist*(1+e.deltaY*0.0012)));},{passive:false});
 }
@@ -1550,7 +1581,7 @@ function drawShelf(){
   $('sortLbl').textContent=sortLabel();$('sortBtn').dataset.tip='정렬·필터 · 지금 '+sortLabel();$('sortBtn').setAttribute('aria-label','정렬과 필터, 지금 '+sortLabel());$('sortBtn').hidden=!S.books.length;$('sortBtn').classList.toggle('active',mode==='planet'||mode==='status');
   const el=$('shelf');
   if(!bs.length){el.innerHTML='<p class="muted small" style="padding:24px 0">'+(S.books.length?(S.books.some(b=>stOf(b)===tab)?'이 조건에 맞는 책이 없어요. 필터에서 날짜순을 고르면 이 탭의 모든 책이 보여요.':(tab==='done'?'아직 읽은 책이 없어요. 노트의 설정에서 ‘읽은 책’으로 바꾸면 여기로 옮겨와요.':'지금 읽고 있는 책이 없어요.')):'아직 꽂힌 책이 없어요. 오른쪽 위 ‘책 추가’로 첫 책을 꽂아보세요.')+'</p>';return;}
-  const spineHTML=b=>{const w=46,h=170,t=b.title,fs=Math.max(8,Math.min(14,Math.floor((h-78)/([...t].length*1.3)))),star=b.kws.some(isBorn),pc=planetOf(b).color;
+  const spineHTML=b=>{const w=52,h=170,t=b.title,one=Math.floor((h-84)/([...t].length*1.12)),fs=one>=12?Math.min(15,one):(one>=10?11:12),star=false,pc=planetOf(b).color;
     return '<button type="button" class="spine st-'+(b.status||'none')+(coverURL(b)?' hascv':'')+'" data-book="'+b.id+'" style="--w:'+w+'px;--h:'+h+'px;--pc:'+pc+(coverURL(b)?';--cv:url('+coverURL(b)+')':'')+'" aria-label="'+esc(t+(b.author?', '+b.author:'')+', '+STATUS[stOf(b)]+', '+ymd(b.created||b.at)+' 등록')+'" title="'+esc(t+(b.author?' · '+b.author:''))+'"><span class="face"><span class="ss" aria-hidden="true">'+(star?'★':'')+'</span><span class="st" style="font-size:'+fs+'px">'+esc(t)+'</span><span class="sd">'+ymd(b.created||b.at)+'</span></span></button>';};
   const groups=[];planetsUsed().forEach(p=>{const g=bs.filter(b=>planetOf(b).id===p.id);if(g.length)groups.push([p,g]);});
   el.innerHTML='<div class="tsgrid" id="tsGrid">'+groups.map(([p,g],i)=>'<section class="tsrow" style="--pc:'+p.color+'" aria-label="'+esc(p.name)+' 행성 책 '+g.length+'권"><div class="tstag"><i aria-hidden="true"></i>'+esc(p.name)+'<span>'+String(i+1).padStart(2,'0')+' · '+g.length+'권</span></div><div class="tscell">'+g.map(spineHTML).join('')+'</div></section>').join('')+'</div><svg class="tsthreads" id="tsThreads" aria-hidden="true"><defs><filter id="tsGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g id="tsLines"></g></svg><div class="tscap" id="tsCap" aria-live="polite"></div>';
@@ -1612,7 +1643,9 @@ const HINTS={select:'항목을 끌어서 옮기고, 두 번 누르면 고칠 수
 async function openBoard(id){go('board',{id});}
 async function showBoard(id){
   const b=book(id);if(!b){back();return;}
-  BID=id;$('bTitle').textContent=b.title;BD=await loadBoard(id);
+  BID=id;$('bTitle').textContent=b.title;const ld=await loadBoard(id);
+  if(ld._fail){BD=null;toast('노트를 불러오지 못했어요. 인터넷 연결을 확인하고 다시 열어주세요.',5000);back();return;}
+  BD=ld;
   if(stack[stack.length-1].id!=='board'||BID!==id)return;
   undo=[];selId=null;editId=null;linkFrom=null;setTool('select');
   const vw=$('bview').clientWidth,vh=$('bview').clientHeight;
@@ -1633,7 +1666,9 @@ function itemEl(it){
 }
 function pathD(p){if(p.length<4)return 'M'+p[0]+' '+p[1]+'l0.1 0';let d='M'+p[0]+' '+p[1];for(let i=2;i<p.length-2;i+=2){const mx=(p[i]+p[i+2])/2,my=(p[i+1]+p[i+3])/2;d+='Q'+p[i]+' '+p[i+1]+' '+mx.toFixed(1)+' '+my.toFixed(1);}d+='L'+p[p.length-2]+' '+p[p.length-1];return d;}
 function centerOf(id){const it=BD.items.find(i=>i.id===id);if(!it)return null;const s=SZ[id]||{w:40,h:30};return [it.x+s.w/2,it.y+s.h/2];}
-function linkD(l){const a=centerOf(l.from),b=centerOf(l.to);if(!a||!b)return '';const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,dx=b[0]-a[0],dy=b[1]-a[1],k=(hf(l.id)-0.5)*0.4;return 'M'+a[0]+' '+a[1]+'Q'+(mx-dy*k).toFixed(1)+' '+(my+dx*k).toFixed(1)+' '+b[0]+' '+b[1];}
+function edgePt(id,tx,ty){const it=BD.items.find(i=>i.id===id);if(!it)return null;const s=SZ[id]||{w:40,h:30},cx=it.x+s.w/2,cy=it.y+s.h/2,dx=tx-cx,dy=ty-cy;if(!dx&&!dy)return [cx,cy];const hw=s.w/2+3,hh=s.h/2+3,t=Math.min(Math.abs(dx)>1e-6?hw/Math.abs(dx):1e9,Math.abs(dy)>1e-6?hh/Math.abs(dy):1e9);return [+(cx+dx*t).toFixed(1),+(cy+dy*t).toFixed(1)];}
+function linkEnds(l){const a0=centerOf(l.from),b0=centerOf(l.to);if(!a0||!b0)return null;return [edgePt(l.from,b0[0],b0[1]),edgePt(l.to,a0[0],a0[1])];}
+function linkD(l){const e=linkEnds(l);if(!e)return '';const a=e[0],b=e[1];const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,dx=b[0]-a[0],dy=b[1]-a[1],k=(hf(l.id)-0.5)*0.4;return 'M'+a[0]+' '+a[1]+'Q'+(mx-dy*k).toFixed(1)+' '+(my+dx*k).toFixed(1)+' '+b[0]+' '+b[1];}
 function renderBoard(){
   const w=$('bworld'),svg=$('bsvg');
   [...w.querySelectorAll('.it')].forEach(n=>n.remove());
@@ -1643,8 +1678,8 @@ function renderBoard(){
   applyView();
 }
 function drawSvg(){
-  let h='';
-  BD.items.filter(i=>i.type==='link').forEach(l=>{const d=linkD(l);if(!d)return;h+='<path d="'+d+'" fill="none" stroke="#8FB3F0" stroke-opacity=".75" stroke-width="2" stroke-linecap="round"/><path class="hit" data-pid="'+l.id+'" d="'+d+'" stroke-width="18" style="pointer-events:stroke"/>';});
+  let h='';{const L=new Set();BD.items.forEach(i=>{if(i.type==='link'){L.add(i.from);L.add(i.to);}});$('bworld').querySelectorAll('.it').forEach(e=>e.classList.toggle('lnk',L.has(e.dataset.id)));}
+  BD.items.filter(i=>i.type==='link').forEach(l=>{const d=linkD(l);if(!d)return;const en=linkEnds(l);h+='<path d="'+d+'" fill="none" stroke="#A9C8F5" stroke-opacity=".95" stroke-width="2.4" stroke-linecap="round"/>'+en.map(p=>'<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="#A9C8F5" stroke="#0F1626" stroke-width="1.5"/>').join('')+'<path class="hit" data-pid="'+l.id+'" d="'+d+'" stroke-width="18" style="pointer-events:stroke"/>';});
   BD.items.filter(i=>i.type==='path').forEach(p=>{const d=pathD(p.pts);h+='<path d="'+d+'" fill="none" stroke="'+(p.color||PENS[0])+'" stroke-width="'+(p.width||3)+'" stroke-linecap="round" stroke-linejoin="round"'+(p.id===selId?' stroke-dasharray="6 5"':'')+'/><path class="hit" data-pid="'+p.id+'" d="'+d+'" stroke-width="20" style="pointer-events:stroke"/>';});
   $('bsvg').innerHTML=h+'<path id="liveStroke" fill="none" stroke-linecap="round" stroke-linejoin="round"/>';
 }
@@ -1758,7 +1793,7 @@ $('bMenu').onclick=()=>{
   if(editId)endEdit();const b=book(BID);if(!b)return;
   let h='<div class="between"><h2 id="wsTitle" style="margin:0">책 정보</h2><button type="button" class="icon" data-wclose id="wsClose" aria-label="닫기" style="margin:0 -10px 0 0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>';
   if(S.sample)h+='<p class="muted small" style="margin-top:10px">예시 책은 고칠 수 없어요. 노트에서는 자유롭게 써볼 수 있지만, 내 책장을 시작하면 사라져요.</p>';
-  else h+='<label class="f" for="miTitle" style="margin-top:14px">책 제목</label><input type="text" id="miTitle" value="'+esc(b.title)+'"><label class="f" for="miAuthor" style="margin-top:12px">지은이</label><input type="text" id="miAuthor" value="'+esc(b.author||'')+'">'+bookInfoHTML(b)+'<div class="f" style="margin-top:14px">행성</div><div class="row" id="miPlanets">'+S.planets.map(p=>'<button type="button" class="chip pchip'+(b.planet===p.id?' on':'')+'" data-mip="'+p.id+'" aria-pressed="'+(b.planet===p.id)+'" style="--pc:'+p.color+'"><i></i>'+esc(p.name)+'</button>').join('')+'</div><div class="err" id="miErr" hidden></div><div class="row" style="margin-top:14px"><button type="button" class="btn sm" id="miSave">저장</button></div><div style="margin-top:18px;border-top:1px solid var(--line);padding-top:10px"><button type="button" class="link dim" id="miDel">이 책과 노트 삭제</button></div>';
+  else h+='<label class="f" for="miTitle" style="margin-top:14px">책 제목</label><input type="text" id="miTitle" value="'+esc(b.title)+'"><label class="f" for="miAuthor" style="margin-top:12px">지은이</label><input type="text" id="miAuthor" value="'+esc(b.author||'')+'">'+bookInfoHTML(b)+'<div class="f" style="margin-top:14px">행성</div><div class="row" id="miPlanets">'+S.planets.map(p=>'<button type="button" class="chip pchip'+(b.planet===p.id?' on':'')+'" data-mip="'+p.id+'" aria-pressed="'+(b.planet===p.id)+'" style="--pc:'+p.color+'"><i></i>'+esc(p.name)+'</button>').join('')+'</div><div class="err" id="miErr" hidden></div><div class="row" style="margin-top:14px;justify-content:flex-end"><button type="button" class="btn sm" id="miSave">저장</button></div><div style="margin-top:18px;border-top:1px solid var(--line);padding-top:10px"><button type="button" class="link dim" id="miDel">이 책과 노트 삭제</button></div>';
   h+='<div style="margin-top:16px;border-top:1px solid var(--line);padding-top:6px"><button type="button" class="li" id="miExport"><span>노트 내보내기 (이미지 · 텍스트)</span></button></div>';
   $('wsBody').innerHTML=h;$('wsheet').hidden=false;setTimeout(()=>$('wsClose').focus(),50);
   $('miExport').onclick=openExport;
@@ -1834,6 +1869,7 @@ async function renderNotePNG(b){
   its.filter(i=>i.type==='path').forEach(pth=>{g.strokeStyle=pth.color||'#EDE6D3';g.lineWidth=pth.width||3;g.lineCap='round';g.lineJoin='round';g.stroke(new Path2D(pathD(pth.pts)));});
   const rr=(x,y,w,h,r)=>{g.beginPath();if(g.roundRect)g.roundRect(x,y,w,h,r);else g.rect(x,y,w,h);};
   for(const it of its){
+    if(it.type==='txt'&&norm(it.text)&&its.some(l=>l.type==='link'&&(l.from===it.id||l.to===it.id))){const z=SZ[it.id]||{w:it.w||260,h:60};rr(it.x,it.y,z.w,z.h,8);g.lineWidth=1.2;g.strokeStyle='rgba(169,200,245,.6)';g.stroke();}
     if(it.type==='txt'&&norm(it.text)){const fs=fsOf(it)*4/3;g.font=(it.h?'700 ':'400 ')+fs+'px "Gowun Batang", serif';g.fillStyle='#EDE6D3';g.textBaseline='top';wrapLines(g,it.text,(it.w||260)-16).forEach((ln,k)=>g.fillText(ln,it.x+8,it.y+4+k*fs*1.5+fs*0.2));}
     if(it.type==='sticky'){const z=SZ[it.id]||{w:it.w||175,h:120},fs=fsOf(it)*4/3;g.save();g.translate(it.x+z.w/2,it.y+z.h/2);g.rotate((hf(it.id)-0.5)*4*Math.PI/180);g.shadowColor='rgba(0,0,0,.45)';g.shadowBlur=18;g.shadowOffsetY=8;g.fillStyle=it.color||'#F6E27A';g.fillRect(-z.w/2,-z.h/2,z.w,z.h);g.shadowColor='transparent';g.fillStyle='#1F1F1F';g.font='400 '+fs+'px "Noto Sans KR", sans-serif';g.textBaseline='top';wrapLines(g,it.text||'',z.w-28).forEach((ln,k)=>g.fillText(ln,-z.w/2+14,-z.h/2+14+k*fs*1.55));g.restore();}
     if(it.type==='kw'&&norm(it.text)){const born=isBorn(norm(it.text));g.font='700 17px "Gowun Batang", serif';const tw=g.measureText(it.text).width,w=tw+48,h=38;rr(it.x,it.y,w,h,19);g.fillStyle=born?'rgba(244,238,223,.16)':'rgba(242,213,138,.13)';g.fill();g.lineWidth=1.5;g.strokeStyle=born?'#F4EEDF':'#F2D58A';g.stroke();g.fillStyle=born?'#FFFFFF':'#F2D58A';g.textBaseline='middle';g.font='13px "Noto Sans KR", sans-serif';g.fillText('★',it.x+12,it.y+h/2+1);g.font='700 17px "Gowun Batang", serif';g.fillText(it.text,it.x+31,it.y+h/2+1);}
@@ -2045,13 +2081,14 @@ function coverURL(b){return b.cover?('/_blob/'+b.cover):(b.coverSrc||'');}
 function bookInfoHTML(b){
   const st=b.status||'';
   return '<div class="f" style="margin-top:14px">읽기 상태</div><div class="row" id="biStatus">'+Object.entries(STATUS).map(([k,l])=>'<button type="button" class="chip'+(st===k?' book':'')+'" data-bs="'+k+'" aria-pressed="'+(st===k)+'">'+l+'</button>').join('')+'</div>'+
-  '<div class="row" style="margin-top:12px;flex-wrap:nowrap"><label style="flex:1"><span class="f">시작한 날</span><input type="date" id="biStart" value="'+esc(b.startAt||'')+'" class="dinp"></label><label style="flex:1"><span class="f">다 읽은 날</span><input type="date" id="biDone" value="'+esc(b.doneAt||'')+'" class="dinp"></label></div>'+
-  '<div class="f" style="margin-top:14px">표지</div><div class="row" style="align-items:flex-end">'+(coverURL(b)?'<img src="'+esc(coverURL(b))+'" alt="'+esc(b.title)+' 표지" style="width:64px;height:92px;object-fit:cover;border-radius:3px;box-shadow:0 4px 10px rgba(0,0,0,.4)">':'')+'<button type="button" class="btn quiet sm" id="biCover">'+(coverURL(b)?'표지 바꾸기':'표지 이미지 올리기')+'</button>'+(coverURL(b)?'<button type="button" class="link dim" id="biCoverDel">표지 빼기</button>':'')+'<input type="file" id="biCoverFile" accept="image/png,image/jpeg,image/webp" hidden></div>';
+  '<div class="row" style="margin-top:12px;flex-wrap:nowrap"><label style="flex:1"><span class="f">시작한 날</span><input type="date" id="biStart" value="'+esc(b.startAt||'')+'" class="dinp"></label><label style="flex:1;position:relative"><span class="f">다 읽은 날</span><input type="date" id="biDone" value="'+esc(b.doneAt||'')+'" class="dinp'+(b.doneAt?'':' dempty')+'"><span class="dph" aria-hidden="true"'+(b.doneAt?' hidden':'')+'>날짜를 기입해주세요</span></label></div>'+(b.doneAt?'':'<div style="text-align:right;margin-top:6px"><button type="button" class="link" id="biToday">오늘 다 읽었어요</button></div>')+
+  '<div class="f" style="margin-top:14px">표지</div><div class="row" style="align-items:flex-end">'+(coverURL(b)?'<img src="'+esc(coverURL(b))+'" alt="'+esc(b.title)+' 표지" style="width:64px;height:92px;object-fit:cover;border-radius:3px;box-shadow:0 4px 10px rgba(0,0,0,.4)">':'')+'<button type="button" class="btn quiet sm" id="biCover">'+(coverURL(b)?'표지 바꾸기':'표지 이미지 올리기')+'</button>'+(coverURL(b)?'<button type="button" class="link dim" id="biCoverDel">표지 삭제</button>':'')+'<input type="file" id="biCoverFile" accept="image/png,image/jpeg,image/webp" hidden></div><p class="muted small" style="margin-top:6px">책 표지를 세로로 찍은 <b>2:3 비율</b> 사진이 잘 어울려요.</p>';
 }
 function wireBookInfo(b,redraw){
   $('biStatus').onclick=e=>{const c=e.target.closest('[data-bs]');if(!c)return;b.status=c.dataset.bs;if(b.status==='reading'){if(!b.startAt)b.startAt=today();b.doneAt='';}if(b.status==='done'){if(!b.startAt)b.startAt=today();if(!b.doneAt)b.doneAt=today();}save();redraw();toast(esc(b.title)+' · '+STATUS[b.status]);};
   $('biStart').onchange=()=>{b.startAt=$('biStart').value;save();};
   $('biDone').onchange=()=>{b.doneAt=$('biDone').value;if(b.doneAt)b.status='done';save();redraw();};
+  if($('biToday'))$('biToday').onclick=()=>{b.doneAt=today();b.status='done';if(!b.startAt)b.startAt=today();save();redraw();toast(esc(b.title)+' · 다 읽었어요! 🎉');};
   $('biCover').onclick=()=>$('biCoverFile').click();
   if($('biCoverDel'))$('biCoverDel').onclick=()=>{delete b.cover;delete b.coverSrc;save();redraw();};
   $('biCoverFile').onchange=async()=>{const f=$('biCoverFile').files[0];if(!f)return;try{const assets=(window.claude&&window.claude.use)?await window.claude.use('assets'):null;
@@ -2079,7 +2116,7 @@ async function restoreFrom(file){
   const n=(data.state.books||[]).length;
   openSheet(SHEET_HEAD('백업에서 되살리기')+'<p class="small" style="margin-top:6px">'+esc((data.exportedAt||'').slice(0,10))+'에 만든 백업이에요. 책 '+n+'권이 들어 있어요.</p><p class="muted small" style="margin-top:6px">되살리면 지금 책장과 노트가 백업 내용으로 바뀌어요. 지금 기록을 지키고 싶다면 먼저 ‘전체 백업 받기’를 해두세요.</p><div class="row" style="margin-top:14px"><button type="button" class="btn sm" id="rsGo">백업으로 되살리기</button><button type="button" class="btn quiet sm" data-wclose>취소</button></div>');
   $('rsGo').onclick=e=>{if(!armed(e.currentTarget,'한 번 더 누르면 바뀌어요'))return;
-    S.books.forEach(b=>dropBoard(b.id));Object.keys(BOARDS).forEach(k=>delete BOARDS[k]);
+    Object.keys(BOARDS).forEach(k=>delete BOARDS[k]);
     S=normalize(JSON.parse(JSON.stringify(data.state)));S.ux.onboarded=true;
     Object.entries(data.boards).forEach(([id,bd])=>{BOARDS[id]=JSON.parse(JSON.stringify(bd));storeBoard(id,true);});
     BOARDS_READY=false;clearPos();checkBirths();save();closeWS();go('home',null,true);toast('백업에서 책 '+S.books.length+'권을 되살렸어요.',4500);};
@@ -2128,10 +2165,10 @@ function colItems(b){const bd=BOARDS[b.id]||{items:[]},byPos=(a,c)=>(a.y-c.y)||(
   return {tx:bd.items.filter(i=>i.type==='txt'&&norm(i.text)).sort(byPos),st:bd.items.filter(i=>i.type==='sticky'&&norm(i.text)).sort(byPos),kw:[...new Set(kwsOf(bd))],img:bd.items.filter(i=>i.type==='img').length};}
 async function renderCollect(){
   const pls=planetsUsed();
-  $('colPl').innerHTML='<option value="all">모든 행성</option>'+pls.map(p=>'<option value="'+p.id+'"'+(COL.pl===p.id?' selected':'')+'>'+esc(p.name)+'</option>').join('');if(COL.pl==='all')$('colPl').value='all';
-  $('colSt').innerHTML=[['all','전체'],['reading',STATUS.reading],['done',STATUS.done]].map(([k,l])=>'<option value="'+k+'"'+(COL.st===k?' selected':'')+'>'+l+'</option>').join('');
+  $('colPl').innerHTML='<option value="all">행성</option>'+pls.map(p=>'<option value="'+p.id+'"'+(COL.pl===p.id?' selected':'')+'>'+esc(p.name)+'</option>').join('');if(COL.pl==='all')$('colPl').value='all';
+  $('colSt').innerHTML=[['all','상태'],['reading',STATUS.reading],['done',STATUS.done]].map(([k,l])=>'<option value="'+k+'"'+(COL.st===k?' selected':'')+'>'+l+'</option>').join('');
   const ws=allWords().sort((a,b)=>a.localeCompare(b,'ko'));if(COL.kw&&!ws.includes(COL.kw))COL.kw='';
-  $('colKw').innerHTML='<option value="">모든 키워드</option>'+ws.map(w=>'<option value="'+esc(w)+'"'+(COL.kw===w?' selected':'')+'>★ '+esc(w)+'</option>').join('');
+  $('colKw').innerHTML='<option value="">키워드</option>'+ws.map(w=>'<option value="'+esc(w)+'"'+(COL.kw===w?' selected':'')+'>★ '+esc(w)+'</option>').join('');
   const body=$('colBody');
   if(!BOARDS_READY){body.innerHTML='<p class="muted small" style="padding:20px 0">노트를 모으는 중이에요…</p>';await loadAllBoards();BOARDS_READY=true;if($('collect').hidden)return;}
   const bs=colBooks(),q=COL.kw,lq=q.toLowerCase();
@@ -2139,7 +2176,7 @@ async function renderCollect(){
   let nSt=0,nTx=0;
   const groups=[];pls.forEach(p=>{const g=bs.filter(b=>planetOf(b).id===p.id);if(g.length)groups.push([p,g]);});
   body.innerHTML=groups.length?groups.map(([p,g])=>'<section class="colgrp" style="--pc:'+p.color+'"><h2 class="colh"><i aria-hidden="true"></i>'+esc(p.name)+' <span class="muted small">'+g.length+'권</span></h2>'+g.map(b=>{const it=colItems(b);nSt+=it.st.length;nTx+=it.tx.length;
-    return '<article class="colbook"><div class="between" style="align-items:flex-start;gap:12px"><div><button type="button" class="colt" data-openb="'+b.id+'">'+esc(b.title)+'</button><div class="muted small">'+[b.author,STATUS[stOf(b)],ymd(b.created||b.at)+' 등록'].filter(Boolean).map(esc).join(' · ')+'</div></div><button type="button" class="tbtn" data-openb="'+b.id+'">노트 열기</button></div>'+
+    return '<article class="colbook"><div class="between" style="align-items:flex-start;gap:12px"><div><button type="button" class="colt" data-openb="'+b.id+'">'+esc(b.title)+'</button>'+(b.author?'<div class="muted small colmeta">'+esc(b.author)+'</div>':'')+'<div class="muted small colmeta">'+esc(STATUS[stOf(b)])+' · '+ymd(b.created||b.at)+' 등록</div></div><button type="button" class="tbtn colopen" data-openb="'+b.id+'">노트 열기</button></div>'+
       (it.tx.length?'<div class="coltx">'+it.tx.map(t=>'<p'+(t.h?' class="h"':'')+'>'+mark(t.text.trim()).replace(/\n/g,'<br>')+'</p>').join('')+'</div>':'')+
       (it.st.length?'<ul class="colst">'+it.st.map(t=>'<li style="--sc:'+(t.color||'#F6E27A')+'">'+mark(t.text.trim()).replace(/\n/g,'<br>')+'</li>').join('')+'</ul>':'')+
       (it.kw.length?'<div class="row" style="margin-top:10px">'+it.kw.map(w=>'<button type="button" class="chip star'+(w===q?' on':'')+'" data-ck="'+esc(w)+'">★ '+esc(w)+'</button>').join('')+'</div>':'')+
@@ -2193,7 +2230,7 @@ $('psNext').onclick=()=>{if(!PS.length)return;const keep=S.planets.filter(p=>PS.
 function dkey(t){const d=new Date(t||Date.now()),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
 const DK={txt:'t',sticky:'s',kw:'k',img:'i',path:'p'};
 function counted(i){if(!i.at||!DK[i.type])return false;if(i.type==='img'||i.type==='path')return true;return !!norm(i.text||'');}
-function daysOf(bd){const m={};bd.items.forEach(i=>{if(!counted(i))return;const d=dkey(i.at);(m[d]=m[d]||{d})[DK[i.type]]=(m[d][DK[i.type]]||0)+1;});return Object.values(m).sort((a,c)=>a.d<c.d?-1:1);}
+function daysOf(bd){const m={};bd.items.forEach(i=>{if(!counted(i))return;const d=dkey(i.at),k=DK[i.type];(m[d]=m[d]||{d})[k]=k==='p'?1:(m[d][k]||0)+1;});return Object.values(m).sort((a,c)=>a.d<c.d?-1:1);}
 function bookDays(b){if(Array.isArray(b.days))return b.days;const m={};(b.kwt||[]).forEach(k=>{if(!k.at)return;const d=dkey(k.at);(m[d]=m[d]||{d}).k=(m[d].k||0)+1;});return Object.values(m);}
 function logAct(){}
 const CNT=[['t','글'],['s','포스트잇'],['k','키워드'],['i','이미지'],['p','펜 그림']];
@@ -2202,7 +2239,7 @@ function calIndex(){const by={};S.books.forEach(b=>{bookDays(b).forEach(x=>{(by[
 function openCalendar(){const n=new Date();CAL={y:n.getFullYear(),m:n.getMonth(),sel:'',open:{},more:{}};const by=calIndex();if(by[dkey()])CAL.sel=dkey();drawCalendar();}
 function drawCalendar(){
   const by=calIndex(),y=CAL.y,m=CAL.m,start=new Date(y,m,1).getDay(),last=new Date(y,m+1,0).getDate(),pre=y+'-'+String(m+1).padStart(2,'0')+'-';
-  const total=e=>CNT.reduce((a,[k])=>a+(e.x[k]||0),0)+(e.reg?1:0);
+  const total=e=>CNT.reduce((a,[k])=>a+(k==='p'?Math.min(1,e.x[k]||0):(e.x[k]||0)),0)+(e.reg?1:0);
   const monthDays=Object.keys(by).filter(d=>d.startsWith(pre)).sort();
   if(!CAL.sel||!CAL.sel.startsWith(pre))CAL.sel=monthDays.length?monthDays[monthDays.length-1]:'';
   let h=SHEET_HEAD('기록 달력')+'<p class="muted small">노트에 글·포스트잇·키워드를 남기거나 책을 등록한 날에 별이 표시돼요.</p>';
@@ -2220,7 +2257,7 @@ function drawCalendar(){
   if(list){const dt=new Date(CAL.sel+'T00:00:00');
     let d='<h3 class="calh">'+(dt.getMonth()+1)+'월 '+dt.getDate()+'일 ('+'일월화수목금토'[dt.getDay()]+')</h3>';
     list.forEach(e=>{const b=e.b,id=b.id,open=!!CAL.open[id],pc=planetOf(b).color;
-      const sum=CNT.filter(([k])=>e.x[k]).map(([k,l])=>l+' '+e.x[k]).join(' · ');
+      const sum=CNT.filter(([k])=>e.x[k]).map(([k,l])=>k==='p'?l:l+' '+e.x[k]).join(' · ');
       d+='<div class="calbk" style="--pc:'+pc+'"><button type="button" class="calhd" data-acc="'+id+'" aria-expanded="'+open+'"><span class="calbt"><i></i>'+esc(b.title)+'</span><span class="cnt2">'+(e.reg?'<span class="regtag">책 등록</span>':'')+esc(sum)+'</span><span class="chev" aria-hidden="true">'+(open?'⌃':'⌄')+'</span></button><div class="calbody" id="cb_'+id+'"'+(open?'':' hidden')+'></div></div>';});
     $('calDay').innerHTML=d;
     list.forEach(e=>{if(CAL.open[e.b.id])fillCalBody(e.b);});}
@@ -2247,7 +2284,7 @@ async function fillCalBody(b){
   if(by.t.length)h+='<p class="calsec">글</p>'+lim('t',by.t).map(i=>'<button type="button" class="caltx" data-cb="'+b.id+'" data-ci="'+i.id+'">'+esc(i.text.trim()).replace(/\n/g,'<br>')+'</button>').join('')+more('t',by.t);
   if(by.s.length)h+='<p class="calsec">포스트잇</p><div class="calst">'+lim('s',by.s).map(i=>'<button type="button" class="calpi" data-cb="'+b.id+'" data-ci="'+i.id+'" style="background:'+(i.color||'#F6E27A')+'">'+esc(i.text.trim()).replace(/\n/g,'<br>')+'</button>').join('')+'</div>'+more('s',by.s);
   if(by.k.length)h+='<p class="calsec">키워드</p><div class="row">'+lim('k',by.k).map(i=>'<button type="button" class="chip star" data-cb="'+b.id+'" data-ci="'+i.id+'">★ '+esc(i.text)+'</button>').join('')+'</div>'+more('k',by.k);
-  if(by.p.length)h+='<p class="small muted" style="margin:10px 2px 0">〰 펜 그림 '+by.p.length+'개 · <button type="button" class="link dim" data-cb="'+b.id+'">노트에서 보기</button></p>';
+  if(by.p.length)h+='<p class="small muted" style="margin:10px 2px 0">〰 펜으로 그린 메모가 있어요 · <button type="button" class="link dim" data-cb="'+b.id+'">노트에서 보기</button></p>';
   if(!its.length&&!h)h='<p class="muted small" style="padding:8px 2px">이날 남긴 기록이 노트에서 지워졌어요.</p>';
   body.innerHTML=h;
 }
