@@ -554,11 +554,11 @@ button.calit:hover,button.calit:focus-visible{background:rgba(255,255,255,.05)}
 #shelf .spine .ss{display:none}
 #shelf .spine .face{justify-content:center;gap:10px;padding-top:10px}
 #shelf .spine .face::before{top:12px}
-#shelf .spine .st{white-space:normal;max-height:calc(var(--h) - 46px);line-height:1.12;font-weight:700}
+#shelf .spine .st{line-height:1.02;font-weight:700}
 #svg2d.lod .bl{display:none}
 .it.lnk.txt{outline:1px solid rgba(169,200,245,.5);outline-offset:4px;border-radius:6px}
 #shelf .spine .face{justify-content:space-between!important;padding:24px 0 8px!important;gap:0!important}
-#shelf .spine .st{max-height:calc(var(--h) - 84px)!important}
+#shelf .spine .st{max-height:none!important;white-space:nowrap!important}
 @media (max-width:360px){
   #home .between.sec{gap:6px}
   #home .between.sec h2{font-size:16px}
@@ -567,6 +567,12 @@ button.calit:hover,button.calit:focus-visible{background:rgba(255,255,255,.05)}
   #home .between.sec .ibtn svg{width:14px;height:14px}
   #addBook{padding:0 8px!important;font-size:12px!important;height:30px!important;min-height:30px!important}
 }
+.crop{position:fixed;inset:0;z-index:120;background:rgba(5,8,16,.78);display:flex;align-items:center;justify-content:center;padding:16px}
+.cropbox{background:var(--panel,#182033);border:1px solid var(--line);border-radius:18px;padding:18px;width:min(340px,100%)}
+.cropvp{position:relative;width:200px;height:300px;margin:0 auto;overflow:hidden;border-radius:6px;background:#0B1120;touch-action:none;cursor:grab;outline:2px solid var(--gold);outline-offset:2px}
+.cropvp img{position:absolute;user-select:none;-webkit-user-drag:none;max-width:none}
+.cropgrid{position:absolute;inset:0;pointer-events:none;background:linear-gradient(to right,transparent 33.2%,rgba(255,255,255,.25) 33.3%,transparent 33.5%,transparent 66.5%,rgba(255,255,255,.25) 66.6%,transparent 66.8%),linear-gradient(to bottom,transparent 33.2%,rgba(255,255,255,.25) 33.3%,transparent 33.5%,transparent 66.5%,rgba(255,255,255,.25) 66.6%,transparent 66.8%)}
+.cropz{display:flex;align-items:center;gap:8px;margin-top:14px}.cropz input{flex:1;accent-color:var(--gold)}
 </style>
 </head>
 <body>
@@ -828,7 +834,7 @@ async function loadBoard(bid){
 }
 function dropBoard(bid){delete BOARDS[bid];if(PREVIEW)return;try{localStorage.removeItem('rb4-'+bid);}catch(e){}if(mode==='db'&&DB)DB.doc(dbBase+'/b_'+bid).delete().catch(()=>{});}
 /* ---------- 버전 · 업데이트 알림 ---------- */
-const APP_VERSION='1.3',APP_DATE='2026.11.26';
+const APP_VERSION='1.4',APP_DATE='2026.11.26';
 let upLater=0,upChecked=0;
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
 async function checkUpdate(manual){
@@ -1037,9 +1043,9 @@ function graph(){
   const nodes=[],by={},edges=[];
   const pl=skyPlanets(),n=pl.length;
   if(S.books.length||S.planets.length){const sun={id:'s:me',ref:'me',kind:'sun',name:who()+'의 태양',w:0,fixed2:[0,0,0],fixed3:[0,0,0]};nodes.push(sun);by[sun.id]=sun;}
-  pl.forEach((p,i)=>{const a=i/Math.max(n,1)*Math.PI*2+0.5,R=n<=1?4.6:(n===2?5.4:(n===3?7:8.2));
+  pl.forEach((p,i)=>{const a=i/Math.max(n,1)*Math.PI*2-Math.PI/2+(n===2?0:Math.PI/n),R=n<=1?4.6:(n===2?5.6:(n===3?7.2:8.4)),R3=n<=1?8:(n===2?10:(n===3?12.5:14));
     const node={id:'p:'+p.id,ref:p.id,kind:'planet',name:p.name,color:p.color,w:0,
-      fixed2:[Math.cos(a)*R,Math.sin(a)*R*0.82,0],fixed3:[Math.cos(a)*R*1.75,(i%2?1:-1)*(n>2?3.4:1.4),Math.sin(a)*R*1.75]};
+      fixed2:[Math.cos(a)*R,Math.sin(a)*R,0],fixed3:[Math.cos(a)*R3,(i%2?1:-1)*0.9,Math.sin(a)*R3]};
     nodes.push(node);by[node.id]=node;});
   S.books.forEach(b=>{const pid='p:'+planetOf(b).id;const node={id:'b:'+b.id,ref:b.id,kind:'book',name:b.title,w:(b.kws||[]).length,pl:pid};nodes.push(node);by[node.id]=node;edges.push({a:pid,b:node.id,kind:'pb',w:1});if(by[pid])by[pid].w++;});
   allWords().forEach(w=>{const s=wstat(w);const node={id:'w:'+w,ref:w,kind:'star',name:w,w:s.count,books:s.books};nodes.push(node);by[node.id]=node;
@@ -1059,16 +1065,22 @@ function layout(G,dim,cache){
   const allC=free.every(n=>cache[n.id]),anyC=free.some(n=>cache[n.id]);
   const P=N.map(n=>{const f=fx(n);if(f)return f.slice();if(cache[n.id])return cache[n.id].slice();
     let base=[0,0,0];if(n.kind==='book'&&idx[n.pl]!==undefined)base=fx(N[idx[n.pl]]).slice();
-    const a=hf(n.id)*Math.PI*2,b=hf(n.id+'z')*2-1,r=n.kind==='book'?1.3:2.2,q=Math.sqrt(1-b*b);
+    const a=hf(n.id)*Math.PI*2,b=hf(n.id+'z')*2-1,r=n.kind==='book'?(dim===3?2.8:1.3):(dim===3?3.5:2.2),q=Math.sqrt(1-b*b);
     return dim===3?[base[0]+Math.cos(a)*r*q,base[1]+b*r,base[2]+Math.sin(a)*r*q]:[base[0]+Math.cos(a)*r,base[1]+Math.sin(a)*r,0];});
   const isF=N.map(n=>!!fx(n));
-  const S3=dim===3?1.55:1;const EE=G.edges.map(e=>[idx[e.a],idx[e.b],(e.kind==='pb'?1.1:e.kind==='bs'?1.5:1.6)*S3,e.kind==='pb'?0.7:e.kind==='bs'?0.06:0.012*Math.min(e.w,4)]);
+  const S3=dim===3?1.55:1;const EE=G.edges.map(e=>[idx[e.a],idx[e.b],dim===3?(e.kind==='pb'?3.2:e.kind==='bs'?3.4:3):(e.kind==='pb'?1.1:e.kind==='bs'?1.5:1.6),e.kind==='pb'?0.7:e.kind==='bs'?0.06:0.012*Math.min(e.w,4)]);
   const it=allC?0:(anyC?170:380);
   for(let k=0;k<it;k++){
     const al=1-k/it,F=P.map(()=>[0,0,0]);
-    for(let i=0;i<N.length;i++)for(let q=i+1;q<N.length;q++){if(isF[i]&&isF[q])continue;const dx=P[i][0]-P[q][0],dy=P[i][1]-P[q][1],dz=P[i][2]-P[q][2],d2=dx*dx+dy*dy+dz*dz+0.02,f=(isF[i]||isF[q]?1.6:0.9)*(dim===3?2.2:1)/d2;F[i][0]+=dx*f;F[i][1]+=dy*f;F[i][2]+=dz*f;F[q][0]-=dx*f;F[q][1]-=dy*f;F[q][2]-=dz*f;}
+    for(let i=0;i<N.length;i++)for(let q=i+1;q<N.length;q++){if(isF[i]&&isF[q])continue;const dx=P[i][0]-P[q][0],dy=P[i][1]-P[q][1],dz=P[i][2]-P[q][2],d2=dx*dx+dy*dy+dz*dz+0.02,f=(isF[i]||isF[q]?1.6:0.9)*(dim===3?3.4:1)/d2;F[i][0]+=dx*f;F[i][1]+=dy*f;F[i][2]+=dz*f;F[q][0]-=dx*f;F[q][1]-=dy*f;F[q][2]-=dz*f;}
     EE.forEach(([a,b,L,s])=>{const dx=P[b][0]-P[a][0],dy=P[b][1]-P[a][1],dz=P[b][2]-P[a][2],d=Math.sqrt(dx*dx+dy*dy+dz*dz)+0.001,f=(d-L)*s/d*4;F[a][0]+=dx*f;F[a][1]+=dy*f;F[a][2]+=dz*f;F[b][0]-=dx*f;F[b][1]-=dy*f;F[b][2]-=dz*f;});
     for(let i=0;i<N.length;i++){if(isF[i])continue;for(let c=0;c<3;c++)F[i][c]-=P[i][c]*0.012;const m=Math.hypot(F[i][0],F[i][1],F[i][2]),cap=0.35*al+0.02,sc=m>cap?cap/m:1;P[i][0]+=F[i][0]*sc;P[i][1]+=F[i][1]*sc;P[i][2]=dim===3?P[i][2]+F[i][2]*sc:0;}
+  }
+  if(dim===2&&!allC){
+    const pr=N.filter(n=>n.kind==='planet').map(n=>Math.hypot(n.fixed2[0],n.fixed2[1]));const R=pr.length?Math.max(...pr):5;
+    const st=[];N.forEach((n,i)=>{if(n.kind!=='star')return;const th=Math.atan2(P[i][1],P[i][0]);const rr=R*(0.72+0.5*hf(n.id+'r'));P[i][0]=Math.cos(th)*rr;P[i][1]=Math.sin(th)*rr;st.push(i);});
+    const obs=N.map((n,i)=>i).filter(i=>N[i].kind!=='star');
+    for(let k=0;k<80;k++){st.forEach(i=>{let fx=0,fy=0;[...st,...obs].forEach(q=>{if(q===i)return;const dx=P[i][0]-P[q][0],dy=P[i][1]-P[q][1],d=Math.hypot(dx,dy)+1e-4,m=N[q].kind==='planet'||N[q].kind==='sun'?2.2:1.6;if(d<m){fx+=dx/d*(m-d)*0.5;fy+=dy/d*(m-d)*0.5;}});P[i][0]+=fx;P[i][1]+=fy;const rr=Math.hypot(P[i][0],P[i][1]),cl=Math.max(R*0.55,Math.min(R*1.45,rr));P[i][0]*=cl/rr;P[i][1]*=cl/rr;});}
   }
   N.forEach((n,i)=>{if(!isF[i])cache[n.id]=P[i];});
   return P;
@@ -1206,6 +1218,32 @@ function openThemes(){if(!$('panel').hidden)closePanel();const cur=(S.ux.theme&&
   $('wsBody').querySelectorAll('[data-pv]').forEach(cv=>drawPreview(cv,THEMES[cv.dataset.pv]));
   $('wsBody').onclick=e=>{const c=e.target.closest('[data-th]');if(!c)return;applyTheme(c.dataset.th);openThemes();toast('<b>'+THEMES[c.dataset.th].name+'</b>로 바꿨어요.');};}
 
+/* ---------- 표지 2:3 맞추기 ---------- */
+function cropCover(file){return new Promise(done=>{
+  const url=URL.createObjectURL(file),ov=document.createElement('div');ov.className='crop';ov.setAttribute('role','dialog');ov.setAttribute('aria-label','표지 맞추기');
+  ov.innerHTML='<div class="cropbox"><p class="serif" style="font-size:18px;margin:0">표지 맞추기</p><p class="muted small" style="margin:4px 0 14px">사진을 움직이거나 키워서 <b>2:3 틀</b>에 맞춰주세요.</p><div class="cropvp"><img alt="" draggable="false"><div class="cropgrid" aria-hidden="true"></div></div><label class="cropz"><span class="muted small">작게</span><input type="range" min="1" max="3" step="0.01" value="1" aria-label="사진 크기"><span class="muted small">크게</span></label><div class="row" style="justify-content:flex-end;gap:8px;margin-top:14px"><button type="button" class="btn quiet sm" data-c="no">취소</button><button type="button" class="btn sm" data-c="ok">이대로 쓰기</button></div></div>';
+  document.body.appendChild(ov);const vp=ov.querySelector('.cropvp'),img=ov.querySelector('img'),zr=ov.querySelector('input');
+  let W=1,H=1,base=1,z=1,x=0,y=0;const FW=()=>vp.clientWidth,FH=()=>vp.clientHeight;
+  const clamp=()=>{const s=base*z,mx=Math.max(0,(W*s-FW())/2),my=Math.max(0,(H*s-FH())/2);x=Math.max(-mx,Math.min(mx,x));y=Math.max(-my,Math.min(my,y));};
+  const draw=()=>{clamp();const s=base*z;img.style.width=W*s+'px';img.style.height=H*s+'px';img.style.left=(FW()/2-W*s/2+x)+'px';img.style.top=(FH()/2-H*s/2+y)+'px';};
+  img.onload=()=>{W=img.naturalWidth;H=img.naturalHeight;base=Math.max(FW()/W,FH()/H);draw();};img.src=url;
+  const ptr=new Map();let last=null,pd=0,pz=1;
+  vp.addEventListener('pointerdown',e=>{vp.setPointerCapture(e.pointerId);ptr.set(e.pointerId,[e.clientX,e.clientY]);last=[e.clientX,e.clientY];if(ptr.size===2){const [a,b]=[...ptr.values()];pd=Math.hypot(a[0]-b[0],a[1]-b[1]);pz=z;}});
+  vp.addEventListener('pointermove',e=>{if(!ptr.has(e.pointerId))return;ptr.set(e.pointerId,[e.clientX,e.clientY]);if(ptr.size===2){const [a,b]=[...ptr.values()];z=Math.max(1,Math.min(3,pz*Math.hypot(a[0]-b[0],a[1]-b[1])/(pd||1)));zr.value=z;draw();return;}x+=e.clientX-last[0];y+=e.clientY-last[1];last=[e.clientX,e.clientY];draw();});
+  const up=e=>{ptr.delete(e.pointerId);const r=[...ptr.values()][0];if(r)last=r;};vp.addEventListener('pointerup',up);vp.addEventListener('pointercancel',up);
+  vp.addEventListener('wheel',e=>{e.preventDefault();z=Math.max(1,Math.min(3,z*(1-e.deltaY*0.0015)));zr.value=z;draw();},{passive:false});
+  zr.oninput=()=>{z=+zr.value;draw();};
+  const close=v=>{ov.remove();URL.revokeObjectURL(url);done(v);};
+  ov.querySelector('[data-c="no"]').onclick=()=>close(null);
+  ov.querySelector('[data-c="ok"]').onclick=()=>{const s=base*z,left=FW()/2-W*s/2+x,top=FH()/2-H*s/2+y,c=document.createElement('canvas');c.width=600;c.height=900;
+    c.getContext('2d').drawImage(img,-left/s,-top/s,FW()/s,FH()/s,0,0,600,900);c.toBlob(b=>close(b),'image/jpeg',0.9);};
+});}
+function planetMat(col,seed){const c=new THREE.Color(col);return new THREE.ShaderMaterial({transparent:true,uniforms:{col:{value:c},op:{value:1},seed:{value:seed}},
+  vertexShader:'varying vec3 vN;varying vec3 vW;varying vec2 vUv;void main(){vUv=uv;vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;vN=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*viewMatrix*w;}',
+  fragmentShader:'uniform vec3 col;uniform float op;uniform float seed;varying vec3 vN;varying vec3 vW;varying vec2 vUv;void main(){vec3 L=normalize(-vW);vec3 V=normalize(cameraPosition-vW);vec3 N=normalize(vN);float d=dot(N,L);float y=vUv.y;float b=sin(y*14.+sin(y*5.+seed)*1.6+sin(vUv.x*6.2832+seed)*.3)*.5+.5;float b2=sin(y*31.+seed*3.)*.5+.5;vec3 base=col*(.74+.26*b)*(.93+.07*b2);base=mix(base,vec3(1.),.08*smoothstep(.6,1.,b));float lit=.52+.6*smoothstep(-.3,.9,d);vec3 c=base*lit;float rim=pow(1.-max(dot(N,V),0.),2.6);c+=mix(col,vec3(1.),.35)*rim*.5;gl_FragColor=vec4(c,op);}'});}
+function ringMat(col,inner,outer,seed){const c=new THREE.Color(col);return new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{col:{value:c},op:{value:1},inner:{value:inner},outer:{value:outer},seed:{value:seed}},
+  vertexShader:'varying vec2 vP;void main(){vP=position.xy;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',
+  fragmentShader:'uniform vec3 col;uniform float op;uniform float inner;uniform float outer;uniform float seed;varying vec2 vP;void main(){float r=length(vP);float t=clamp((r-inner)/(outer-inner),0.,1.);float bands=.6+.4*sin(t*17.+seed)*sin(t*6.+seed*2.);float gap=smoothstep(.40,.44,t)*(1.-smoothstep(.49,.53,t));float edge=smoothstep(0.,.07,t)*(1.-smoothstep(.86,1.,t));float ang=atan(vP.y,vP.x);float grain=.86+.14*sin(ang*4.+t*9.+seed)*sin(ang*2.-seed);float a=edge*bands*(1.-.85*gap)*grain*.7*op;vec3 c=mix(col,vec3(1.),.3)*(.75+.25*bands);gl_FragColor=vec4(c,a);}'});}
 function init3D(){
   if(T||!window.THREE)return;
   const host=$('stage3d'),W=host.clientWidth,H=host.clientHeight;
@@ -1262,8 +1300,9 @@ function build3D(){
     const r=pl?1.35:bk?0.2:nodeR(n)*0.024;
     const core=new THREE.Mesh(new THREE.SphereGeometry(r,20,20),new THREE.MeshBasicMaterial({color:bk?col:0xF6F1E6}));core.position.set(...P[i]);grp.add(core);
     let dm=null,ring=null;
-    if(pl){core.visible=false;dm=new THREE.Sprite(new THREE.SpriteMaterial({map:T.planetTex,color:col,transparent:true,depthWrite:false}));dm.position.copy(core.position);dm.scale.set(r*2.2,r*2.2,1);grp.add(dm);
-      ring=new THREE.Mesh(new THREE.RingGeometry(r*1.35,r*1.75,64),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:0.45,side:THREE.DoubleSide,depthWrite:false}));ring.position.copy(core.position);ring.rotation.x=Math.PI/2.5;ring.rotation.y=0.3;grp.add(ring);}
+    let body=null,ringM=null;
+    if(pl){core.visible=false;const sd=hf(n.id)*40;body=new THREE.Mesh(new THREE.SphereGeometry(r,48,32),planetMat(col,sd));body.position.copy(core.position);body.rotation.z=0.25;grp.add(body);
+      ring=new THREE.Group();ring.position.copy(core.position);ring.rotation.x=Math.PI/2.35;ring.rotation.y=0.35;ringM=new THREE.Mesh(new THREE.RingGeometry(r*1.38,r*2.1,128,1),ringMat(col,r*1.38,r*2.1,sd));ringM.renderOrder=3;ring.add(ringM);grp.add(ring);}
     else if(!bk){core.visible=false;dm=new THREE.Sprite(new THREE.SpriteMaterial({map:T.star,color:tint?col:0xFFFFFF,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}));dm.position.copy(core.position);const sk2=tint?5.5:7.5;dm.scale.set(r*sk2,r*sk2,1);grp.add(dm);}
     const go=pl?0.35:bk?0.3:(n.books>1?0.6:0.35);
     const gl=new THREE.Sprite(new THREE.SpriteMaterial({map:T.glow,color:col,transparent:true,opacity:go,blending:THREE.AdditiveBlending,depthWrite:false}));gl.position.copy(core.position);
@@ -1273,10 +1312,10 @@ function build3D(){
     else if(bk){d.style.fontSize='10px';d.style.color=tint||'#CDB574';d.style.opacity='.85';}
     else{d.style.fontSize=Math.round((tint?11:12.5)+Math.min(n.w,10)*0.25)+'px';d.style.fontWeight='700';d.style.color=tint||'#FFF6DA';}
     lab.appendChild(d);
-    T.nodes.push({id:n.id,name:n.name,kind,small:bk,go,mesh:core,glow:gl,sk:null,hl:null,dm,ring,gs,label:d,phase:hf(n.id)*6.3,base:core.position.clone()});});
+    T.nodes.push({id:n.id,name:n.name,kind,small:bk,go,mesh:core,glow:gl,sk:null,hl:null,dm,ring,body,ringM,gs,label:d,phase:hf(n.id)*6.3,base:core.position.clone()});});
   T.dust=null;
   if(T.sig.length){T.sigPts=pointsObj(T.sig.map(()=>({p:[0,0,0],size:2.2,phase:0,alpha:0.55,c:rgb(0xFFF3D1)})),0);grp.add(T.sigPts);}
-  const sn=T.nodes.find(x=>x.kind==='sun');if(sn)select3D(sn);T.rx=1.2;T.tdist=T.base*(S.books.length?(asp<1?0.95:0.8):1.1);
+  const sn=T.nodes.find(x=>x.kind==='sun');if(sn)select3D(sn);T.rx=1.2;T.tdist=T.base*(S.books.length?(asp<1?0.82:0.7):1.1);
 }
 function pick3D(e){
   const b=T.renderer.domElement.getBoundingClientRect(),mx=e.clientX-b.left,my=e.clientY-b.top,v=new THREE.Vector3();let best=null,bd=34;
@@ -1286,8 +1325,8 @@ function pick3D(e){
 function select3D(n){
   if(n&&T.sel===n.id){openNode(n.id);return;}
   T.sel=n?n.id:null;T.hl=null;
-  const msg=n?(n.kind==='sun'?'한 번 더 누르면 '+esc(n.name)+' 이야기가 열려요':n.kind==='planet'?'한 번 더 누르면 행성 정보가 열려요':n.kind==='book'?'한 번 더 누르면 노트가 열려요':'한 번 더 누르면 열려요'):'';
-  T.nodes.forEach(x=>{const on=x.id===T.sel;x.label.classList.toggle('sel',on);x.label.innerHTML=esc(x.name)+(on?'<small>'+msg+'</small>':'');});
+  const msg=n?(n.kind==='sun'?'':n.kind==='planet'?'한 번 더 누르면 행성 정보가 열려요':n.kind==='book'?'한 번 더 누르면 노트가 열려요':'한 번 더 누르면 열려요'):'';
+  T.nodes.forEach(x=>{const on=x.id===T.sel;x.label.classList.toggle('sel',on);x.label.innerHTML=esc(x.name)+(on&&msg?'<small>'+msg+'</small>':'');delete x.label._w;});
   if(!n){T.target=null;T.tdist=T.base;$('hint').textContent='끌어서 돌리고, 휠이나 + − 버튼으로 확대·축소해요. 행성을 누르면 그 행성의 책이 밝아져요';return;}
   const hl=new Set([n.id]);
   if(n.kind==='sun'){T.nodes.forEach(x=>{if(x.kind==='planet')hl.add(x.id);});$('hint').textContent='모든 행성이 나를 중심으로 돌고 있어요. 행성을 눌러보세요';}
@@ -1296,7 +1335,7 @@ function select3D(n){
   else{T.lines.forEach(l=>{if(l.userData.a===n.id||l.userData.b===n.id){hl.add(l.userData.a);hl.add(l.userData.b);}});$('hint').textContent='별을 한 번 더 누르면 이어진 생각이 펼쳐져요';}
   T.hl=hl;
   if(n.kind==='sun'){T.target=null;T.tdist=T.base;return;}
-  T.target=null;T.auto=false;T.vx=0;T.vy=0;T.tdist=Math.max(7,T.base*(n.kind==='planet'?0.62:0.5));
+  T.target=null;T.auto=false;T.vx=0;T.vy=0;T.tdist=n.kind==='planet'?18:12;
 }
 const angd=(a,b)=>{let d=b-a;while(d>Math.PI)d-=Math.PI*2;while(d<-Math.PI)d+=Math.PI*2;return d;};
 function loop(){
@@ -1315,11 +1354,14 @@ function loop(){
   if(T.sigPts){const pa=T.sigPts.geometry.attributes.position,tmp=new THREE.Vector3();T.sig.forEach((g,i)=>{g.curve.getPoint(reduce?g.off%1:(t*g.sp+g.off)%1,tmp);pa.setXYZ(i,tmp.x,tmp.y,tmp.z);});pa.needsUpdate=true;T.sigPts.visible=!sel;}
   T.lines.forEach(l=>{const on=sel&&nb.has(l.userData.a)&&nb.has(l.userData.b);const tgt=sel?(on?0.85:0.05):l.userData.base;l.material.opacity+=(tgt-l.material.opacity)*0.12;l.visible=l.material.opacity>0.01;});
   const W=T.renderer.domElement.clientWidth,H=T.renderer.domElement.clientHeight,v=new THREE.Vector3();
-  T.nodes.forEach(n=>{if(!reduce){const f=Math.sin(t*0.5+n.phase)*0.045,g=Math.cos(t*0.37+n.phase)*0.025;n.mesh.position.set(n.base.x+g,n.base.y+f,n.base.z);n.glow.position.copy(n.mesh.position);if(n.sk){n.sk.position.copy(n.mesh.position);n.hl.position.copy(n.mesh.position);}if(n.dm)n.dm.position.copy(n.mesh.position);if(n.ring)n.ring.position.copy(n.mesh.position);}const tw=reduce?1:1+0.06*Math.sin(t*2+n.phase);const dim=sel&&!nb.has(n.id);const hi=!!(sel&&nb.has(n.id)&&n.id!==sel);const s=n.gs*tw*(n.id===sel?1.35:hi?1.3:1);n.glow.scale.set(s,s,1);if(n.dm){n.dm.material.opacity+=((dim?0.2:1)-n.dm.material.opacity)*0.15;const sc=n.gs*0.75*tw*(n.id===sel?1.3:1);n.dm.scale.set(sc,sc,1);n.dm.material.rotation=(reduce||n.kind==='planet')?0:Math.sin(t*0.3+n.phase)*0.12;}if(n.sk){const k2=s*0.85*(reduce?1:1+0.12*Math.sin(t*1.3+n.phase*2));n.sk.scale.set(k2,k2,1);n.sk.material.rotation=reduce?0:Math.sin(t*0.2+n.phase)*0.15;n.sk.material.opacity+=((dim?0.04:0.2)-n.sk.material.opacity)*0.15;n.hl.material.opacity+=((dim?0.05:0.2)-n.hl.material.opacity)*0.15;}n.glow.material.opacity+=(((dim?0.12:(hi?Math.min(1,n.go*1.9):n.go)))-n.glow.material.opacity)*0.15;if(n.small&&!reduce){n.mesh.rotation.y=t*0.6+n.phase;n.mesh.rotation.x=0.3;}
+  T.nodes.forEach(n=>{if(!reduce){const f=Math.sin(t*0.5+n.phase)*0.045,g=Math.cos(t*0.37+n.phase)*0.025;n.mesh.position.set(n.base.x+g,n.base.y+f,n.base.z);n.glow.position.copy(n.mesh.position);if(n.sk){n.sk.position.copy(n.mesh.position);n.hl.position.copy(n.mesh.position);}if(n.dm)n.dm.position.copy(n.mesh.position);if(n.ring)n.ring.position.copy(n.mesh.position);}const tw=reduce?1:1+0.06*Math.sin(t*2+n.phase);const dim=sel&&!nb.has(n.id);const hi=!!(sel&&nb.has(n.id)&&n.id!==sel);const s=n.gs*tw*(n.id===sel?1.35:hi?1.3:1);n.glow.scale.set(s,s,1);if(n.dm){n.dm.material.opacity+=((dim?0.2:1)-n.dm.material.opacity)*0.15;const sc=n.gs*0.75*tw*(n.id===sel?1.3:1);n.dm.scale.set(sc,sc,1);n.dm.material.rotation=(reduce||n.kind==='planet')?0:Math.sin(t*0.3+n.phase)*0.12;}if(n.body){n.body.position.copy(n.mesh.position);if(!reduce){n.body.rotation.y+=0.0035;n.ringM.rotation.z+=0.0018;}const u=n.body.material.uniforms,ru=n.ringM.material.uniforms,to=dim?0.3:1;u.op.value+=(to-u.op.value)*0.15;ru.op.value+=(to-ru.op.value)*0.15;const bs=n.id===sel?1.1:1;n.body.scale.setScalar(n.body.scale.x+(bs-n.body.scale.x)*0.15);n.ring.scale.copy(n.body.scale);}if(n.sk){const k2=s*0.85*(reduce?1:1+0.12*Math.sin(t*1.3+n.phase*2));n.sk.scale.set(k2,k2,1);n.sk.material.rotation=reduce?0:Math.sin(t*0.2+n.phase)*0.15;n.sk.material.opacity+=((dim?0.04:0.2)-n.sk.material.opacity)*0.15;n.hl.material.opacity+=((dim?0.05:0.2)-n.hl.material.opacity)*0.15;}n.glow.material.opacity+=(((dim?0.12:(hi?Math.min(1,n.go*1.9):n.go)))-n.glow.material.opacity)*0.15;if(n.small&&!reduce){n.mesh.rotation.y=t*0.6+n.phase;n.mesh.rotation.x=0.3;}
     n.mesh.getWorldPosition(v);const z=v.z;v.project(T.cam);const el=n.label;
     if(v.z>1){el.style.opacity='0';return;}
     el.style.left=((v.x+1)/2*W)+'px';el.style.top=((-v.y+1)/2*H+16)+'px';el.style.zIndex=String(Math.round(z*10+500));
     const depth=Math.max(0.3,Math.min(1,0.7+z/Math.max(T.dist*0.5,1)));el.classList.toggle('hi',hi);el.style.opacity=(dim?0.1:(hi?1:depth)).toFixed(2);if(hi)el.style.zIndex='900';});
+  {const L=[];T.nodes.forEach(n=>{const el=n.label;if(el.style.opacity==='0'||+el.style.opacity<0.15)return;if(el._w===undefined){el._w=el.offsetWidth;el._h=el.offsetHeight;}const pr=n.id===T.sel?6:(n.kind==='planet'||n.kind==='sun')?5:el.classList.contains('hi')?4:n.kind==='star'?3:2;L.push({el,x:parseFloat(el.style.left),y:parseFloat(el.style.top),w:el._w,h:el._h,pr});});
+   L.sort((a,b)=>b.pr-a.pr);const placed=[];const hit=(o,y)=>placed.find(q=>Math.abs(q.x-o.x)<(q.w+o.w)/2+4&&Math.abs(q.y-y)<(q.h+o.h)/2+1);
+   L.forEach(o=>{let y=o.y;for(let k=0;k<3;k++){const q=hit(o,y);if(!q)break;y=q.y+(q.h+o.h)/2+2;}if(hit(o,y)){o.el.style.opacity='0';return;}if(y!==o.y)o.el.style.top=y+'px';placed.push({x:o.x,y,w:o.w,h:o.h});});}
   T.renderer.render(T.scene,T.cam);
   raf=requestAnimationFrame(loop);
 }
@@ -1581,7 +1623,7 @@ function drawShelf(){
   $('sortLbl').textContent=sortLabel();$('sortBtn').dataset.tip='정렬·필터 · 지금 '+sortLabel();$('sortBtn').setAttribute('aria-label','정렬과 필터, 지금 '+sortLabel());$('sortBtn').hidden=!S.books.length;$('sortBtn').classList.toggle('active',mode==='planet'||mode==='status');
   const el=$('shelf');
   if(!bs.length){el.innerHTML='<p class="muted small" style="padding:24px 0">'+(S.books.length?(S.books.some(b=>stOf(b)===tab)?'이 조건에 맞는 책이 없어요. 필터에서 날짜순을 고르면 이 탭의 모든 책이 보여요.':(tab==='done'?'아직 읽은 책이 없어요. 노트의 설정에서 ‘읽은 책’으로 바꾸면 여기로 옮겨와요.':'지금 읽고 있는 책이 없어요.')):'아직 꽂힌 책이 없어요. 오른쪽 위 ‘책 추가’로 첫 책을 꽂아보세요.')+'</p>';return;}
-  const spineHTML=b=>{const w=52,h=170,t=b.title,one=Math.floor((h-84)/([...t].length*1.12)),fs=one>=12?Math.min(15,one):(one>=10?11:12),star=false,pc=planetOf(b).color;
+  const spineHTML=b=>{const w=52,h=170,t=b.title,one=Math.floor((h-64)/([...t].length*1.02)),fs=Math.max(9,Math.min(17,one)),star=false,pc=planetOf(b).color;
     return '<button type="button" class="spine st-'+(b.status||'none')+(coverURL(b)?' hascv':'')+'" data-book="'+b.id+'" style="--w:'+w+'px;--h:'+h+'px;--pc:'+pc+(coverURL(b)?';--cv:url('+coverURL(b)+')':'')+'" aria-label="'+esc(t+(b.author?', '+b.author:'')+', '+STATUS[stOf(b)]+', '+ymd(b.created||b.at)+' 등록')+'" title="'+esc(t+(b.author?' · '+b.author:''))+'"><span class="face"><span class="ss" aria-hidden="true">'+(star?'★':'')+'</span><span class="st" style="font-size:'+fs+'px">'+esc(t)+'</span><span class="sd">'+ymd(b.created||b.at)+'</span></span></button>';};
   const groups=[];planetsUsed().forEach(p=>{const g=bs.filter(b=>planetOf(b).id===p.id);if(g.length)groups.push([p,g]);});
   el.innerHTML='<div class="tsgrid" id="tsGrid">'+groups.map(([p,g],i)=>'<section class="tsrow" style="--pc:'+p.color+'" aria-label="'+esc(p.name)+' 행성 책 '+g.length+'권"><div class="tstag"><i aria-hidden="true"></i>'+esc(p.name)+'<span>'+String(i+1).padStart(2,'0')+' · '+g.length+'권</span></div><div class="tscell">'+g.map(spineHTML).join('')+'</div></section>').join('')+'</div><svg class="tsthreads" id="tsThreads" aria-hidden="true"><defs><filter id="tsGlow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g id="tsLines"></g></svg><div class="tscap" id="tsCap" aria-live="polite"></div>';
@@ -2091,7 +2133,7 @@ function wireBookInfo(b,redraw){
   if($('biToday'))$('biToday').onclick=()=>{b.doneAt=today();b.status='done';if(!b.startAt)b.startAt=today();save();redraw();toast(esc(b.title)+' · 다 읽었어요! 🎉');};
   $('biCover').onclick=()=>$('biCoverFile').click();
   if($('biCoverDel'))$('biCoverDel').onclick=()=>{delete b.cover;delete b.coverSrc;save();redraw();};
-  $('biCoverFile').onchange=async()=>{const f=$('biCoverFile').files[0];if(!f)return;try{const assets=(window.claude&&window.claude.use)?await window.claude.use('assets'):null;
+  $('biCoverFile').onchange=async()=>{const f0=$('biCoverFile').files[0];$('biCoverFile').value='';if(!f0)return;const f=await cropCover(f0);if(!f)return;try{const assets=(window.claude&&window.claude.use)?await window.claude.use('assets'):null;
     if(assets){const r=await shrink(f,700,0.85);const up=await assets.upload(r.blob,{type:'image/jpeg'});b.cover=up.id;delete b.coverSrc;}
     else{const r=await shrink(f,260,0.7);const d=await blobToDataURL(r.blob);if(d.length>60000){toast('이 환경에서는 표지를 더 작은 이미지로 올려주세요.');return;}b.coverSrc=d;delete b.cover;}
     save();redraw();toast('표지를 넣었어요.');}catch(e){toast('표지를 올리지 못했어요.');}};
