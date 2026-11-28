@@ -1,5 +1,5 @@
 // 스페이스 북 · 오프라인에서도 열리도록 앱 파일만 저장해요 (노트 내용은 저장하지 않아요)
-const CACHE='spacebook-1.4';
+const CACHE='spacebook-2.7';
 const SHELL=['./','./index.html','./manifest.webmanifest','./firebase-config.js','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png','./icons/favicon-32.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
