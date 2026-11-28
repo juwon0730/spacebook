@@ -864,6 +864,31 @@ body:has(.sheet:not([hidden])) #rcFloat,body:has(.sbm-dim) #rcFloat,body:has(#bi
 body:has(#panel:not([hidden])) #bnav{display:none!important}
 /* v2.13 아이폰 설치 앱: 내용이 짧은 화면에서 하단 메뉴가 상태 표시줄 높이만큼 뜨는 현상 방지(통계처럼 스크롤되는 화면과 같은 조건) */
 body.hasnav{min-height:calc(100vh + env(safe-area-inset-top,0px))}
+
+/* v2.14 코치마크 */
+.cm-dim{position:fixed;inset:0;z-index:150}
+.cm-spot{position:fixed;border-radius:16px;box-shadow:0 0 0 2px var(--gold),0 0 0 9999px rgba(4,8,18,.8);transition:left .3s ease,top .3s ease,width .3s ease,height .3s ease;pointer-events:none}
+.cm-arr{position:fixed;width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;transition:left .3s ease,top .3s ease}
+.cm-arr.up{border-bottom:11px solid var(--gold)}.cm-arr.down{border-top:11px solid var(--gold)}
+.cm-bub{position:fixed;width:min(320px,calc(100vw - 24px));box-sizing:border-box;padding:12px 16px 14px;border-radius:16px;background:#141D33;border:1px solid rgba(242,213,138,.55);box-shadow:0 14px 30px rgba(0,0,0,.5);color:var(--ink)}
+.cm-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.cm-dots{display:flex;gap:5px;flex:1}.cm-dots i{width:6px;height:6px;border-radius:3px;background:var(--line2)}.cm-dots i.done{background:rgba(242,213,138,.55)}.cm-dots i.on{width:16px;background:var(--gold)}
+.cm-n{font-size:11px;color:var(--muted)}
+.cm-skip{min-height:32px;padding:0 4px;border:none;background:none;color:var(--muted);font:inherit;font-size:12.5px;cursor:pointer}
+.cm-t{display:block;white-space:pre-line;font-size:15px;line-height:1.45;color:var(--gold);font-weight:700}
+.cm-b{margin:4px 0 0;font-size:13.5px;line-height:1.6;white-space:pre-line}
+.cm-act{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.cm-act .btn{min-height:40px;padding:0 16px}
+@media (prefers-reduced-motion:reduce){.cm-spot,.cm-arr{transition:none}}
+/* v2.14 노트의 '독서 중' 표시 강조 */
+#rmChip{min-height:38px;padding:0 14px;gap:7px;border-radius:19px;font-size:13.5px;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.45)}
+#rmChip.on{background:var(--gold);color:#1A1A1A;border-color:var(--gold)}
+#rmChip:not(.on){color:var(--gold);border:1.5px solid rgba(242,213,138,.7);background:rgba(20,29,49,.96)}
+#rmChip.on svg:first-child{animation:chipBeat 1.6s ease-in-out infinite}
+@keyframes chipBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+@media (prefers-reduced-motion:reduce){#rmChip.on svg:first-child{animation:none}}
+/* v2.14 줄바꿈: 제목·안내 문장은 줄 길이를 고르게(외톨이 단어 방지) */
+.sbm-t,.sbm-b,.toast,.cm-t,.cm-b,.kwhint span,.rm-msg,h1,h2,h3{text-wrap:balance}
+p,li{text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -1104,8 +1129,9 @@ body.hasnav{min-height:calc(100vh + env(safe-area-inset-top,0px))}
       <button type="button" class="li" id="trashBtn"><span>휴지통</span><span class="muted small">삭제한 책 되살리기</span></button>
       <button type="button" class="li" id="wipeBtn" hidden><span style="color:#E8746A">내 기록 모두 삭제</span><span class="muted small">클라우드·기기에서 삭제</span></button>
     </div></div>
-    <div class="setsec"><h3>사용법</h3><div class="list">
-      <button type="button" class="li" id="helpBtn"><span>처음 화면으로 돌아가기</span><span class="muted small">안내 다시 보기</span></button>
+    <div class="setsec"><h3>사용 안내</h3><div class="list">
+      <button type="button" class="li" id="cmAgain"><span>사용 안내 다시보기</span><span class="muted small">홈·독서 모드 안내</span></button>
+      <button type="button" class="li" id="helpBtn"><span>처음 소개 화면 다시 보기</span><span class="muted small">세 장 소개</span></button>
     </div></div>
     <div class="li setfoot" style="flex-wrap:wrap;row-gap:6px"><span class="muted small" id="appVer" style="width:100%"></span><span class="muted small" id="saveState"></span><button type="button" class="link dim" id="resetBtn">모두 지우기</button></div>
   </div>
@@ -1168,7 +1194,7 @@ async function loadBoard(bid){
 }
 function dropBoard(bid){delete BOARDS[bid];if(PREVIEW)return;try{localStorage.removeItem('rb4-'+bid);}catch(e){}if(mode==='db'&&DB)DB.doc(dbBase+'/b_'+bid).delete().catch(()=>{});}
 /* ---------- 버전 · 업데이트 알림 ---------- */
-const APP_VERSION='2.13',APP_DATE='2026.11.28';
+const APP_VERSION='2.14',APP_DATE='2026.11.28';
 let upLater=0,upChecked=0;
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
 async function checkUpdate(manual){
@@ -3083,14 +3109,14 @@ const RS=(()=>{
     openSheet('<div id="wsTitle" class="serif" style="font-size:var(--t-title);margin-bottom:12px">어떤 책을 읽을까요?</div><div class="stack" id="rmPick">'+list.map(b=>'<button type="button" class="btn quiet block" data-rb="'+esc(b.id)+'">'+esc(b.title||'제목 없음')+'</button>').join('')+'</div>');
     $('wsBody').onclick=e=>{const c=e.target.closest('[data-rb]');if(!c)return;closeWS();cb(c.dataset.rb);};}
   function switchBook(id){if(!A||id===A.bookId||!book(id))return;const held=hold();paintRM();const cur=A.bookId;
-    sbModal({title:'다른 책을 읽으시겠습니까?',body:'현재 읽고 있는 책의 독서를 종료하고, 새로운 책의 독서 모드를 시작하시겠습니까?',book:bInfo(cur,'현재 · 오늘 누적 '+fmtHM(todayOf())),book2:bInfo(id,'새로 읽을 책'),
+    sbModal({title:'다른 책을 읽을까요?',body:'지금 읽던 책은 종료하고 새 책으로 독서를 시작해요.',book:bInfo(cur,'현재 · 오늘 누적 '+fmtHM(todayOf())),book2:bInfo(id,'새로 읽을 책'),
       actions:[{label:'취소',value:'no'},{label:'독서 모드 변경',primary:true,value:'chg'}],
       onClose:async v=>{if(v==='chg'){end();const r=await start(id);if(r==='ok'){VB=id;stack[stack.length-1]={id:'readmode',params:{id}};paint();toast('새로운 책의 독서를 시작했어요.');}else{toast('새 책을 시작하지 못했어요. 잠시 후 다시 시도해 주세요.');paintRM();}}else if(held)resume().then(paintRM);}});}
   /* ---- 다른 메뉴 이동 확인(CASE 2): 독서 모드·노트에서 다른 화면으로 나갈 때 ---- */
   function guard(tid,apply){if(!running())return false;const top=stack[stack.length-1];
     if(!top||(top.id!=='readmode'&&top.id!=='board')||tid==='readmode'||tid==='board')return false;
     const held=hold();paintRM();
-    sbModal({title:'독서를 잠시 멈추시겠습니까?',body:'현재 독서 시간을 일시정지하고 선택한 메뉴로 이동하시겠습니까?',actions:[{label:'취소',value:'no'},{label:'일시정지 후 이동',primary:true,value:'go'}],
+    sbModal({title:'독서를 잠시 멈출까요?',body:'독서 시간을 일시정지하고 이동해요.',actions:[{label:'취소',value:'no'},{label:'일시정지 후 이동',primary:true,value:'go'}],
       onClose:v=>{if(v==='go')apply();else if(held)resume().then(()=>{paintRM();ui();});}});return true;}
   /* ---- 재접속 카드 · 소형 플로팅 타이머 · 노트 상태 버튼 (화면 위에 얹는 요소, 기존 레이아웃은 밀지 않아요) ---- */
   const mkEl=(tag,id)=>{const e=document.createElement(tag);e.id=id;e.hidden=true;document.body.appendChild(e);return e;};
@@ -3129,7 +3155,7 @@ const RS=(()=>{
     if(s==='running'&&on)$('rmMsg').textContent='화면을 꺼도 계속 기록해요.';tickRM();sceneSync();}
   function tickRM(){if($('readmode').hidden)return;$('rmTime').textContent=fmtHMS(secOf(VB,dkey(now())));}
   const RMI={play:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 5.8v12.4L18.5 12z"/></svg>',pause:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg>',moon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 14.5A7.5 7.5 0 0 1 9.5 4.5a7.5 7.5 0 1 0 10 10z"/></svg>'};
-  function show(id){RCsid=null;RCX=false;VB=A?A.bookId:id;paintRM();clearInterval(tickT);tickT=setInterval(tickRM,500);ensure();requestAnimationFrame(()=>{scene3D();if(G&&G.rs)G.rs();sceneSync();loop();});}
+  function show(id){RCsid=null;RCX=false;VB=A?A.bookId:id;paintRM();clearInterval(tickT);tickT=setInterval(tickRM,500);ensure();setTimeout(()=>{if(!$('readmode').hidden&&!document.querySelector('.sbm-dim')&&window.SBcoach)window.SBcoach('rm');},800);requestAnimationFrame(()=>{scene3D();if(G&&G.rs)G.rs();sceneSync();loop();});}
   function leave(){clearInterval(tickT);tickT=null;if(G&&G.raf){cancelAnimationFrame(G.raf);G.raf=null;}}
   /* ---- 3D: 기존 행성 셰이더(planetMat)와 softTex 재사용 ---- */
   /* v2.12 독서 모드 행성: 전용 셰이더(빛·명암·띠 무늬), 다층 고리(행성 그림자 포함), 화면 비율에 맞춰 카메라 거리 자동 조정 */
@@ -3170,7 +3196,7 @@ const RS=(()=>{
       else if(running())pause();else if(!(await resume()))toast('이어서 읽지 못했어요. 잠시 후 다시 시도해 주세요.');}
     finally{busy=false;paintRM();loop();}};
   $('rmBack').onclick=()=>{if(!running()){go('home',null,true);return;}const held=hold();paintRM();
-    sbModal({title:'독서를 잠시 멈추시겠습니까?',body:'현재 독서 시간을 일시정지하고 선택한 메뉴로 이동하시겠습니까?',actions:[{label:'취소',value:'no'},{label:'일시정지 후 이동',primary:true,value:'go'}],
+    sbModal({title:'독서를 잠시 멈출까요?',body:'독서 시간을 일시정지하고 이동해요.',actions:[{label:'취소',value:'no'},{label:'일시정지 후 이동',primary:true,value:'go'}],
       onClose:v=>{if(v==='go')go('home',null,true);else if(held)resume().then(paintRM);}});};
   $('rmEnd').onclick=()=>{if(!A)return;const held=hold();paintRM();
     sbModal({title:'독서를 종료하시겠습니까?',body:'지금까지의 독서 시간이 저장됩니다.',actions:[{label:'취소',value:'no'},{label:'종료 및 저장',primary:true,value:'end'}],
@@ -3641,6 +3667,52 @@ function mileCheck(){try{if(!S||S.sample||!S.ux)return;const cnt={s:allWords().l
     const show=()=>{if(!$('birth').hidden){setTimeout(show,2500);return;}neu.forEach(([k,v],i)=>setTimeout(()=>toast('나의 우주에 '+MNAME[k][0]+'이 '+v+MNAME[k][1]+' 되었어요.',3400),i*3800));};setTimeout(show,900);}catch(e){}}
 {const _rh2=renderHome;renderHome=function(){_rh2.apply(this,arguments);mileCheck();};}
 {const _rsp=renderSpace;renderSpace=function(){_rsp.apply(this,arguments);mileCheck();};}
+
+/* ---------- v2.14 첫 사용 안내(코치마크): 화면을 어둡게, 가리키는 버튼만 밝게 ---------- */
+const CM_STEPS={
+  home:[
+    {sel:['#addBook'],t:'지금 읽고 있는 책을 추가해 보세요.',b:''},
+    {sel:['#shelf .spine','#shelf'],t:()=>document.querySelector('#shelf .spine')?'책을 누르면 나만의 노트가 열려요.':'추가한 책은 여기 책장에 꽂혀요.',b:()=>document.querySelector('#shelf .spine')?'마음에 남은 문장과\n떠오른 생각을 자유롭게 기록하세요.':'책을 누르면 나만의 노트가 열리고, 문장과 생각을 자유롭게 기록할 수 있어요.'},
+    {sel:['#qmBtn'],t:'생각이 떠오르면 바로 적어 두세요.',b:'노트를 열지 않아도 책을 골라 짧게 남길 수 있어요.'},
+    {sel:['#colBtn'],t:'모든 책의 기록을 한곳에서 모아 보세요.',b:'키워드와 분야로 찾고, 텍스트로 내보낼 수 있어요.'},
+    {sel:['#spaceCard'],t:'나의 독서 세계를 한눈에 보세요',b:'관심 분야는 행성, 읽은 책은 위성이 돼요.\n내가 정한 키워드는 별이 되어\n다른 분야의 책과 이어져요.'},
+    {sel:['#readCard'],t:'책 읽는 시간을 기록해요.',b:'오늘의 목표를 정하고 꾸준히 읽어 보세요.'},
+    {sel:['#bnav [data-nav="cal"]','#bnav [data-nav="stats"]'],union:true,t:'나의 독서 습관을 돌아보세요.',b:'읽은 날과 시간이 쌓여요.'},
+    {sel:['#bnav [data-nav="studio"]'],t:'책에서 얻은 생각을 나만의 것으로 만드는 곳이에요.',b:'글을 쓰고 아이디어를 펼쳐 보세요.'}],
+  rm:[
+    {sel:['#rmMain'],t:'다른 앱을 쓸 때는 일시정지를 눌러 주세요.',b:'1분 넘게 화면을 벗어나면,\n돌아왔을 때 그동안 읽었는지 물어봐요.'},
+    {sel:['#rmNight'],t:'화면이 자동으로 꺼지거나\n화면을 끄고 읽을 때는\n‘화면 끄고 읽기’를 눌러 주세요.',b:''}]};
+let CM=null;
+const cmSeen=k=>!!(S.ux&&S.ux.cm&&S.ux.cm[k]);
+function cmDone(k){S.ux=S.ux||{};S.ux.cm=Object.assign({},S.ux.cm,{[k]:1});save();}
+function coach(k){if(CM||S.sample||cmSeen(k))return;const steps=CM_STEPS[k];if(!steps)return;
+  const d=document.createElement('div');d.className='cm-dim';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label','사용 안내');
+  d.innerHTML='<div class="cm-spot" aria-hidden="true"></div><div class="cm-arr" aria-hidden="true"></div><div class="cm-bub"><div class="cm-top"><span class="cm-dots" aria-hidden="true"></span><span class="cm-n"></span><button type="button" class="cm-skip">건너뛰기</button></div><b class="cm-t" id="cmT"></b><p class="cm-b"></p><div class="cm-act"><button type="button" class="btn quiet cm-prev">이전</button><button type="button" class="btn cm-next"></button></div></div>';
+  document.body.appendChild(d);CM={k,i:0,d,steps};
+  const v=x=>typeof x==='function'?x():x;
+  const rectOf=st=>{const els=st.sel.map(q=>document.querySelector(q)).filter(e=>e&&e.getClientRects().length);if(!els.length)return null;const use=st.union?els:[els[0]];
+    const rs=use.map(e=>e.getBoundingClientRect());return {l:Math.min(...rs.map(r=>r.left)),t:Math.min(...rs.map(r=>r.top)),r:Math.max(...rs.map(r=>r.right)),b:Math.max(...rs.map(r=>r.bottom)),el:els[0]};};
+  const place=()=>{if(!CM)return;const st=steps[CM.i],R=rectOf(st);const sp=d.querySelector('.cm-spot'),ar=d.querySelector('.cm-arr'),bb=d.querySelector('.cm-bub');
+    if(!R){sp.style.cssText='left:50%;top:40%;width:0;height:0';ar.hidden=true;bb.style.left=Math.max(12,(innerWidth-bb.offsetWidth)/2)+'px';bb.style.top='40%';return;}
+    const pad=6,L=R.l-pad,T=R.t-pad,W=R.r-R.l+pad*2,H=R.b-R.t+pad*2;sp.style.cssText='left:'+L+'px;top:'+T+'px;width:'+W+'px;height:'+H+'px';
+    const bw=bb.offsetWidth,bh=bb.offsetHeight,cx=L+W/2,below=innerHeight-(T+H)>=bh+30||T<bh+30;
+    bb.style.left=Math.max(12,Math.min(innerWidth-12-bw,cx-bw/2))+'px';bb.style.top=(below?T+H+16:T-16-bh)+'px';
+    ar.hidden=false;ar.className='cm-arr '+(below?'up':'down');ar.style.left=(cx-8)+'px';ar.style.top=(below?T+H+6:T-16)+'px';};
+  const show=()=>{const st=steps[CM.i],n=steps.length;
+    d.querySelector('.cm-t').textContent=v(st.t);const b=v(st.b)||'';const pb=d.querySelector('.cm-b');pb.textContent=b;pb.hidden=!b;
+    d.querySelector('.cm-dots').innerHTML=steps.map((_,j)=>'<i'+(j===CM.i?' class="on"':j<CM.i?' class="done"':'')+'></i>').join('');
+    d.querySelector('.cm-n').textContent=(CM.i+1)+' / '+n;d.querySelector('.cm-prev').hidden=CM.i===0;d.querySelector('.cm-next').textContent=CM.i===n-1?'시작하기':'다음';
+    const R=rectOf(st);if(R&&getComputedStyle(R.el).position!=='fixed'&&!R.el.closest('#bnav')){const r=R.el.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight-180){R.el.scrollIntoView({block:'center',behavior:'instant'});}}
+    requestAnimationFrame(()=>{place();d.querySelector('.cm-next').focus({preventScroll:true});});};
+  const end=()=>{cmDone(k);removeEventListener('resize',place);d.remove();CM=null;};
+  d.addEventListener('click',e=>{if(e.target.closest('.cm-skip')){end();return;}if(e.target.closest('.cm-prev')){CM.i=Math.max(0,CM.i-1);show();return;}if(e.target.closest('.cm-next')){if(CM.i<steps.length-1){CM.i++;show();}else end();}});
+  addEventListener('resize',place);show();}
+window.SBcoach=coach;
+let cmT=null;
+function cmHome(){clearTimeout(cmT);cmT=setTimeout(()=>{const h=document.querySelector('main#home');if(!h||h.hidden||S.sample||cmSeen('home')||CM)return;
+  if(document.querySelector('.sbm-dim')||!$('wsheet').hidden||!$('panel').hidden||($('birth')&&!$('birth').hidden)||($('intro')&&!$('intro').hidden))return;coach('home');},700);}
+{const _rh=renderHome;renderHome=function(){const r=_rh.apply(this,arguments);cmHome();return r;};}
+$('cmAgain').onclick=()=>{closePanel();S.ux=S.ux||{};S.ux.cm={};save();go('home',null,true);setTimeout(()=>coach('home'),450);};
 initStore();
 })();
 </script>
