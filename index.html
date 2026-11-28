@@ -596,7 +596,7 @@ button.calit:hover,button.calit:focus-visible{background:rgba(255,255,255,.05)}
 .hcs{font-size:var(--t-cap);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hci{flex:none;color:var(--gold)}
 #readCard .hcs{color:var(--muted);opacity:.85}
-body.hasnav #home,body.hasnav #stats,body.hasnav #studio{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+body.hasnav #home,body.hasnav #stats,body.hasnav #studio{padding-bottom:64px}
 body.hasnav #wsheet .sheet-in{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
 .bnav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(4,1fr);padding:4px 6px clamp(4px,calc(env(safe-area-inset-bottom,0px) - 14px),20px);background:rgba(12,18,32,.96);border-top:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .bnav[hidden]{display:none}
@@ -663,8 +663,6 @@ body.hasnav #wsheet .sheet-in{padding-bottom:calc(96px + env(safe-area-inset-bot
 /* 실기기 피드백: 카드·플로팅 강조, 독서 모드 빈 공간 줄이기 */
 body #rcCard,body #rcFloat{background:linear-gradient(180deg,rgba(38,46,72,.98),rgba(24,31,52,.98));border:1px solid rgba(242,213,138,.55);box-shadow:0 0 0 1px rgba(242,213,138,.12),0 10px 28px rgba(0,0,0,.55)}
 .rf-i{width:34px;height:34px;align-items:center;justify-content:center;border-radius:50%;border:1.5px solid rgba(242,213,138,.6);color:var(--gold)}
-#readmode .rm-stage{flex:1 1 0;height:auto;min-height:min(62vw,230px);max-height:min(115vw,470px)}
-#readmode .rm-foot{margin-top:14px}
 .rm-night{min-height:44px;font-size:var(--t-cap)}.rm-night.on{border-color:rgba(242,213,138,.6);color:var(--gold);background:rgba(242,213,138,.08)}
 /* ---------- 고도화3 · 통합 기록 탐색 ---------- */
 .colq{width:100%;margin:14px 0 0}
@@ -840,6 +838,30 @@ body:has(#bsub:not([hidden])) #rmChip{display:none}
 .kwhint .icon{flex:none;width:36px;height:36px}
 
 .colrw .colr{padding-right:14px}
+
+/* v2.12 독서 모드 레이아웃·버튼 2×2 */
+#readmode .rm-stage{flex:none;width:100%;max-width:460px;height:clamp(200px,min(84vw,44vh),400px);min-height:0;max-height:none;margin:2px auto 0}
+#readmode .rm-lab{margin-top:2px}
+#readmode .rm-act{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%;max-width:440px;margin:14px auto 0}
+#readmode .rm-b{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;width:100%;min-height:62px;padding:8px 6px;border-radius:14px;font-size:var(--t-btn);line-height:1.25;white-space:nowrap}
+#readmode .rm-b span{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+#readmode .rm-b.quiet{background:rgba(255,255,255,.035);border:1px solid var(--line2);color:var(--ink)}
+#readmode .rm-b[disabled]{opacity:.42;cursor:default}
+#readmode .rm-night.on{border-color:rgba(242,213,138,.6);color:var(--gold);background:rgba(242,213,138,.08)}
+@media (max-height:700px){#readmode .rm-stage{height:clamp(170px,min(72vw,36vh),300px)}#readmode .rm-b{min-height:54px;gap:2px}#readmode .rm-act{margin-top:10px;gap:8px}}
+@media (min-width:700px) and (orientation:portrait){#readmode{max-width:640px;padding-top:24px}#readmode .rm-stage{max-width:560px;height:clamp(280px,46vh,520px)}#readmode .rm-act{max-width:520px}}
+@media (orientation:landscape) and (min-width:640px){
+  #readmode{display:grid;max-width:1040px;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);grid-template-rows:1fr auto auto auto auto auto auto 1fr;grid-template-areas:". stage" "top stage" "title stage" "lab stage" "time stage" "msg stage" "act stage" ". stage";column-gap:28px;align-items:center;padding:12px 28px}
+  #readmode .rm-stage{grid-area:stage;align-self:center;max-width:none;height:min(78vh,560px)}
+  #readmode .rm-top{grid-area:top}#readmode .rm-title{grid-area:title}#readmode .rm-lab{grid-area:lab;margin-top:14px}#readmode .rm-time{grid-area:time}#readmode .rm-msg{grid-area:msg}#readmode .rm-act{grid-area:act;margin-top:12px}}
+/* v2.12 한글 단어 단위 줄바꿈 */
+body{word-break:keep-all;overflow-wrap:break-word}
+.toast,.sbm-t,.sbm-b,.kwhint{word-break:keep-all;overflow-wrap:break-word}
+/* v2.12 상단 안전 영역: 스크롤해도 상태 표시줄과 겹치지 않게 가림 */
+body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:100;pointer-events:none}
+/* v2.12 설정·팝업이 열리면 독서 플로팅 바(설정이면 하단 메뉴도) 숨김 — 세션은 그대로 */
+body:has(.sheet:not([hidden])) #rcFloat,body:has(.sbm-dim) #rcFloat,body:has(#birth:not([hidden])) #rcFloat{display:none!important}
+body:has(#panel:not([hidden])) #bnav{display:none!important}
 </style>
 </head>
 <body>
@@ -966,12 +988,11 @@ body:has(#bsub:not([hidden])) #rmChip{display:none}
   <div class="rm-time" id="rmTime" role="timer" aria-live="off">00 : 00 : 00</div>
   <p class="rm-msg" id="rmMsg" aria-live="polite"></p>
   <div class="rm-act">
-    <button type="button" class="btn" id="rmMain"></button>
-    <button type="button" class="btn quiet rm-night" id="rmNight" hidden aria-pressed="false"></button>
-    <button type="button" class="btn quiet" id="rmEnd" hidden>독서 종료</button>
-    <button type="button" class="link" id="rmNote">독서노트 열기</button>
+    <button type="button" class="btn rm-b rm-main" id="rmMain"></button>
+    <button type="button" class="btn quiet rm-b rm-night" id="rmNight" aria-pressed="false"></button>
+    <button type="button" class="btn quiet rm-b" id="rmEnd"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2.5"/></svg><span>독서 종료</span></button>
+    <button type="button" class="btn quiet rm-b" id="rmNote"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10 5 7.5 4.5 4 5v13c3.5-.5 6 0 8 1.5 2-1.5 4.5-2 8-1.5V5c-3.5-.5-6 0-8 1.5zM12 6.5v13"/></svg><span>독서노트 열기</span></button>
   </div>
-  <div class="rm-foot"><span>이 책의 전체 누적 독서 시간</span><b id="rmTotal">0분</b></div>
 </main>
 
 <nav class="bnav" id="bnav" aria-label="주요 메뉴" hidden>
@@ -1145,7 +1166,7 @@ async function loadBoard(bid){
 }
 function dropBoard(bid){delete BOARDS[bid];if(PREVIEW)return;try{localStorage.removeItem('rb4-'+bid);}catch(e){}if(mode==='db'&&DB)DB.doc(dbBase+'/b_'+bid).delete().catch(()=>{});}
 /* ---------- 버전 · 업데이트 알림 ---------- */
-const APP_VERSION='2.11',APP_DATE='2026.11.28';
+const APP_VERSION='2.12',APP_DATE='2026.11.28';
 let upLater=0,upChecked=0;
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
 async function checkUpdate(manual){
@@ -3042,7 +3063,7 @@ const RS=(()=>{
       actions:[{label:'읽지 않았어요',value:'no'},{label:'읽었어요, 계속',primary:true,value:'yes'}],
       onClose:v=>{if(!A||A.sid!==sid)return;
         if(v==='yes'){if(capAway(aw.at))toast('최대 2시간까지만 독서 시간에 넣었어요.',4000);}
-        else{dropAway(aw.at);toast('벗어난 시간은 빼고 일시정지했어요. 이어서 읽기를 누르면 다시 시작돼요.',4000);const t=stack[stack.length-1];if(t&&t.id!=='readmode'&&t.id!=='board'){VB=A.bookId;go('readmode',{id:A.bookId});}}
+        else{dropAway(aw.at);toast('벗어난 시간은 빼고 일시정지했어요.',3500);const t=stack[stack.length-1];if(t&&t.id!=='readmode'&&t.id!=='board'){VB=A.bookId;go('readmode',{id:A.bookId});}}
         paintRM();ui();if(AWAY)comeBack();}});}
   /* 앱이 닫혀 있다가 다시 열렸을 때(완전 종료·아이폰이 정리): 마지막 기록 시점부터의 시간 */
   function askClosed(){if(!A||!A.recovered||A.remote||A.asked)return;A.asked=true;const segs=A.segs||[],last=segs.length?segs[segs.length-1].e:0;if(!last)return;
@@ -3050,7 +3071,7 @@ const RS=(()=>{
     if(A.night){inc();toast('화면을 끈 동안의 시간'+(gap>CAP?'(최대 2시간)':'')+'도 기록했어요.',3500);return;}
     sbModal({title:'앱이 닫혀 있는 동안에도 읽었나요?',body:gapTxt(gap)+' 동안 앱이 닫혀 있었어요. 읽었다면 독서 시간에 넣을게요'+(gap>CAP?'(최대 2시간)':'')+'.',book:bInfo(A.bookId,'일시정지된 독서'),dismissible:false,
       actions:[{label:'읽지 않았어요',value:'no'},{label:'읽었어요',primary:true,value:'yes'}],onClose:v=>{if(v==='yes')inc();}});}
-  function nightToggle(){if(!running())return;A.night=!A.night;commit(false,false);paintRM();toast(A.night?'이제 화면을 꺼도 계속 기록해요. 다시 켜면 그대로 이어져요.':'화면 끄고 읽기를 껐어요.',3500);}
+  function nightToggle(){if(!running())return;A.night=!A.night;commit(false,false);paintRM();toast(A.night?'화면을 꺼도 계속 기록해요.':'화면 끄고 읽기를 껐어요.',3000);}
   /* ---- CASE 1: 다른 책 고르기 ---- */
   function pick(cb){const list=S.books.filter(b=>stOf(b)==='reading'&&(!A||b.id!==A.bookId));
     if(!list.length){toast(A?'바꿀 수 있는 다른 책이 없어요.':'읽고 있는 책이 없어요. 책을 먼저 추가해 주세요.');return;}
@@ -3098,27 +3119,40 @@ const RS=(()=>{
   function paintRM(){const b=book(VB),s=!A?'idle':(A.remote?'remote':A.status);
     $('rmTitle').textContent=b?b.title:'삭제된 책';const L=(b?b.title:'').length;$('rmTitle').style.fontSize=(L>16?20:L>10?24:28)+'px';
     $('rmMsg').textContent={idle:'독서를 시작해 볼까요?',running:'독서 중이에요.',paused:(A&&A.recovered)?'이전에 읽던 독서를 이어갈 수 있어요.':'잠시 쉬어가는 중이에요.',remote:'다른 화면에서 독서 중이에요.'}[s];
-    const m=$('rmMain');m.textContent={idle:'▷ 독서 시작',running:'Ⅱ 일시정지',paused:'▷ 이어서 읽기',remote:'▷ 이 화면에서 이어서 읽기'}[s];m.className=s==='running'?'btn quiet':'btn';m.disabled=busy;
-    $('rmEnd').hidden=s==='idle';const nb=$('rmNight');nb.hidden=s!=='running';const on=!!(A&&A.night);nb.classList.toggle('on',on);nb.setAttribute('aria-pressed',on);nb.innerHTML=(on?'🌙 화면을 꺼도 기록 중':'🌙 화면 끄고 읽기');
+    const m=$('rmMain');m.innerHTML=(s==='running'?RMI.pause:RMI.play)+'<span>'+{idle:'독서 시작',running:'일시정지',paused:'이어서 읽기',remote:'여기서 이어 읽기'}[s]+'</span>';m.disabled=busy;
+    $('rmEnd').disabled=s==='idle';const nb=$('rmNight');nb.disabled=s!=='running';const on=!!(A&&A.night)&&s==='running';nb.classList.toggle('on',on);nb.setAttribute('aria-pressed',on);nb.innerHTML=RMI.moon+'<span>'+(on?'화면 꺼도 기록 중':'화면 끄고 읽기')+'</span>';
     if(s==='running'&&on)$('rmMsg').textContent='화면을 꺼도 계속 기록해요.';tickRM();sceneSync();}
-  function tickRM(){if($('readmode').hidden)return;$('rmTime').textContent=fmtHMS(secOf(VB,dkey(now())));$('rmTotal').textContent=fmtHM(secOf(VB));}
-  function show(id){RCsid=null;RCX=false;VB=A?A.bookId:id;paintRM();clearInterval(tickT);tickT=setInterval(tickRM,500);ensure();requestAnimationFrame(()=>{scene3D();sceneSync();loop();});}
+  function tickRM(){if($('readmode').hidden)return;$('rmTime').textContent=fmtHMS(secOf(VB,dkey(now())));}
+  const RMI={play:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 5.8v12.4L18.5 12z"/></svg>',pause:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg>',moon:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M19.5 14.5A7.5 7.5 0 0 1 9.5 4.5a7.5 7.5 0 1 0 10 10z"/></svg>'};
+  function show(id){RCsid=null;RCX=false;VB=A?A.bookId:id;paintRM();clearInterval(tickT);tickT=setInterval(tickRM,500);ensure();requestAnimationFrame(()=>{scene3D();if(G&&G.rs)G.rs();sceneSync();loop();});}
   function leave(){clearInterval(tickT);tickT=null;if(G&&G.raf){cancelAnimationFrame(G.raf);G.raf=null;}}
   /* ---- 3D: 기존 행성 셰이더(planetMat)와 softTex 재사용 ---- */
+  /* v2.12 독서 모드 행성: 전용 셰이더(빛·명암·띠 무늬), 다층 고리(행성 그림자 포함), 화면 비율에 맞춰 카메라 거리 자동 조정 */
+  const LD=[-.55,.45,.7];
+  function rmPlanetMat(col){const l=new THREE.Vector3(...LD).normalize();return new THREE.ShaderMaterial({uniforms:{col:{value:new THREE.Color(col)},Ld:{value:l}},
+    vertexShader:'varying vec3 vN;varying vec3 vW;varying vec2 vUv;void main(){vUv=uv;vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;vN=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*viewMatrix*w;}',
+    fragmentShader:'uniform vec3 col;uniform vec3 Ld;varying vec3 vN;varying vec3 vW;varying vec2 vUv;void main(){vec3 N=normalize(vN);vec3 V=normalize(cameraPosition-vW);float d=dot(N,Ld);float mu=max(dot(N,V),0.);float y=vUv.y,x=vUv.x*6.2832;float w1=sin(y*19.+sin(x+y*4.)*.55+sin(y*6.3)*1.4);float w2=sin(y*47.+sin(x*2.+1.7)*.7);float w3=sin(y*9.+sin(x*.5)*.3);vec3 base=col*(.86+.07*w1+.035*w2+.04*w3);base=mix(base,mix(col,vec3(1.,.97,.9),.45),.16*smoothstep(.55,1.,w1));float lit=.13+.95*smoothstep(-.22,.85,d);float limb=.62+.38*pow(mu,.45);vec3 c=base*lit*limb;vec3 R=reflect(-Ld,N);c+=vec3(1.,.96,.88)*pow(max(dot(R,V),0.),22.)*.07*step(0.,d);float rim=pow(1.-mu,3.2)*smoothstep(-.15,.6,d);c+=mix(col,vec3(1.),.55)*rim*.28;gl_FragColor=vec4(c,1.);}'});}
+  function rmRingMat(col,inner,outer,pr){const l=new THREE.Vector3(...LD).normalize();return new THREE.ShaderMaterial({transparent:true,depthWrite:false,side:THREE.DoubleSide,uniforms:{col:{value:new THREE.Color(col)},Ld:{value:l},Pc:{value:new THREE.Vector3()},Pr:{value:pr},inner:{value:inner},outer:{value:outer}},
+    vertexShader:'varying vec2 vP;varying vec3 vW;void main(){vP=position.xy;vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;gl_Position=projectionMatrix*viewMatrix*w;}',
+    fragmentShader:'uniform vec3 col;uniform vec3 Ld;uniform vec3 Pc;uniform float Pr;uniform float inner;uniform float outer;varying vec2 vP;varying vec3 vW;void main(){float t=clamp((length(vP)-inner)/(outer-inner),0.,1.);float a1=smoothstep(.0,.06,t)*(1.-smoothstep(.36,.40,t))*.42;float a2=smoothstep(.45,.49,t)*(1.-smoothstep(.80,.84,t))*.9;float a3=smoothstep(.88,.9,t)*(1.-smoothstep(.93,.95,t))*.5;float grain=.88+.08*sin(t*46.)+.04*sin(t*21.+1.3);float a=(a1+a2+a3)*grain;vec3 o=vW-Pc;float b=dot(o,Ld);float h=b*b-(dot(o,o)-Pr*Pr);float sh=(h>0.&&(-b+sqrt(max(h,0.)))>0.)?.28:1.;vec3 c=mix(col,vec3(1.,.95,.84),.42)*(.78+.22*grain)*sh;gl_FragColor=vec4(c,a*.85*(.55+.45*sh));}'});}
   function scene3D(){if(G||!window.THREE)return G;const host=$('rmStage'),W=host.clientWidth||320,H=host.clientHeight||300;let r;
     try{r=new THREE.WebGLRenderer({antialias:true,alpha:true});}catch(e){return null;}
     r.setPixelRatio(Math.min(devicePixelRatio,2));r.setSize(W,H,false);r.setClearColor(0,0);host.appendChild(r.domElement);
     const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(34,W/H,.1,200),P=new THREE.Vector3(9,-7,-7),C=new THREE.Vector3(9,-7,6);cam.position.copy(C);
-    const stars=(()=>{const n=230,a=new Float32Array(n*3);for(let i=0;i<n;i++){const z=-30-Math.random()*60;a[i*3]=(Math.random()*2-1)*Math.abs(z)*.37;a[i*3+1]=(Math.random()*2-1)*Math.abs(z)*.3;a[i*3+2]=z;}
-      const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(a,3));return new THREE.Points(g,new THREE.PointsMaterial({color:0xEDE6D3,size:1.4,sizeAttenuation:false,transparent:true,opacity:.5,depthWrite:false}));})();stars.position.copy(C);sc.add(stars);
-    const planet=new THREE.Mesh(new THREE.SphereGeometry(1.8,64,48),planetMat(planetColor(),2.3));planet.position.copy(P);sc.add(planet);
-    const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:softTex([[0,'rgba(255,255,255,0.3)'],[.5,'rgba(255,255,255,0.07)'],[1,'rgba(255,255,255,0)']]),color:new THREE.Color(planetColor()),transparent:true,depthWrite:false,opacity:.55}));halo.scale.set(8,8,1);halo.position.copy(P);halo.position.z-=.6;sc.add(halo);
-    const tilt=new THREE.Group();tilt.position.copy(P);tilt.rotation.z=-.3;sc.add(tilt);const orb=new THREE.Group();orb.rotation.x=-1.25;tilt.add(orb);
-    const R=3.25,ring=new THREE.Mesh(new THREE.TorusGeometry(R,.014,6,160),new THREE.MeshBasicMaterial({color:0x9A8458}));orb.add(ring);
-    const sat=new THREE.Mesh(new THREE.SphereGeometry(.34,32,24),planetMat('#D9BE8C',1.7));orb.add(sat);
-    G={r,sc,cam,planet,halo,sat,R,th:Math.PI*.12,t:performance.now(),dirty:true,raf:null,host};
-    const rs=()=>{const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();G.dirty=true;};addEventListener('resize',rs);addEventListener('orientationchange',rs);G.rs=rs;return G;}
-  function sceneSync(){if(!G)return;const c=planetColor();G.planet.material.uniforms.col.value.set(c);G.halo.material.color.set(c);G.dirty=true;}
+    const stars=(()=>{const n=180,a=new Float32Array(n*3);for(let i=0;i<n;i++){const z=-30-Math.random()*60;a[i*3]=(Math.random()*2-1)*Math.abs(z)*.6;a[i*3+1]=(Math.random()*2-1)*Math.abs(z)*.45;a[i*3+2]=z;}
+      const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(a,3));return new THREE.Points(g,new THREE.PointsMaterial({color:0xEDE6D3,size:1.3,sizeAttenuation:false,transparent:true,opacity:.45,depthWrite:false}));})();stars.position.copy(C);sc.add(stars);
+    const PR=1.8,planet=new THREE.Mesh(new THREE.SphereGeometry(PR,72,54),rmPlanetMat(planetColor()));planet.position.copy(P);planet.rotation.z=-.3;sc.add(planet);
+    const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:softTex([[0,'rgba(255,255,255,0.22)'],[.45,'rgba(255,255,255,0.06)'],[1,'rgba(255,255,255,0)']]),color:new THREE.Color(planetColor()),transparent:true,depthWrite:false,opacity:.45}));halo.scale.set(7.2,7.2,1);halo.position.copy(P);halo.position.z-=2.5;sc.add(halo);
+    const tilt=new THREE.Group();tilt.position.copy(P);tilt.rotation.z=-.3;sc.add(tilt);const orb=new THREE.Group();orb.rotation.x=-1.18;tilt.add(orb);
+    const RI=2.35,RO=3.3,rm=rmRingMat(planetColor(),RI,RO,PR);rm.uniforms.Pc.value.copy(P);const ringM=new THREE.Mesh(new THREE.RingGeometry(RI,RO,192,1),rm);orb.add(ringM);
+    const R=3.8,ring=new THREE.Mesh(new THREE.TorusGeometry(R,.008,6,200),new THREE.MeshBasicMaterial({color:0xC9B27E,transparent:true,opacity:.32,depthWrite:false}));orb.add(ring);
+    const sat=new THREE.Mesh(new THREE.SphereGeometry(.24,32,24),rmPlanetMat('#D9BE8C'));orb.add(sat);
+    G={r,sc,cam,planet,halo,ringM,sat,R,P,th:Math.PI*.12,t:performance.now(),dirty:true,raf:null,host};
+    /* 화면 비율이 바뀌어도 원형 유지 + 고리·위성 전체가 보이도록 카메라 거리 계산 */
+    const rs=()=>{const w=host.clientWidth,h=host.clientHeight;if(!w||!h)return;r.setSize(w,h,false);const asp=w/h,tv=Math.tan(cam.fov*Math.PI/360);cam.aspect=asp;
+      const d=Math.max(2.25/tv,4.2/(tv*asp))*1.04;cam.position.set(P.x,P.y,P.z+d);stars.position.copy(cam.position);cam.updateProjectionMatrix();G.dirty=true;};
+    rs();addEventListener('resize',rs);addEventListener('orientationchange',()=>setTimeout(rs,250));if(window.ResizeObserver){G.ro=new ResizeObserver(rs);G.ro.observe(host);}G.rs=rs;return G;}
+  function sceneSync(){if(!G)return;const c=planetColor();G.planet.material.uniforms.col.value.set(c);G.halo.material.color.set(c);G.ringM.material.uniforms.col.value.set(c);G.dirty=true;}
   function loop(){if(!G||$('readmode').hidden){if(G)G.raf=null;return;}
     if(G.raf)cancelAnimationFrame(G.raf);const t=performance.now(),dt=Math.min(.1,(t-G.t)/1000);G.t=t;
     if(running()&&!document.hidden){G.th+=DIR*OMEGA*dt;G.planet.rotation.y+=.04*dt;G.dirty=true;}
