@@ -596,11 +596,11 @@ button.calit:hover,button.calit:focus-visible{background:rgba(255,255,255,.05)}
 .hcs{font-size:var(--t-cap);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hci{flex:none;color:var(--gold)}
 #readCard .hcs{color:var(--muted);opacity:.85}
-body.hasnav #home,body.hasnav #stats,body.hasnav #studio{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+body.hasnav #home,body.hasnav #stats,body.hasnav #studio{padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 body.hasnav #wsheet .sheet-in{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
-.bnav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(4,1fr);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));background:rgba(12,18,32,.96);border-top:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:grid;grid-template-columns:repeat(4,1fr);padding:4px 6px max(4px,calc(env(safe-area-inset-bottom,0px) - 14px));background:rgba(12,18,32,.96);border-top:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .bnav[hidden]{display:none}
-.bnav button{display:flex;flex-direction:column;align-items:center;gap:3px;min-height:52px;padding:6px 0;border:none;background:none;color:var(--muted);font-size:var(--t-micro);cursor:pointer}
+.bnav button{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:46px;padding:4px 0;border:none;background:none;color:var(--muted);font-size:var(--t-micro);cursor:pointer}
 .bnav button.on{color:var(--gold)}
 .bnav button:focus-visible{outline:2px solid var(--gold);outline-offset:-4px;border-radius:10px}
 .tmp h1{margin-top:4px}
@@ -630,7 +630,9 @@ body.hasnav #wsheet .sheet-in{padding-bottom:calc(96px + env(safe-area-inset-bot
 #shelf .spine .face::before{top:10px!important}#shelf .spine .face::after{bottom:17px!important}
 #shelf .spine .sd{bottom:5px}
 /* ---------- 고도화3 · 지식 페이지 · 참고 자료 ---------- */
-#wStat{flex:1;text-align:center}.wsave{min-height:36px;padding:0 14px;font-size:var(--t-cap);opacity:.55}.wsave.on{opacity:1}.wsun{color:#F2B98A}.wref{display:inline-flex;align-items:center;gap:5px;min-height:36px}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#wRef,#kSave{margin-left:auto}.wetop{gap:4px}
+.wsave{min-height:40px;min-width:40px;padding:0 16px;font-size:var(--t-cap)}.wsave.done{padding:0;width:40px;background:none;border:1px solid rgba(242,213,138,.45);color:var(--gold)}.wsun{color:#F2B98A}.wref{display:inline-flex;align-items:center;gap:5px;min-height:36px}
 .wrl{margin-top:8px}.wrr{margin-top:10px}.wrr.kp{padding:10px 12px;border:1px solid var(--line);border-radius:12px}.wra{gap:12px;margin-top:2px}
 
 .wskp{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;margin-top:10px;padding:0 14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);color:var(--ink);font-size:var(--t-cap);text-align:left;cursor:pointer}
@@ -658,8 +660,15 @@ body.hasnav #wsheet .sheet-in{padding-bottom:calc(96px + env(safe-area-inset-bot
 .kpbar{justify-content:space-between;align-items:center;margin-top:12px}
 .colrw{position:relative}.colrw .colr{padding-right:44px}
 .colpin{position:absolute;right:6px;top:6px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:none;border-radius:10px;background:none;color:var(--muted);cursor:pointer}.colpin:focus-visible{outline:2px solid var(--gold)}
+/* 실기기 피드백: 카드·플로팅 강조, 독서 모드 빈 공간 줄이기 */
+body #rcCard,body #rcFloat{background:linear-gradient(180deg,rgba(38,46,72,.98),rgba(24,31,52,.98));border:1px solid rgba(242,213,138,.55);box-shadow:0 0 0 1px rgba(242,213,138,.12),0 10px 28px rgba(0,0,0,.55)}
+.rf-i{width:34px;height:34px;align-items:center;justify-content:center;border-radius:50%;border:1.5px solid rgba(242,213,138,.6);color:var(--gold)}
+#readmode .rm-stage{flex:1 1 0;height:auto;min-height:min(62vw,230px);max-height:min(115vw,470px)}
+#readmode .rm-foot{margin-top:14px}
+.rm-night{min-height:44px;font-size:var(--t-cap)}.rm-night.on{border-color:rgba(242,213,138,.6);color:var(--gold);background:rgba(242,213,138,.08)}
 /* ---------- 고도화3 · 통합 기록 탐색 ---------- */
 .colq{width:100%;margin:14px 0 0}
+.colbar{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin:12px 0 2px}
 .colr{display:flex;flex-direction:column;gap:6px;width:100%;margin-top:10px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02);color:var(--ink);text-align:left;cursor:pointer}
 .colr:focus-visible{outline:2px solid var(--gold)}
 .colrh{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}.colrt{color:var(--gold)}
@@ -682,7 +691,8 @@ body.hasnav #wsheet .sheet-in{padding-bottom:calc(96px + env(safe-area-inset-bot
 #stGoal{margin:6px 0 14px}
 .gcard{padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.02)}
 .gt{font-size:var(--t-btn)}.glink{border:none;background:none;color:var(--gold);font-size:var(--t-cap);min-height:36px;padding:0 2px;cursor:pointer}
-.gset{display:block;margin:0 0 2px}
+.stgh{display:flex;align-items:center;justify-content:space-between;gap:12px}.stgh h1{margin:0}
+.stgoalbtn{flex:none;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:var(--gold);color:#141C2E;cursor:pointer;box-shadow:0 4px 14px rgba(242,213,138,.25)}.stgoalbtn:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .gbar{height:8px;border-radius:4px;background:rgba(255,255,255,.07);overflow:hidden;margin-top:6px}.gbar i{display:block;height:100%;border-radius:4px;background:var(--gold)}
 .gv{margin-top:6px;font-size:var(--t-cap);color:var(--muted)}
 .ghab{margin:12px 0 8px;font-size:var(--t-cap);color:var(--muted)}.ghab b{color:var(--ink);font-weight:500}
@@ -884,7 +894,7 @@ body:has(#bsub:not([hidden])) #rmChip{display:none}
 <main class="wrap" id="wlist" hidden></main>
 <main class="wrap" id="ilist" hidden></main>
 <main class="wrap" id="wedit" hidden aria-label="글쓰기">
-  <div class="wetop"><button type="button" class="icon" id="wBack" aria-label="뒤로"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><span class="muted small" id="wStat" aria-live="polite"></span><button type="button" class="tbtn wref" id="wRef" aria-label="참고 자료"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5l-8.6 8.6a5 5 0 01-7.1-7.1l8.6-8.6a3.3 3.3 0 014.7 4.7l-8.6 8.6a1.7 1.7 0 01-2.4-2.4l7.9-7.9"/></svg>참고 <span id="wRefN">0</span></button><button type="button" class="btn wsave" id="wSave">저장</button><button type="button" class="icon" id="wMenu" aria-label="글 메뉴"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg></button></div>
+  <div class="wetop"><button type="button" class="icon" id="wBack" aria-label="뒤로"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><span class="sr-only" id="wStat" aria-live="polite"></span><button type="button" class="tbtn wref" id="wRef" aria-label="참고 자료"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5l-8.6 8.6a5 5 0 01-7.1-7.1l8.6-8.6a3.3 3.3 0 014.7 4.7l-8.6 8.6a1.7 1.7 0 01-2.4-2.4l7.9-7.9"/></svg>참고 <span id="wRefN">0</span></button><button type="button" class="btn wsave" id="wSave">저장</button><button type="button" class="icon" id="wMenu" aria-label="글 메뉴"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg></button></div>
   <input id="wTitle" class="wtitle serif" maxlength="80" placeholder="제목" aria-label="글 제목">
   <div class="wtools" id="wTools" role="toolbar" aria-label="서식">
     <button type="button" data-c="b" aria-label="굵게"><b>B</b></button><button type="button" data-c="i" aria-label="기울임"><i style="font-family:serif">I</i></button><button type="button" data-c="u" aria-label="밑줄"><u>U</u></button><span class="wsep"></span>
@@ -897,7 +907,7 @@ body:has(#bsub:not([hidden])) #rmChip{display:none}
 </main>
 <main class="wrap" id="klist" hidden></main>
 <main class="wrap" id="kedit" hidden aria-label="지식 페이지">
-  <div class="wetop"><button type="button" class="icon" id="kBack" aria-label="뒤로"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><span class="muted small" id="kStat" aria-live="polite"></span><button type="button" class="btn wsave" id="kSave">저장</button><button type="button" class="icon" id="kMenu" aria-label="지식 페이지 메뉴"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg></button></div>
+  <div class="wetop"><button type="button" class="icon" id="kBack" aria-label="뒤로"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><span class="sr-only" id="kStat" aria-live="polite"></span><button type="button" class="btn wsave" id="kSave">저장</button><button type="button" class="icon" id="kMenu" aria-label="지식 페이지 메뉴"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="19" cy="12" r="1.7"/></svg></button></div>
   <input id="kTitle" class="wtitle serif" maxlength="60" placeholder="주제" aria-label="주제">
   <div id="kBody"></div>
   <div class="kadd" id="kAdd"><button type="button" class="btn quiet" data-ka="ref">+ 기록 담기</button><button type="button" class="btn quiet" data-ka="head">+ 소제목</button><button type="button" class="btn quiet" data-ka="note">+ 나의 생각</button></div>
@@ -913,6 +923,7 @@ body:has(#bsub:not([hidden])) #rmChip{display:none}
   <p class="rm-msg" id="rmMsg" aria-live="polite"></p>
   <div class="rm-act">
     <button type="button" class="btn" id="rmMain"></button>
+    <button type="button" class="btn quiet rm-night" id="rmNight" hidden aria-pressed="false"></button>
     <button type="button" class="btn quiet" id="rmEnd" hidden>독서 종료</button>
     <button type="button" class="link" id="rmNote">독서노트 열기</button>
   </div>
@@ -952,11 +963,12 @@ body:has(#bsub:not([hidden])) #rmChip{display:none}
 </main>
 
 <main class="wrap" id="collect" hidden>
-  <div class="between"><button type="button" class="tbtn homebtn" data-home><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>내 책장</button><button type="button" class="btn sm" id="colExport">텍스트로 저장</button></div>
+  <div class="between"><button type="button" class="tbtn homebtn" data-home><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>내 책장</button></div>
   <h1 style="margin-top:12px">모아보기</h1>
   <p class="muted small" id="colSum" style="margin-top:4px"></p>
   <input type="search" id="colQ" class="dinp colq" placeholder="글·포스트잇·키워드 검색" aria-label="기록 검색" enterkeyhint="search">
   <div class="colf"><label class="colsel"><span class="f">행성</span><select id="colPl" class="dinp qsel"></select></label><label class="colsel"><span class="f">읽기 상태</span><select id="colSt" class="dinp qsel"></select></label><label class="colsel"><span class="f">키워드</span><select id="colKw" class="dinp qsel"></select></label><label class="colsel"><span class="f">유형</span><select id="colTy" class="dinp qsel"></select></label><label class="colsel"><span class="f">기간</span><select id="colPer" class="dinp qsel"></select></label><label class="colsel"><span class="f">책</span><select id="colBk" class="dinp qsel"></select></label></div>
+  <div class="colbar"><button type="button" class="btn quiet sm" id="colReset" hidden>필터 초기화</button><button type="button" class="btn sm" id="colExport">텍스트로 내보내기</button></div>
   <div id="colBody"></div>
 </main>
 
@@ -1089,7 +1101,7 @@ async function loadBoard(bid){
 }
 function dropBoard(bid){delete BOARDS[bid];if(PREVIEW)return;try{localStorage.removeItem('rb4-'+bid);}catch(e){}if(mode==='db'&&DB)DB.doc(dbBase+'/b_'+bid).delete().catch(()=>{});}
 /* ---------- 버전 · 업데이트 알림 ---------- */
-const APP_VERSION='2.7',APP_DATE='2026.11.28';
+const APP_VERSION='2.9',APP_DATE='2026.11.28';
 let upLater=0,upChecked=0;
 function verCmp(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);for(let i=0;i<Math.max(x.length,y.length);i++){const d=(x[i]||0)-(y[i]||0);if(d)return d;}return 0;}
 async function checkUpdate(manual){
@@ -2500,9 +2512,9 @@ async function renderCollect(){
   $('colExport').disabled=!bs.length;
 }
 function collectText(){
-  const bs=colBooks(),pls=planetsUsed(),pn=COL.pl==='all'?'모든 행성':(pls.find(p=>p.id===COL.pl)||{}).name,sn=COL.st==='all'?'전체':STATUS[COL.st];
+  const bs=colBooks(),pls=planetsUsed(),pn=COL.pl==='all'?'전체 분야':(pls.find(p=>p.id===COL.pl)||{}).name,sn=COL.st==='all'?'전체':STATUS[COL.st];
   let t='# '+who()+'의 독서노트 모아보기\n'+[pn,sn,COL.kw?'★ '+COL.kw:''].filter(Boolean).join(' · ')+' · '+today()+'\n';
-  pls.forEach(p=>{const g=bs.filter(b=>planetOf(b).id===p.id);if(!g.length)return;t+='\n\n## '+p.name+' 행성 ('+g.length+'권)\n';
+  pls.forEach(p=>{const g=bs.filter(b=>planetOf(b).id===p.id);if(!g.length)return;t+='\n\n## '+p.name+' ('+g.length+'권)\n';
     g.forEach(b=>{const it=colItems(b);t+='\n### '+b.title+'\n'+[b.author,STATUS[stOf(b)],ymd(b.created||b.at)+' 등록'].filter(Boolean).join(' · ')+'\n';
       if(it.tx.length)t+='\n'+it.tx.map(x=>x.text.trim()).join('\n\n')+'\n';
       if(it.st.length)t+='\n포스트잇\n'+it.st.map(x=>'- '+x.text.trim().replace(/\n+/g,' ')).join('\n')+'\n';
@@ -2538,11 +2550,12 @@ function renderColResults(){const res=colResults(),q=norm(COL.q),lq=q.toLowerCas
   body.innerHTML=res.length?res.slice(0,COL.lim).map(r=>{const p=planetOf(r.b);return '<div class="colrw"><button type="button" class="colpin" data-pin="'+esc(r.b.id)+'|'+esc(r.i.id)+'" aria-label="지식 페이지에 담기"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 9-8 9-8-9z"/><path d="M4 12h16"/></svg></button><button type="button" class="colr" data-openb="'+esc(r.b.id)+'" data-focus="'+esc(r.i.id)+'"><span class="colrh"><span class="colrt">'+COL_TY[r.i.type]+'</span><span>'+(r.i.at?colDate(r.i.at):'날짜 없음')+'</span></span><span class="colrx">'+mark(snip(r.i.text))+'</span><span class="colrb"><i style="background:'+esc(p.color)+'"></i>'+esc(r.b.title||'제목 없음')+' · '+esc(p.name)+'</span></button></div>';}).join('')+(res.length>COL.lim?'<button type="button" class="btn quiet block" data-colmore style="margin-top:10px">결과 더 보기</button>':'')
     :'<p class="muted small" style="padding:20px 0">조건에 맞는 기록이 없어요.'+(COL.per!=='all'?' 날짜가 없는 오래된 기록은 기간 검색에서 빠져요.':'')+'</p>';
   $('colSum').textContent='검색 결과 '+res.length+'개'+(q?' · '+q:'');$('colExport').disabled=!res.length;}
-{const _rc=renderCollect;renderCollect=async function(){fillColX();await _rc();if(!$('collect').hidden&&BOARDS_READY&&colRes())renderColResults();};}
+{const _rc=renderCollect;renderCollect=async function(){fillColX();$('colReset').hidden=!(colRes()||COL.pl!=='all'||COL.st!=='all'||COL.kw);await _rc();if(!$('collect').hidden&&BOARDS_READY&&colRes())renderColResults();};}
 {const _ct=collectText;collectText=function(){if(!colRes())return _ct();const res=colResults();
   let t='# '+who()+'의 기록 검색 결과\n'+[norm(COL.q)?'검색어 '+norm(COL.q):'',COL.ty!=='all'?COL_TY[COL.ty].replace('★ ',''):'',COL.per!=='all'?$('colPer').selectedOptions[0].textContent:'',COL.bk!=='all'&&book(COL.bk)?book(COL.bk).title:''].filter(Boolean).join(' · ')+' · '+today()+' · '+res.length+'개\n\n';
   res.forEach(r=>{t+='['+COL_TY[r.i.type].replace('★ ','')+'] '+String(r.i.text).trim()+'\n— '+r.b.title+' · '+planetOf(r.b).name+(r.i.at?' · '+colDate(r.i.at):'')+'\n\n';});return t;};}
 let colQT=null;$('colQ').addEventListener('input',()=>{clearTimeout(colQT);colQT=setTimeout(()=>{COL.q=$('colQ').value;COL.lim=50;renderCollect();},200);});
+$('colReset').onclick=()=>{Object.assign(COL,{pl:'all',st:'all',kw:'',q:'',ty:'all',per:'all',bk:'all',lim:50});$('colQ').value='';renderCollect();toast('필터를 초기화했어요.');};
 [['colTy','ty'],['colPer','per'],['colBk','bk']].forEach(([id,k])=>$(id).addEventListener('change',()=>{COL[k]=$(id).value;COL.lim=50;renderCollect();}));
 $('colBody').addEventListener('click',e=>{const pn=e.target.closest('[data-pin]');if(pn){e.stopPropagation();const [pb,pi]=pn.dataset.pin.split('|');WS.pinRef(pb,pi);return;}if(e.target.closest('[data-colmore]')){e.stopPropagation();COL.lim+=50;renderColResults();return;}const f=e.target.closest('[data-focus]');if(f)PENDING_FOCUS=f.dataset.focus;},true);
 {const _rs=runSearch;runSearch=async function(){await _rs();const q=norm($('q').value),box=$('qres');if(q&&!box.hidden&&box.querySelector('[data-focus]')&&!box.querySelector('[data-qall]'))box.insertAdjacentHTML('beforeend','<button type="button" class="qi qall" data-qall>모아보기에서 전체 결과 보기 ›</button>');};}
@@ -2759,7 +2772,7 @@ const RS=(()=>{
   async function rd(k){if(PREVIEW)return MEM[k]||null;if(useDB()){const sn=await tmo(DB.doc(dbBase+'/'+k).get(),5000);return sn.exists?sn.data():null;}return lsGet('sb2-'+k);}
   async function wr(k,v){const c=JSON.parse(JSON.stringify(v));if(PREVIEW){MEM[k]=c;return;}if(useDB()){await tmo(DB.doc(dbBase+'/'+k).set(c),4000);return;}localStorage.setItem('sb2-'+k,JSON.stringify(c));}
   async function del(k){if(PREVIEW){delete MEM[k];return;}if(useDB()){await tmo(DB.doc(dbBase+'/'+k).delete(),4000);return;}localStorage.removeItem('sb2-'+k);}
-  const pack=()=>({sid:A.sid,bookId:A.bookId,status:A.status,segs:A.segs||[],open:A.open==null?null:A.open,owner:A.owner||null,hb:A.hb||0,startedAt:A.startedAt||0});
+  const pack=()=>({sid:A.sid,bookId:A.bookId,status:A.status,segs:A.segs||[],open:A.open==null?null:A.open,owner:A.owner||null,hb:A.hb||0,startedAt:A.startedAt||0,night:!!A.night,bg:!!A.bg});
   const running=()=>!!(A&&A.status==='running'&&!A.remote);
   const hasPend=()=>!!(Object.keys(PEND.e).length||PEND.idx||PEND.del);
   const savePend=()=>{if(useDB())lsSet(kPend(),hasPend()?PEND:null);};
@@ -2784,7 +2797,7 @@ const RS=(()=>{
   function foldEntry(a){const e=Math.max(a.open||0,a.hb||0),segs=(a.segs||[]).slice();if(a.open!=null&&e>a.open)segs.push({s:a.open,e});
     const by=byMonth(daysOf(segs,null));for(const ym in by){const m=MON[ym]||(MON[ym]={ses:{}});mergeEnt(m,a.sid,{b:a.bookId,d:by[ym]});addPend(ym,a.sid,m.ses[a.sid]);}lsSet(kAct(),null);}
   function recover(a){if(!a||a.status!=='running')return a;const sameTab=String(a.owner||'').split('.')[0]===TAB;
-    if(!sameTab&&now()-(a.hb||0)<STALE){a.remote=true;return a;}
+    if(!sameTab&&!a.bg&&now()-(a.hb||0)<STALE){a.remote=true;return a;}
     const e=Math.max(a.open||0,a.hb||0);if(a.open!=null&&e>a.open)a.segs=(a.segs||[]).concat([{s:a.open,e}]);a.open=null;a.status='paused';a.owner=null;a.recovered=true;return a;}
   /* ---- 서버 반영(대기열로 순서 보장, 실패해도 예외 없이 다음 기회에 다시 시도) ---- */
   async function flushMonths(){
@@ -2823,7 +2836,7 @@ const RS=(()=>{
     loading=(async()=>{loadPend();
       try{await tmo(loadCloud(),6000);fb=false;loaded=true;}catch(e){tok++;loadLocal();}
       loading=null;if(!rcInit){rcInit=true;if(A&&!A.remote&&A.status==='paused')RCsid=A.sid;}needFlush=hasPend();if(A&&A.recovered&&!A.remote)commit(false,true);else if(needFlush)retry();
-      homeSub();ui();if(!$('readmode').hidden)paintRM();})();return loading;}
+      homeSub();ui();if(!$('readmode').hidden)paintRM();setTimeout(askClosed,600);})();return loading;}
 
   /* ---- 2-D 집계: 캘린더·통계가 같은 원본(월 문서 + 진행 중 세션)을 사용해요 ---- */
   function days(){const out={},add=(k,b,v)=>{if(!(v>0))return;const o=out[k]=out[k]||{};o[b]=(o[b]||0)+v;};
@@ -2844,7 +2857,7 @@ const RS=(()=>{
     rows.forEach(r=>{const L=Math.max(0,C*r.v/tot-gp);g+='<circle r="'+R+'" cx="80" cy="80" fill="none" stroke="'+esc(r.c)+'" stroke-width="'+SW+'" stroke-dasharray="'+L.toFixed(2)+' '+(C-L).toFixed(2)+'" stroke-dashoffset="'+(-off).toFixed(2)+'"><title>'+esc(r.t+' '+fmtS(r.v))+'</title></circle>';off+=C*r.v/tot;});
     return '<svg class="stdonut" viewBox="0 0 160 160" role="img" aria-label="책별 독서 시간 비율"><g transform="rotate(-90 80 80)"><circle r="'+R+'" cx="80" cy="80" fill="none" class="trk" stroke-width="'+SW+'"/>'+g+'</g><text x="80" y="76" text-anchor="middle" class="dl">오늘</text><text x="80" y="98" text-anchor="middle" class="dv">'+esc(fmtS(tot))+'</text></svg>';}
   function renderStats(){const host=document.querySelector('main#stats');if(!host)return;
-    if(!host.dataset.st){host.dataset.st='1';const h1=host.querySelector('h1');if(h1)h1.textContent='나의 독서 시간';const box=host.querySelector('.tmpbox');if(box)box.remove();
+    if(!host.dataset.st){host.dataset.st='1';const h1=host.querySelector('h1');if(h1){h1.textContent='나의 독서 시간';const row=document.createElement('div');row.className='stgh';h1.replaceWith(row);row.appendChild(h1);const gb=document.createElement('button');gb.type='button';gb.className='stgoalbtn';gb.dataset.goal='1';gb.setAttribute('aria-label','독서 목표 설정');gb.title='독서 목표';gb.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg>';gb.onclick=()=>openGoal();row.appendChild(gb);}const box=host.querySelector('.tmpbox');if(box)box.remove();
       const w=document.createElement('div');w.className='stwrap';w.innerHTML='<div id="stGoal"></div><div class="sttabs" role="tablist" aria-label="기간"><button type="button" role="tab" data-p="today">오늘</button><button type="button" role="tab" data-p="week">이번 주</button><button type="button" role="tab" data-p="month">이번 달</button></div><div id="stBody"></div>';host.appendChild(w);
       w.onclick=e=>{if(e.target.closest('[data-goal]')){openGoal();return;}const rk=e.target.closest('[data-rk]');if(rk){COL.pl='all';COL.st='all';COL.kw=rk.dataset.rk;go('collect');return;}const t=e.target.closest('[data-p]');if(t){ST=t.dataset.p;STsel=null;renderStats();return;}const b=e.target.closest('[data-bi]');if(b){STsel=+b.dataset.bi;renderStats();}};
       w.onkeydown=e=>{const b=e.target.closest('[data-bi]');if(b&&(e.key==='Enter'||e.key===' ')){e.preventDefault();STsel=+b.dataset.bi;renderStats();setTimeout(()=>{const n=w.querySelector('[data-bi="'+STsel+'"]');if(n)n.focus();},0);}};}
@@ -2907,7 +2920,7 @@ const RS=(()=>{
   function paintGoal(){const el=$('stGoal');if(!el)return;const D=days(),g=goalOf(),h=habit(D);let x='';
     if(g){const v=periodSec(g.p,D),tg=g.m*60,pc=Math.min(100,Math.round(v*100/tg));
       x+='<div class="gcard"><div class="between"><span class="gt">'+PN[g.p]+' 목표 '+fmtHM(tg)+'</span><button type="button" class="glink" data-goal>목표 ›</button></div><div class="gbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pc+'" aria-label="'+PNOW[g.p]+' 목표 달성률"><i style="width:'+pc+'%"></i></div><div class="gv">'+PNOW[g.p]+' '+fmtS(v)+' · '+pc+'%'+(pc>=100?' · 달성':'')+'</div></div>';}
-    else x+='<button type="button" class="glink gset" data-goal>목표 설정하기 ›</button>';
+
     x+='<p class="ghab">연속 <b>'+h.cur+'일</b> · 최장 <b>'+h.best+'일</b> · 이번 달 <b>'+h.mon+'일</b></p><div class="gweek" aria-label="이번 주 독서 실천">'+'월화수목금토일'.split('').map((c,j)=>'<span class="gd '+h.wk[j]+'"><em>'+c+'</em><i aria-label="'+c+'요일 '+(h.wk[j]==='r'?'독서함':h.wk[j]==='n'?'독서 기록 없음':'아직')+'"></i></span>').join('')+'</div>';
     el.innerHTML=x;}
   function openGoal(){const g=goalOf()||{p:'day',m:30};let p=g.p;
@@ -2931,7 +2944,7 @@ const RS=(()=>{
     if(fb)reconnect();
     else{try{const cur=await rd(K_ACT);if(running()&&cur&&cur.sid===A.sid&&cur.status==='running'&&cur.owner!==ME&&now()-(cur.hb||0)<STALE){A=cur;A.remote=true;stopCk();if(useDB())lsSet(kAct(),cur);toast('다른 화면에서 독서가 이어져 이 화면의 측정을 멈췄어요.',5000);paintRM();ui();return;}}catch(e){}}
     if(!running())return;const full=now()-lastMon>=MONTH_EVERY;if(full)lastMon=now();commit(false,full);}
-  function pause(){if(!running())return false;const t=now();if(A.open!=null&&t>A.open)A.segs.push({s:A.open,e:t});A.open=null;A.status='paused';stopCk();commit(false,true);ui();setTimeout(cheer,600);return true;}
+  function pause(){if(!running())return false;const t=now();if(A.open!=null&&t>A.open)A.segs.push({s:A.open,e:t});A.open=null;A.status='paused';A.night=false;AWAY=null;stopCk();commit(false,true);ui();setTimeout(cheer,600);return true;}
   async function resume(){await ensure();if(!A||!loaded)return false;
     if(A.remote){const e=Math.max(A.open||0,A.hb||0);if(A.open!=null&&e>A.open)A.segs.push({s:A.open,e});A.remote=false;}
     A.open=now();A.status='running';A.owner=ME;A.recovered=false;AWAY=null;startTimers();commit(false,true);ui();return true;}
@@ -2948,24 +2961,41 @@ const RS=(()=>{
     A=null;MON={};IDX={months:[]};PEND={e:{},idx:false,del:null};tok++;lsSet(kAct(),null);lsSet(kPend(),null);AWAY=null;homeSub();ui();}
   function clearLocal(){try{Object.keys(localStorage).filter(k=>k.indexOf('sb2-')===0).forEach(k=>localStorage.removeItem(k));}catch(e){}}
   /* 화면 이탈(앱 전환·탭 이동·잠금·최소화) 시 일시정지: 이탈 시각에서 측정을 닫아 시간이 부풀지 않게 해요 */
-  const leaveApp=()=>{const was=running();pause();if(was)AWAY={sid:A.sid,at:now()};};
+  /* ---- 화면이 가려질 때(화면 꺼짐·다른 앱·다른 웹: 브라우저는 구분 불가) ----
+     · 일시정지하지 않고 계속 측정(시각 기록이라 돌아오면 정확히 계산)
+     · '화면 끄고 읽기'를 켜 두었거나 1분 이하면 그대로 이어감
+     · 그 밖에는 돌아왔을 때 "그동안에도 읽었나요?" 확인 / 최대 2시간까지만 포함
+     ※ 정식 앱 전환 시 운영체제의 화면 꺼짐 신호로 대체 예정(docs/BACKLOG.md) */
+  const AUTO=60,CAP=7200;
+  const leaveApp=()=>{if(!running())return;if(!AWAY||AWAY.sid!==A.sid)AWAY={sid:A.sid,at:now(),night:!!A.night};A.bg=true;commit(false,true);};
   document.addEventListener('visibilitychange',()=>{if(document.hidden)leaveApp();else{retry();refresh();if(!$('readmode').hidden)paintRM();comeBack();}});
   addEventListener('online',retry);
   addEventListener('pagehide',leaveApp);
   addEventListener('pageshow',e=>{if(e.persisted){if(!$('readmode').hidden)paintRM();comeBack();}});
-  /* ---- CASE 3: 앱을 벗어났다 돌아오면 이어서 읽을지 확인(자동 재개 없음). 3분 이상 벗어났으면 시간 보정을 물어요 ---- */
   const todayOf=()=>secOf(A.bookId,dkey(now()));
   const bInfo=(id,meta)=>{const b=book(id);return {title:b?b.title:'삭제된 책',color:b?planetOf(b).color:undefined,meta};};
-  function comeBack(){const aw=AWAY;if(!aw||document.hidden)return;
-    if(!A||A.sid!==aw.sid||A.status!=='paused'||A.remote){AWAY=null;return;}
+  const gapTxt=s=>s<60?s+'초':fmtHM(s);
+  /* 벗어난 동안을 빼기: 열린 구간을 벗어난 시각에서 닫고 일시정지 */
+  function dropAway(at){if(!running())return;if(A.open!=null&&at>A.open)A.segs.push({s:A.open,e:at});A.open=null;A.status='paused';A.night=false;stopCk();commit(false,true);ui();}
+  /* 2시간 상한: 벗어난 시각+2시간에서 자르고, 지금부터 다시 측정 */
+  function capAway(at){if(!running())return false;const lim=at+CAP*1000;if(now()<=lim)return false;if(A.open!=null&&lim>A.open)A.segs.push({s:A.open,e:lim});A.open=now();commit(false,true);return true;}
+  function comeBack(){if(A&&A.bg&&!document.hidden)A.bg=false;const aw=AWAY;if(!aw||document.hidden)return;
+    if(!A||A.sid!==aw.sid||!running()){AWAY=null;return;}
     if(document.querySelector('.sbm-dim'))return;AWAY=null;const gap=Math.round((now()-aw.at)/1000),sid=aw.sid;
-    sbModal({title:'독서를 이어서 하시겠습니까?',body:'앱을 벗어나 있는 동안 독서 시간이 일시정지되었어요.',book:bInfo(A.bookId,'오늘 누적 '+fmtHM(todayOf())),dismissible:false,
-      actions:[{label:'나중에 읽기',value:'later'},{label:'이어서 읽기',primary:true,value:'go'}],
-      onClose:v=>{if(v!=='go'||!A||A.sid!==sid||A.status!=='paused')return;
-        const doResume=add=>{if(!A||A.sid!==sid)return;if(add)A.segs.push({s:aw.at,e:now()});resume().then(()=>{const t=stack[stack.length-1];if(t&&t.id!=='readmode'&&t.id!=='board'){VB=A.bookId;go('readmode',{id:A.bookId});}paintRM();ui();});};
-        if(gap<180){doResume(false);return;}
-        sbModal({title:'자리를 비운 시간도 포함할까요?',body:fmtHM(gap)+' 동안 앱을 벗어나 있었어요. 종이책이나 전자책을 읽었다면 독서 시간에 포함할 수 있어요.',dismissible:false,
-          actions:[{label:'포함하지 않기',value:'no'},{label:'독서 시간에 포함',primary:true,value:'add'}],onClose:w=>doResume(w==='add')});}});}
+    if(aw.night||gap<=AUTO){if(capAway(aw.at))toast('최대 2시간까지만 독서 시간에 넣었어요.',4000);else if(aw.night&&gap>AUTO)toast('화면을 끈 동안 '+gapTxt(gap)+'도 기록했어요.',3000);paintRM();return;}
+    sbModal({title:'그동안에도 책을 읽었나요?',body:gapTxt(gap)+' 동안 화면을 벗어나 있었어요. 화면을 끄고 읽었다면 그대로 이어서 기록해요.',book:bInfo(A.bookId,'오늘 누적 '+fmtHM(todayOf())),dismissible:false,
+      actions:[{label:'읽지 않았어요',value:'no'},{label:'읽었어요, 계속',primary:true,value:'yes'}],
+      onClose:v=>{if(!A||A.sid!==sid)return;
+        if(v==='yes'){if(capAway(aw.at))toast('최대 2시간까지만 독서 시간에 넣었어요.',4000);}
+        else{dropAway(aw.at);toast('벗어난 시간은 빼고 일시정지했어요. 이어서 읽기를 누르면 다시 시작돼요.',4000);const t=stack[stack.length-1];if(t&&t.id!=='readmode'&&t.id!=='board'){VB=A.bookId;go('readmode',{id:A.bookId});}}
+        paintRM();ui();if(AWAY)comeBack();}});}
+  /* 앱이 닫혀 있다가 다시 열렸을 때(완전 종료·아이폰이 정리): 마지막 기록 시점부터의 시간 */
+  function askClosed(){if(!A||!A.recovered||A.remote||A.asked)return;A.asked=true;const segs=A.segs||[],last=segs.length?segs[segs.length-1].e:0;if(!last)return;
+    const gap=Math.round((now()-last)/1000);if(gap<=AUTO)return;const sid=A.sid,inc=()=>{if(!A||A.sid!==sid)return;A.segs.push({s:last,e:Math.min(now(),last+CAP*1000)});commit(false,true);homeSub();ui();if(!$('readmode').hidden)paintRM();};
+    if(A.night){inc();toast('화면을 끈 동안의 시간'+(gap>CAP?'(최대 2시간)':'')+'도 기록했어요.',3500);return;}
+    sbModal({title:'앱이 닫혀 있는 동안에도 읽었나요?',body:gapTxt(gap)+' 동안 앱이 닫혀 있었어요. 읽었다면 독서 시간에 넣을게요'+(gap>CAP?'(최대 2시간)':'')+'.',book:bInfo(A.bookId,'일시정지된 독서'),dismissible:false,
+      actions:[{label:'읽지 않았어요',value:'no'},{label:'읽었어요',primary:true,value:'yes'}],onClose:v=>{if(v==='yes')inc();}});}
+  function nightToggle(){if(!running())return;A.night=!A.night;commit(false,false);paintRM();toast(A.night?'이제 화면을 꺼도 계속 기록해요. 다시 켜면 그대로 이어져요.':'화면 끄고 읽기를 껐어요.',3500);}
   /* ---- CASE 1: 다른 책 고르기 ---- */
   function pick(cb){const list=S.books.filter(b=>stOf(b)==='reading'&&(!A||b.id!==A.bookId));
     if(!list.length){toast(A?'바꿀 수 있는 다른 책이 없어요.':'읽고 있는 책이 없어요. 책을 먼저 추가해 주세요.');return;}
@@ -3014,7 +3044,8 @@ const RS=(()=>{
     $('rmTitle').textContent=b?b.title:'삭제된 책';const L=(b?b.title:'').length;$('rmTitle').style.fontSize=(L>16?20:L>10?24:28)+'px';
     $('rmMsg').textContent={idle:'독서를 시작해 볼까요?',running:'독서 중이에요.',paused:(A&&A.recovered)?'이전에 읽던 독서를 이어갈 수 있어요.':'잠시 쉬어가는 중이에요.',remote:'다른 화면에서 독서 중이에요.'}[s];
     const m=$('rmMain');m.textContent={idle:'▷ 독서 시작',running:'Ⅱ 일시정지',paused:'▷ 이어서 읽기',remote:'▷ 이 화면에서 이어서 읽기'}[s];m.className=s==='running'?'btn quiet':'btn';m.disabled=busy;
-    $('rmEnd').hidden=s==='idle';tickRM();sceneSync();}
+    $('rmEnd').hidden=s==='idle';const nb=$('rmNight');nb.hidden=s!=='running';const on=!!(A&&A.night);nb.classList.toggle('on',on);nb.setAttribute('aria-pressed',on);nb.innerHTML=(on?'🌙 화면을 꺼도 기록 중':'🌙 화면 끄고 읽기');
+    if(s==='running'&&on)$('rmMsg').textContent='화면을 꺼도 계속 기록해요.';tickRM();sceneSync();}
   function tickRM(){if($('readmode').hidden)return;$('rmTime').textContent=fmtHMS(secOf(VB,dkey(now())));$('rmTotal').textContent=fmtHM(secOf(VB));}
   function show(id){RCsid=null;RCX=false;VB=A?A.bookId:id;paintRM();clearInterval(tickT);tickT=setInterval(tickRM,500);ensure();requestAnimationFrame(()=>{scene3D();sceneSync();loop();});}
   function leave(){clearInterval(tickT);tickT=null;if(G&&G.raf){cancelAnimationFrame(G.raf);G.raf=null;}}
@@ -3051,6 +3082,7 @@ const RS=(()=>{
     sbModal({title:'독서를 종료하시겠습니까?',body:'지금까지의 독서 시간이 저장됩니다.',actions:[{label:'취소',value:'no'},{label:'종료 및 저장',primary:true,value:'end'}],
       onClose:v=>{if(v==='end'){const p=end();go('home',null,true);Promise.race([p,new Promise(r=>setTimeout(r,3000))]).then(()=>toast(hasPend()?'독서 시간을 이 기기에 보관했어요. 연결되면 자동으로 저장해요.':'독서 시간이 저장됐어요.',4000));}else if(held)resume().then(paintRM);}});};
   $('rmNote').onclick=()=>{if(book(VB))openBoard(VB);};
+  $('rmNight').onclick=nightToggle;
   $('rmSwap').onclick=()=>{if(!A){pick(id=>{VB=id;paintRM();});return;}pick(id=>switchBook(id));};
   return {homeSub,homeEnter,show,leave,ensure,secOf,wipe,clearLocal,guard,ui,days,renderStats,ready:()=>loaded,
     exportData:async()=>{await ensure();await Q;const mon={};for(const ym in MON)mon[ym]={ses:MON[ym].ses,v:2};return {idx:{months:IDX.months.slice()},mon};},
@@ -3063,15 +3095,16 @@ const RS=(()=>{
 const WS=(()=>{
   const MEM={},K_IDX='ws_index';
   const WC={};let IX=null,loading=null,cur=null,dirty=false,saveT=null,ixT=null,q={w:'',i:''};
-  const useDB=()=>!PREVIEW&&mode==='db'&&DB;
+  const demo=()=>!!(S&&S.sample);
+  const useDB=()=>!PREVIEW&&!demo()&&mode==='db'&&DB;
   const tmo=(p,ms)=>Promise.race([p,new Promise((_,j)=>setTimeout(()=>j(new Error('tmo')),ms))]);
-  async function rd(k){if(PREVIEW)return MEM[k]||null;if(useDB()){const sn=await tmo(DB.doc(dbBase+'/'+k).get(),8000);return sn.exists?sn.data():null;}try{return JSON.parse(localStorage.getItem('sb2-'+k)||'null');}catch(e){return null;}}
-  async function wr(k,v){const c=JSON.parse(JSON.stringify(v));if(PREVIEW){MEM[k]=c;return;}if(useDB()){await tmo(DB.doc(dbBase+'/'+k).set(c),8000);return;}localStorage.setItem('sb2-'+k,JSON.stringify(c));}
-  async function del(k){if(PREVIEW){delete MEM[k];return;}if(useDB()){await tmo(DB.doc(dbBase+'/'+k).delete(),8000);return;}localStorage.removeItem('sb2-'+k);}
+  async function rd(k){if(PREVIEW||demo())return MEM[k]||null;if(useDB()){const sn=await tmo(DB.doc(dbBase+'/'+k).get(),8000);return sn.exists?sn.data():null;}try{return JSON.parse(localStorage.getItem('sb2-'+k)||'null');}catch(e){return null;}}
+  async function wr(k,v){const c=JSON.parse(JSON.stringify(v));if(PREVIEW||demo()){MEM[k]=c;return;}if(useDB()){await tmo(DB.doc(dbBase+'/'+k).set(c),8000);return;}localStorage.setItem('sb2-'+k,JSON.stringify(c));}
+  async function del(k){if(PREVIEW||demo()){delete MEM[k];return;}if(useDB()){await tmo(DB.doc(dbBase+'/'+k).delete(),8000);return;}localStorage.removeItem('sb2-'+k);}
   const isIdea=id=>typeof id==='string'&&id.indexOf('i-')===0;
   const fd=ts=>{if(!ts)return '';const d=new Date(ts),n=new Date();return (d.getFullYear()!==n.getFullYear()?d.getFullYear()+'.':'')+(d.getMonth()+1)+'.'+d.getDate();};
   const plain=h=>{const d=document.createElement('div');d.innerHTML=h||'';d.querySelectorAll('p,div,h2,h3,li,blockquote,br').forEach(e=>e.insertAdjacentText(e.tagName==='BR'?'afterend':'beforeend','\n'));return d.textContent.replace(/\n{3,}/g,'\n\n').trim();};
-  async function load(){if(IX)return IX;if(loading)return loading;
+  async function load(){if(IX)return IX;if(loading)return loading;if(demo()&&!MEM[K_IDX])seedDemo();
     loading=(async()=>{try{const v=await rd(K_IDX);IX={w:(v&&Array.isArray(v.w))?v.w:[],i:(v&&Array.isArray(v.i))?v.i:[],k:(v&&Array.isArray(v.k))?v.k:[],d:(v&&v.d)||{}};ixAt=Date.now();}catch(e){IX=null;loading=null;throw e;}loading=null;return IX;})();return loading;}
   /* 여러 기기: 목록은 저장 직전에 서버 목록과 합쳐요(같은 항목은 최근 수정 우선, 삭제한 항목은 삭제 표시로 되살아나지 않게) */
   let ixQ=Promise.resolve(),ixAt=0;
@@ -3105,7 +3138,7 @@ const WS=(()=>{
     if(!host.dataset.ws){host.dataset.ws='1';const h1=host.querySelector('h1');if(h1)h1.textContent='나의 작업실';const box=host.querySelector('.tmpbox');if(box)box.remove();
       const w=document.createElement('div');w.className='wsw';w.innerHTML='<p class="muted small wsguide">책에서 발견한 생각을 나만의 것으로 만들어 보세요.</p><div class="wscards"><button type="button" class="wscard" data-open="w"><span class="wsic">'+IC_PEN+'</span><span class="wst">글쓰기</span><span class="wsd">생각을 나만의 글로</span><span class="wsn" id="wsNw"></span></button><button type="button" class="wscard" data-open="i"><span class="wsic">'+IC_BULB+'</span><span class="wst">아이디어 창고</span><span class="wsd">떠오르는 생각과 영감</span><span class="wsn" id="wsNi"></span></button></div><button type="button" class="wskp" data-open="k"><span class="wsic">'+IC_KP+'</span><span><b>지식 페이지</b> · 주제별로 모은 생각 <span id="wsNk"></span></span><span aria-hidden="true">›</span></button><h2 class="wsh">최근 수정한 작업</h2><div id="wsRecent"></div>';host.appendChild(w);
       w.onclick=e=>{const o=e.target.closest('[data-open]');if(o){go(o.dataset.open==='w'?'wlist':o.dataset.open==='k'?'klist':'ilist');return;}const rk=e.target.closest('[data-rkp]');if(rk){go('kedit',{id:rk.dataset.rkp});return;}const r=e.target.closest('[data-rw]');if(r){openW(r.dataset.rw);return;}const ri=e.target.closest('[data-ri]');if(ri)openI(ri.dataset.ri);};}
-    const R=$('wsRecent');
+    const R=$('wsRecent'),gd=host.querySelector('.wsguide');if(gd)gd.innerHTML=demo()?'<b class="gold">예시 작업실</b>이에요. 둘러보며 써 볼 수 있지만 저장되지는 않아요.':'책에서 발견한 생각을 나만의 것으로 만들어 보세요.';
     if(!IX){R.innerHTML='<p class="muted small wsempty">불러오는 중이에요…</p>';load().then(()=>{if(!document.querySelector('main#studio').hidden)renderStudio();},()=>{R.innerHTML='<p class="muted small wsempty">작업을 불러오지 못했어요. 연결을 확인하고 다시 열어 주세요.</p>';});return;}
     $('wsNw').textContent=IX.w.length+'개';$('wsNi').textContent=IX.i.length+'개';$('wsNk').textContent=IX.k.length+'개';
     const all=[...IX.w.map(x=>Object.assign({t:'w'},x)),...IX.i.map(x=>Object.assign({t:'i'},x)),...IX.k.map(x=>Object.assign({t:'k'},x))].sort((a,b)=>(b.up||0)-(a.up||0)).slice(0,3);
@@ -3138,8 +3171,8 @@ const WS=(()=>{
   const DKEY=(t,id)=>'sb2-'+t+'d:'+(useDB()?dbBase:'local')+':'+id;
   const draftGet=(t,id)=>{try{return JSON.parse(localStorage.getItem(DKEY(t,id))||'null');}catch(e){return null;}};
   const draftDel=(t,id)=>{try{localStorage.removeItem(DKEY(t,id));}catch(e){}};
-  const draftPut=(t,id,v)=>{try{localStorage.setItem(DKEY(t,id),JSON.stringify(Object.assign({at:Date.now()},v)));return true;}catch(e){return false;}};
-  function draftIds(t){const pre=DKEY(t,''),out=[];try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf(pre)===0)out.push(k.slice(pre.length));}}catch(e){}return out;}
+  const draftPut=(t,id,v)=>{if(demo())return true;try{localStorage.setItem(DKEY(t,id),JSON.stringify(Object.assign({at:Date.now()},v)));return true;}catch(e){return false;}};
+  function draftIds(t){if(demo())return [];const pre=DKEY(t,''),out=[];try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.indexOf(pre)===0)out.push(k.slice(pre.length));}}catch(e){}return out;}
   let dWarn=false;const noRoom=()=>{if(!dWarn){dWarn=true;toast('기기 임시 저장 공간이 부족해요. 저장 버튼을 눌러 주세요.',4500);}};
   const emptyW=c=>!c.title&&!plain(c.html)&&!/<img/i.test(c.html)&&!(c.refs||[]).length;
   async function newW(){try{await load();}catch(e){toast('작업 목록을 불러오지 못했어요.');return;}
@@ -3158,7 +3191,9 @@ const WS=(()=>{
     if(pend){const c=cur;sbModal({title:'저장하지 않은 내용이 있어요',body:'이 기기에 임시로 보관된 내용이 있어요. 이어서 쓸까요?',book:{title:pend.title||'제목 없음',meta:'보관 '+fd(pend.at)},dismissible:false,actions:[{label:'버리기',value:'drop'},{label:'이어서 쓰기',primary:true,value:'use'}],
       onClose:v=>{if(cur!==c)return;if(v==='use'){c.title=pend.title||'';c.html=clean(pend.html);if(Array.isArray(pend.refs))c.refs=pend.refs;c._d=true;c.ed++;ti.value=c.title;ed.innerHTML=c.html||'<p><br></p>';refN();setWS('저장 안 됨');saveBtn();}else draftDel('w',id);}});}}
   function setWS(t){const s=$('wStat');if(s)s.textContent=t;}
-  function saveBtn(){const b=$('wSave');if(b)b.classList.toggle('on',!!(cur&&cur._d));}
+  const CHK='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+  function svBtn(b,c,busy){if(!b)return;const done=!!(c&&c.saved&&!c._d)&&!busy;b.classList.toggle('on',!done);b.classList.toggle('done',done);b.innerHTML=busy?'저장 중':done?CHK:'저장';b.setAttribute('aria-label',busy?'저장 중':done?'저장됨':'저장하기');b.title=done?'저장됨':'저장하기';}
+  function saveBtn(busy){svBtn($('wSave'),cur,busy);}
   function touchW(){if(!cur)return;cur._d=true;cur.ed=(cur.ed||0)+1;setWS('저장 안 됨');saveBtn();clearTimeout(saveT);saveT=setTimeout(keepW,700);}
   function snapCur(){const c=cur;c.title=$('wTitle').value.trim();c.html=clean($('wBody').innerHTML);return c;}
   function keepW(){clearTimeout(saveT);if(!cur||!cur._d)return;const c=snapCur();if(!draftPut('w',c.id,{title:c.title,html:c.html,refs:c.refs,cr:c.cr}))noRoom();}
@@ -3167,8 +3202,8 @@ const WS=(()=>{
     try{await wr('ws_w_'+c.id,{title:c.title,html:c.html,refs:c.refs||[],cr:c.cr,up:c.up});return true;}
     catch(err){toast(err&&/quota/i.test(String(err.name||err.code||''))?'기기 저장 공간이 부족해 저장하지 못했어요.':'저장하지 못했어요. 이 기기에 보관해 두었어요. 연결을 확인하고 다시 저장해 주세요.',5000);return false;}}
   async function saveW(){if(!cur)return true;clearTimeout(saveT);const c=snapCur(),ed0=c.ed;if(emptyW(c)){toast('저장할 내용이 없어요.');return false;}
-    if(cur===c)setWS('저장 중…');c.up=Date.now();const ok=await persist(c);
-    if(!ok){draftPut('w',c.id,{title:c.title,html:c.html,refs:c.refs,cr:c.cr});if(cur===c)setWS('저장하지 못했어요');return false;}
+    if(cur===c){setWS('저장 중…');saveBtn(true);}c.up=Date.now();const ok=await persist(c);
+    if(!ok){draftPut('w',c.id,{title:c.title,html:c.html,refs:c.refs,cr:c.cr});if(cur===c){setWS('저장하지 못했어요');saveBtn();}return false;}
     c.saved=true;if(c.ed===ed0){c._d=false;draftDel('w',c.id);}updEnt(c);saveIx(true);if(cur===c){setWS(c._d?'저장 안 됨':'저장됨');saveBtn();}return true;}
   function flushW(){keepW();}
   function discardW(c){draftDel('w',c.id);delete WC[c.id];if(cur===c)cur=null;}
@@ -3282,6 +3317,19 @@ const WS=(()=>{
     toast('새 글 초안을 만들었어요. 원래 아이디어는 그대로예요.',3500);cur=null;go('wedit',{id:wid});}
 
   /* ---- 고도화3 STEP 5: 지식 페이지 — 원본 기록은 참조(책 번호·기록 번호 + 짧은 사본)만, 원본 노트는 수정하지 않아요 ---- */
+  /* 예시 책장일 때: '키워드로 페이지 만들기'로 만든 지식 페이지와 그걸로 쓴 글을 미리 보여줘요(메모리에만, 저장 안 함) */
+  function seedDemo(){try{const cand={};
+      S.books.forEach(b=>{const bd=BOARDS[b.id];if(!bd)return;(b.kws||[]).forEach(w=>{bd.items.forEach(it=>{if(KTY[it.type]&&norm(it.text||'')&&String(it.text).includes(w))(cand[w]=cand[w]||[]).push({b,it});});});});
+      const w=Object.keys(cand).sort((x,y)=>(new Set(cand[y].map(r=>r.b.id)).size-new Set(cand[x].map(r=>r.b.id)).size)||(cand[y].length-cand[x].length))[0];
+      const now=Date.now(),ix={w:[],i:[],k:[],d:{}};if(!w){MEM[K_IDX]=ix;return;}
+      const rs=cand[w].filter((r,i,a)=>a.findIndex(z=>z.it.id===r.it.id)===i).slice(0,6),kid='kdemo',blocks=[{id:uid(),t:'head',text:'여러 책에서 만난 ‘'+w+'’'}];
+      rs.forEach(r=>blocks.push(refOf(r.b,r.it)));if(blocks[1])blocks[1].memo='예시 메모: 이 기록이 왜 마음에 남았는지 적어 보세요.';
+      blocks.push({id:uid(),t:'note',text:'예시 · 서로 다른 책이 같은 단어를 어떻게 다루는지 비교해 보면, 나만의 관점이 생겨요.\n작업실 → 지식 페이지 → ‘★ 키워드로 페이지 만들기’로 이렇게 만들 수 있어요.'});
+      MEM['ws_k_'+kid]={title:w,blocks,cr:now,up:now};const refs=blocks.filter(x=>x.t==='ref'),nb=new Set(refs.map(x=>x.b)).size;
+      ix.k.push({id:kid,title:w,up:now,n:refs.length,nb,sx:''});
+      const html=clean('<p>예시 글이에요. 지식 페이지에서 ‘글쓰기 초안으로 가져오기’를 누르면 모은 기록이 인용으로 들어와요.</p>'+kToHtml({blocks}));
+      MEM['ws_w_wdemo']={title:w+'에 대한 나의 생각',html,refs:[{id:uid(),t:'kp',k:kid}],cr:now,up:now-60000};
+      ix.w.push({id:'wdemo',title:w+'에 대한 나의 생각',up:now-60000,pv:plain(html).replace(/\s+/g,' ').slice(0,90),sx:'',nr:1});MEM[K_IDX]=ix;}catch(e){MEM[K_IDX]={w:[],i:[],k:[],d:{}};}}
   const IC_KP='<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 9-8 9-8-9z"/><path d="M4 12h16"/></svg>';
   const KC={};let kcur=null,kdirty=false,kT=null,kq='';
   const bid=()=>'k'+Date.now().toString(36)+uid().slice(0,4);
@@ -3329,14 +3377,14 @@ const WS=(()=>{
       onClose:v=>{if(kcur!==c)return;if(v==='use'){c.title=pend.title||'';c.blocks=Array.isArray(pend.blocks)?pend.blocks:[];c._d=true;c.ed++;$('kTitle').value=c.title;setKS('저장 안 됨');kBtn();drawK();}else draftDel('k',id);}});}
     const need=[...new Set(kcur.blocks.filter(x=>x.t==='ref'&&book(x.b)&&!BOARDS[x.b]).map(x=>x.b))];
     if(need.length){await Promise.all(need.map(b=>loadBoard(b).then(r=>{if(r&&r._fail)delete BOARDS[b];}).catch(()=>{})));if(kcur&&kcur.id===id)drawK();}}
-  function kBtn(){const b=$('kSave');if(b)b.classList.toggle('on',!!(kcur&&kcur._d));}
+  function kBtn(busy){svBtn($('kSave'),kcur,busy);}
   function touchK(){if(!kcur)return;kcur._d=true;kcur.ed=(kcur.ed||0)+1;setKS('저장 안 됨');kBtn();clearTimeout(kT);kT=setTimeout(keepK,700);}
   function keepK(){clearTimeout(kT);if(!kcur||!kcur._d)return;if(!draftPut('k',kcur.id,{title:kcur.title,blocks:kcur.blocks,cr:kcur.cr}))noRoom();}
   function snapK(c){const refs=c.blocks.filter(x=>x.t==='ref');let e=ent('k',c.id);if(!e){e={id:c.id};IX.k.push(e);}
     Object.assign(e,{title:c.title,up:c.up,n:refs.length,nb:new Set(refs.map(x=>x.b)).size,sx:c.blocks.map(x=>x.t==='ref'?(x.snap||'')+' '+(x.memo||''):(x.text||'')).join(' ').replace(/\s+/g,' ').slice(0,800)});}
   async function saveKc(c){const ed0=c.ed;c.up=Date.now();try{await wr('ws_k_'+c.id,{title:c.title,blocks:c.blocks,cr:c.cr,up:c.up});}catch(err){toast('저장하지 못했어요. 이 기기에 보관해 두었어요. 연결을 확인하고 다시 저장해 주세요.',5000);return false;}
     c.saved=true;if(c.ed===ed0){c._d=false;draftDel('k',c.id);}snapK(c);saveIx(true);return true;}
-  async function saveK(){if(!kcur)return true;clearTimeout(kT);const c=kcur;if(emptyK(c)){toast('저장할 내용이 없어요.');return false;}setKS('저장 중…');
+  async function saveK(){if(!kcur)return true;clearTimeout(kT);const c=kcur;if(emptyK(c)){toast('저장할 내용이 없어요.');return false;}setKS('저장 중…');kBtn(true);
     const ok=await saveKc(c);if(!ok)draftPut('k',c.id,{title:c.title,blocks:c.blocks,cr:c.cr});if(kcur===c){setKS(ok?(c._d?'저장 안 됨':'저장됨'):'저장하지 못했어요');kBtn();}return ok;}
   function flushK(){keepK();}
   function discardK(c){draftDel('k',c.id);delete KC[c.id];if(kcur===c)kcur=null;}
@@ -3433,7 +3481,7 @@ const WS=(()=>{
     document.addEventListener('visibilitychange',()=>{if(document.hidden)flushW();});})();
   const dirtyIx=()=>!!ixT;
   /* 삭제 흐름 연결 */
-  async function wipe(){await load().catch(()=>{});['w','k'].forEach(t=>draftIds(t).forEach(id=>draftDel(t,id)));const ix=IX||{w:[],i:[],k:[]};for(const x of ix.k||[])await del('ws_k_'+x.id);
+  async function wipe(){let ix=IX;['w','k'].forEach(t=>draftIds(t).forEach(id=>draftDel(t,id)));if(!ix){try{ix=await load();}catch(e){}}ix=ix||{w:[],i:[],k:[]};for(const x of ix.k||[])await del('ws_k_'+x.id);
     for(const x of ix.w)await del('ws_w_'+x.id);for(const x of ix.i){delete BOARDS[x.id];try{localStorage.removeItem('rb4-'+x.id);}catch(e){}if(useDB())await tmo(DB.doc(dbBase+'/b_'+x.id).delete(),8000);}
     await del(K_IDX);IX={w:[],i:[],k:[],d:{}};cur=null;kcur=null;for(const k in KC)delete KC[k];for(const k in WC)delete WC[k];}
   async function exportData(){await load();const out={ix:JSON.parse(JSON.stringify(IX)),w:{},k:{},i:{}};
@@ -3443,7 +3491,7 @@ const WS=(()=>{
     for(const id in x.w||{})if(ok(id))await wr('ws_w_'+id,Object.assign({},x.w[id],{html:clean(x.w[id].html)}));for(const id in x.k||{})if(ok(id))await wr('ws_k_'+id,x.k[id]);
     for(const id in x.i||{})if(ok(id)&&isIdea(id)&&x.i[id]&&Array.isArray(x.i[id].items)){BOARDS[id]=x.i[id];storeBoard(id,true);}
     IX={w:(x.ix.w||[]).filter(e=>ok(e.id)),i:(x.ix.i||[]).filter(e=>ok(e.id)),k:(x.ix.k||[]).filter(e=>ok(e.id)),d:{}};await wr(K_IDX,IX);ixAt=Date.now();}
-  return {paintHook,renderStudio,meta,isIdea,touch,ideaMenu,wipe,pinRef,kwFor,exportData,importData,reset:()=>{IX=null;cur=null;kcur=null;for(const k in KC)delete KC[k];for(const k in WC)delete WC[k];}};
+  return {paintHook,renderStudio,meta,isIdea,touch,ideaMenu,wipe,pinRef,kwFor,exportData,importData,reset:()=>{IX=null;cur=null;kcur=null;for(const k in KC)delete KC[k];for(const k in WC)delete WC[k];for(const k in MEM)delete MEM[k];}};
 })();
 
 {const _paint=paint;paint=function(){_paint();WS.paintHook(stack[stack.length-1]);const c=stack[stack.length-1];$('readmode').hidden=c.id!=='readmode';if(c.id==='readmode')RS.show(c.params&&c.params.id);else RS.leave();if(c.id==='stats')RS.renderStats();RS.ui();};}
@@ -3453,6 +3501,8 @@ const WS=(()=>{
 $('readCard').onclick=RS.homeEnter;
 
 
+/* 예시 책장 ↔ 내 책장 전환 시 작업실 상태 초기화(예시 작업실이 내 데이터와 섞이지 않게) */
+{const _ls=loadSample;loadSample=function(){const r=_ls.apply(this,arguments);WS.reset();return r;};const _sm=startMine;startMine=function(){const r=_sm.apply(this,arguments);WS.reset();return r;};}
 /* ---------- 3.1: 전체 백업에 독서 시간·작업실 포함(복원 시 함께 교체) ---------- */
 async function backupExt(){try{return {v:1,rs:await RS.exportData(),ws:await WS.exportData()};}catch(e){toast('독서 시간·작업실 데이터를 백업에 넣지 못했어요. 책장·노트만 저장돼요.',5000);return null;}}
 async function restoreExt(x){try{if(x.rs)await RS.importData(x.rs);if(x.ws)await WS.importData(x.ws);toast('독서 시간과 작업실 기록도 되살렸어요.',3500);}catch(e){toast('독서 시간·작업실 일부를 되살리지 못했어요. 연결을 확인해 주세요.',5000);}}
